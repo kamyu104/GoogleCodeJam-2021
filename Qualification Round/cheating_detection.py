@@ -22,14 +22,13 @@ def cheating_detection():
     questions = sorted(range(Q), key=lambda x:-q_count[x])
     result, max_score = 0, 0.0
     for i in players:
-        p = f = sum_f = 0.0
+        f = sum_f = 0.0
         for j in questions:
             if scores[i][j] == '1':
-                p += 1
                 sum_f += f
             else:
                 f += 1
-        score = (sum_f/f)*(1.0/p)
+        score = sum_f/f/(Q-f)
         if score > max_score:
             max_score = score
             result = i
