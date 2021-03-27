@@ -1,5 +1,11 @@
+# Copyright (c) 2021 kamyu. All rights reserved.
+#
+# Google Code Jam 2021 Qualification Round - Problem C. Reversort Engineering
+# https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d12d7
+#
 # Time:  O(N^2)
 # Space: O(N)
+#
 
 def reverse(L, i, j):
     while i < j:

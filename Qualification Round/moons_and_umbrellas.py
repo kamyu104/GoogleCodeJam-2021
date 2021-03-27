@@ -1,5 +1,11 @@
+# Copyright (c) 2021 kamyu. All rights reserved.
+#
+# Google Code Jam 2021 Qualification Round - Problem B. Moons and Embrellas 
+# https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d1145
+#
 # Time:  O(N)
 # Space: O(1)
+#
 
 def moons_and_umbrellas():
     X, Y, S = raw_input().strip().split()

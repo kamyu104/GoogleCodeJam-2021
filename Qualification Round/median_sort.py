@@ -1,6 +1,12 @@
+# Copyright (c) 2021 kamyu. All rights reserved.
+#
+# Google Code Jam 2021 Qualification Round - Problem D. Median Sort
+# https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d1284
+#
 # Time:  O(N^2)
 # Space: O(1)
 # Usage: python interactive_runner.py python3 testing_tool.py 2 -- python median_sort.py
+#
 
 from sys import stdout
 
