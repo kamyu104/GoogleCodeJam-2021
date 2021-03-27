@@ -20,14 +20,14 @@ def cheating_detection():
     result, max_score = 0, 0.0
     for i in xrange(S):
         cnt = [0]*2
-        inv = 0.0
+        inv = 0
         for j in questions:
             if scores[i][j] == '0':
                 cnt[0] += 1
                 inv += cnt[1]
             else:
                 cnt[1] += 1
-        score = inv/(1+cnt[0])/(1+cnt[1])  # count normalized inversions
+        score = float(inv)/(1+cnt[0])/(1+cnt[1])  # count normalized inversions
         if score > max_score:  # the higher score is, the more uniform corrects is
             max_score = score
             result = i
