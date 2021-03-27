@@ -28,7 +28,7 @@ def cheating_detection():
             else:
                 cnt[1] += 1
         score = inv/(1+cnt[0])/(1+cnt[1])  # count normalized inversions
-        if score > max_score:  # the higher it is, the more uniform it is
+        if score > max_score:  # the higher score is, the more uniform corrects is
             max_score = score
             result = i
     return result+1
