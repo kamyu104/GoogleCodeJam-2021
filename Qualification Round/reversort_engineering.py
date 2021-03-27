@@ -7,12 +7,6 @@
 # Space: O(N)
 #
 
-def reverse(L, i, j):
-    while i < j:
-        L[i], L[j] = L[j], L[i]
-        i += 1
-        j -= 1
-
 def reversort_engineering():
     N, C = map(int, raw_input().strip().split())
 
@@ -20,12 +14,11 @@ def reversort_engineering():
         return "IMPOSSIBLE"
     operations = []
     for i in xrange(N-1):
-        m = i+min(C-(N-1-i)+1, N-i)-1  # greedy
-        C -= m-i+1
-        operations.append((i, m))
+        operations.append(min(C-(N-1-i)+1, N-i))  # greedy
+        C -= operations[-1]
     result = range(1, N+1)
-    for i, j in reversed(operations):
-        reverse(result, i, j)
+    for i in reversed(xrange(N-1)):
+        result[i:i+operations[i]] = result[i:i+operations[i]][::-1]
     return " ".join(map(str, result))
 
 for case in xrange(input()):
