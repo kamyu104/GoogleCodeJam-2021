@@ -12,13 +12,13 @@ def reversort_engineering():
 
     if not (N-1 <= C <= (N+2)*(N-1)//2):
         return "IMPOSSIBLE"
-    operations = []
+    costs = []
     for i in xrange(N-1):
-        operations.append(min(C-(N-1-i)+1, N-i))  # greedy
-        C -= operations[-1]
+        costs.append(min(C-(N-1-i)+1, N-i))  # greedy
+        C -= costs[-1]
     result = range(1, N+1)
     for i in reversed(xrange(N-1)):
-        result[i:i+operations[i]] = result[i:i+operations[i]][::-1]
+        result[i:i+costs[i]] = result[i:i+costs[i]][::-1]
     return " ".join(map(str, result))
 
 for case in xrange(input()):
