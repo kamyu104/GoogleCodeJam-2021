@@ -8,8 +8,7 @@ def f(x):
     return 1.0/(1.0+exp(-x))
 
 seed(0)
-T, P, Q, Q = 50, 86, 100, 10000
-
+T, P, S, Q = 50, 86, 100, 10000
 print T
 print Q
 for case in xrange(T):
