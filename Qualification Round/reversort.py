@@ -8,9 +8,9 @@
 #
 
 def min_idx(L, i):
-    m = None
+    m = i
     for j in xrange(i, len(L)):
-        if m is None or L[m] > L[j]:
+        if L[j] < L[m]:
             m = j
     return m
 
