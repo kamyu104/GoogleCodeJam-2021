@@ -26,7 +26,7 @@ def median_sort():
     result = [1, 2]
     for i in xrange(3, N+1):  # Time: O(N)
         left, right = 0, len(result)-1
-        while left < right:  # Time: O(logN)
+        while right-left >= 1:  # Time: O(logN)
             m1 = left + (right-left)//3
             m2 = right - (right-left)//3
             x = query(result[m1], result[m2], i)
