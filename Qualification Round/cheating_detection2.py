@@ -11,15 +11,14 @@ def diff(player1, player2, extreme_questions):
     return abs(sum(player1[j] == '1' for j in extreme_questions) - sum(player2[j] == '1' for j in extreme_questions))
 
 def neighbor_diffs(scores, players, extreme_questions, i):
-    val = 0.0
-    cnt = 0
+    diffs = cnt = 0
     if i-1 >= 0:
-        val += diff(scores[players[i-1]], scores[players[i]], extreme_questions)
+        diffs += diff(scores[players[i-1]], scores[players[i]], extreme_questions)
         cnt += 1
     if i+1 < S:
-        val += diff(scores[players[i]], scores[players[i+1]], extreme_questions)
+        diffs += diff(scores[players[i]], scores[players[i+1]], extreme_questions)
         cnt += 1
-    return val / cnt
+    return float(diffs) / cnt
 
 def cheating_detection():
     scores = []
