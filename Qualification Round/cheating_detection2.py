@@ -18,7 +18,7 @@ def neighbor_diffs(scores, players, extreme_questions, i):
     if i+1 < S:
         diffs += diff(scores[players[i]], scores[players[i+1]], extreme_questions)
         cnt += 1
-    return float(diffs) / cnt
+    return float(diffs)/cnt
 
 def cheating_detection():
     scores = []
