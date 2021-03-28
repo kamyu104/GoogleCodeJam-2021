@@ -10,33 +10,25 @@
 def moons_and_umbrellas():
     X, Y, S = raw_input().strip().split()
     X, Y = int(X), int(Y)
-    dp = [INF]*2
+    dp = {}
     prev = None
     for c in S:
-        new_dp = [INF]*2
-        if c != 'J':
-            if prev is None:
-                new_dp[C] = 0
-            elif prev == 'C':
-                new_dp[C] = dp[C]
-            elif prev == 'J':
-                new_dp[C] = dp[J]+Y  # JC
+        new_dp = {}
+        for i, j, cost in [('C', 'J', Y), ('J', 'C', X)]:
+            if c == j:
+                new_dp[i] = INF
+            elif prev is None:
+                new_dp[i] = 0
+            elif prev == i:
+                new_dp[i] = dp[i]
+            elif prev == j:
+                new_dp[i] = dp[j]+cost
             elif prev == '?':
-                new_dp[C] = min(dp[C], dp[J]+Y)  # CC or JC
-        if c != 'C':
-            if prev is None:
-                new_dp[J] = 0
-            elif prev == 'C':
-                new_dp[J] = dp[C]+X  # CJ
-            elif prev == 'J':
-                new_dp[J] = dp[J]
-            elif prev == '?':
-                new_dp[J] = min(dp[J], dp[C]+X)  # JJ or CJ
+                new_dp[i] = min(dp[i], dp[j]+cost)
         dp = new_dp
         prev = c
-    return min(dp)
+    return min(dp.itervalues())
 
 INF = float("inf")
-C, J = range(2)
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, moons_and_umbrellas())
