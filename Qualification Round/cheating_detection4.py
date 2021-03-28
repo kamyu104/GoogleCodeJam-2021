@@ -13,7 +13,7 @@ def normalized(a):
         a[i] -= total
 
 def covariance(a, b):
-    return sum(a[i]*b[i] for i in xrange(Q)) 
+    return sum(a[i]*b[i] for i in xrange(len(a)))
 
 def correlation(a, b):
     return covariance(a, b) / covariance(a, a)**0.5 / covariance(b, b)**0.5
