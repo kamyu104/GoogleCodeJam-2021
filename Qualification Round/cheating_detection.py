@@ -27,7 +27,7 @@ def cheating_detection():
                 inv += cnt[1]
             else:
                 cnt[1] += 1
-        score = float(inv)/(1+cnt[0])/(1+cnt[1])  # normalize inversions by weakness and strength
+        score = float(inv)/(1+cnt[0])/(1+cnt[1])  # normalize inversions by weakness and strength, both ends are divided less and the middle are divided more
         if score > max_score:  # the higher score is, the more uniform distribution of corrects is
             max_score = score
             result = i
