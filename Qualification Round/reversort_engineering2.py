@@ -33,13 +33,13 @@ def reversort_engineering():
         for j in xrange((N-1-i//2+1)-(N-i), N-1-i//2+1):
             result[j] = k
             k += 1
-        reverse(result, (N-1-i//2+1)-(N-i), ((N-1-i//2+1)-(N-i))+l-1)
+        reverse(result, (N-1-i//2+1)-(N-i), ((N-1-i//2+1)-(N-i))+l-1)  # Space: O(1)
     else:
         k = i+1
         for j in reversed(xrange(i//2, i//2+(N-i))):
             result[j] = k
             k += 1
-        reverse(result, (i//2+(N-i)-1)-l+1, i//2+(N-i)-1)
+        reverse(result, (i//2+(N-i)-1)-l+1, i//2+(N-i)-1)  # Space: O(1)
     return " ".join(map(str, result))
 
 for case in xrange(input()):
