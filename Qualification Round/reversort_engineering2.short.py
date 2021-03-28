@@ -4,7 +4,7 @@
 # https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d12d7
 #
 # Time:  O(N)
-# Space: O(N)
+# Space: O(N), shorter, but with extra space O(N)
 #
 
 def reversort_engineering():
