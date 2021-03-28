@@ -33,9 +33,6 @@ def cheating_detection():
             result = i
     return result+1
 
-S = 100
-Q = 10000
-T = input()
-P = input()
+S, Q, T, P = 100, 10000, input(), input()
 for case in xrange(T):
     print 'Case #%d: %s' % (case+1, cheating_detection())
