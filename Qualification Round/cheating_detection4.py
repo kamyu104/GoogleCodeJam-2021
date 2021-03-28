@@ -24,9 +24,7 @@ def cheating_detection():
     for i in xrange(S):
         scores.append(map(int, list(raw_input().strip())))
         for j, c in enumerate(scores[i]):
-            if not c:
-                continue
-            q_count[j] += 1
+            q_count[j] += c
     normalized(q_count)
     result, min_corr = 0, 1.0
     for i, score in enumerate(scores):
