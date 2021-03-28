@@ -8,9 +8,9 @@
 #
 
 def normalized(a):
-    total = float(sum(a))/len(a)
+    avg = float(sum(a))/len(a)
     for i in xrange(len(a)):
-        a[i] -= total
+        a[i] -= avg
 
 def covariance(a, b):
     return sum(a[i]*b[i] for i in xrange(len(a)))
