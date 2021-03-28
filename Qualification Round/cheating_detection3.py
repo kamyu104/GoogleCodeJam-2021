@@ -17,12 +17,10 @@ def cheating_detection():
     p_count = [0]*S
     q_count = [0]*Q
     for i in xrange(S):
-        scores.append(raw_input().strip())
+        scores.append(map(int, list(raw_input().strip())))
         for j, c in enumerate(scores[i]):
-            if c == '0':
-                continue
-            p_count[i] += 1
-            q_count[j] += 1
+            p_count[i] += c
+            q_count[j] += c
     players = sorted(range(S), key=lambda x:p_count[x])
     questions = sorted(range(Q), key=lambda x:q_count[x])
     si = MIN
@@ -30,7 +28,7 @@ def cheating_detection():
     for i in players:
         score, qj = 0.0, MAX
         for j in questions:
-            score += (int(scores[i][j] == '1')-f(si-qj))**2
+            score += (scores[i][j]-f(si-qj))**2
             qj -= Q_D
         score /= (1+p_count[i])*(1+(Q-p_count[i]))  # normalize score by weakness and strength, both ends are divided less and the middle are divided more
         if score > max_score:

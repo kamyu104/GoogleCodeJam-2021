@@ -8,7 +8,7 @@
 #
 
 def diff(player1, player2, extreme_questions):
-    return abs(sum(player1[j] == '1' for j in extreme_questions) - sum(player2[j] == '1' for j in extreme_questions))
+    return abs(sum(player1[j] for j in extreme_questions) - sum(player2[j] for j in extreme_questions))
 
 def neighbor_diffs(scores, players, extreme_questions, i):
     diffs = cnt = 0
@@ -25,12 +25,10 @@ def cheating_detection():
     p_count = [0]*S
     q_count = [0]*Q
     for i in xrange(S):
-        scores.append(raw_input().strip())
+        scores.append(map(int, list(raw_input().strip())))
         for j, c in enumerate(scores[i]):
-            if c == '0':
-                continue
-            p_count[i] += 1
-            q_count[j] += 1
+            p_count[i] += c
+            q_count[j] += c
     players = sorted(range(S), key=lambda x:p_count[x])
     questions = sorted(range(Q), key=lambda x:q_count[x])
     extreme_questions = [questions[j] for j in xrange(int(Q*EXTREME_RATIO))] + [questions[j] for j in xrange(Q-int(Q*EXTREME_RATIO), Q)]

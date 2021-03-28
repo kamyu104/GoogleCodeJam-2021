@@ -11,18 +11,16 @@ def cheating_detection():
     scores = []
     q_count = [0]*Q
     for i in xrange(S):
-        scores.append(list(raw_input().strip()))
+        scores.append(map(int, list(raw_input().strip())))
         for j, c in enumerate(scores[i]):
-            if c == '0':
-                continue
-            q_count[j] += 1
+            q_count[j] += c
     questions = sorted(range(Q), key=lambda x:q_count[x])
     result, max_score = 0, 0.0
     for i in xrange(S):
         cnt = [0]*2
         inv = 0
         for j in questions:
-            if scores[i][j] == '0':
+            if not scores[i][j]:
                 cnt[0] += 1
                 inv += cnt[1]
             else:
