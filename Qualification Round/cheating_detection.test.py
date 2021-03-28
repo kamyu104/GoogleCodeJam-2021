@@ -8,15 +8,10 @@ def f(x):
     return 1.0/(1.0+exp(-x))
 
 seed(0)
-
-T = 50
-P = 86
-S = 100
-Q = 10000
+T, P, Q, Q = 50, 86, 100, 10000
 
 print T
 print Q
-
 for case in xrange(T):
     s = [uniform(-3.0, 3.0) for _ in xrange(S)]
     q = [uniform(-3.0, 3.0) for _ in xrange(Q)]
