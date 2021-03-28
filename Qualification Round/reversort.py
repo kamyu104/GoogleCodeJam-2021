@@ -26,7 +26,9 @@ def reversort():
 
     result = 0
     for i in xrange(len(L)-1):
+        # m = L.index(min(L[i:])) # Space: O(N)
         m = min_idx(L, i)  # Space: O(1)
+        # L[i:m+1] = L[i:m+1][::-1]  # Space: O(N) 
         reverse(L, i, m)  # Space: O(1)
         result += m-i+1
     return result
