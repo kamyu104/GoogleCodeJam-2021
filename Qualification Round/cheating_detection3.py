@@ -25,19 +25,16 @@ def cheating_detection():
             q_count[j] += 1
     players = sorted(range(S), key=lambda x:p_count[x])
     questions = sorted(range(Q), key=lambda x:q_count[x])
-    result = 0
     si = MIN
-    max_diff = 0.0
-    result = -1
+    result, max_score, si = 0, 0.0, MIN
     for i in players:
-        qj = MAX
-        diff = 0.0
+        score, qj = 0.0, MAX
         for j in questions:
-            diff += (int(scores[i][j] == '1')-f(si-qj))**2
+            score += (int(scores[i][j] == '1')-f(si-qj))**2
             qj -= Q_D
-        diff /= (1+p_count[i])*(1+(Q-p_count[i]))  # normalize diff by weakness and strength, both ends are divided less and the middle are divided more
-        if diff > max_diff:
-            max_diff = diff
+        score /= (1+p_count[i])*(1+(Q-p_count[i]))  # normalize score by weakness and strength, both ends are divided less and the middle are divided more
+        if score > max_score:
+            max_score = score
             result = i
         si += S_D
     return result+1
