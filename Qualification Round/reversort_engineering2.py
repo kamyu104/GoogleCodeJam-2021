@@ -16,18 +16,13 @@ def reversort_engineering():
     for i in xrange(N):
         l = min(C-(N-1-i)+1, N-i)  # greedy
         C -= l
-        if l != N-i:
-            remain = range(i+1, N+1)
-            remain[:l] = remain[:l][::-1]
-            if i%2 == 0:
-                result[N-1-i//2+1-len(remain):N-1-i//2+1] = remain
-            else:
-                result[i//2:i//2+len(remain)] = remain[::-1]
-            break
+        fill = (list(reversed(range(i+1, i+1+l))) + range(i+1+l, N+1)) if l != N-i else [i+1]
         if i%2 == 0:
-            result[N-1-i//2] = i+1
+            result[N-1-i//2+1-len(fill):N-1-i//2+1] = fill
         else:
-            result[i//2] = i+1
+            result[i//2:i//2+len(fill)] = fill[::-1]
+        if l != N-i:
+            break
     return " ".join(map(str, result))
 
 for case in xrange(input()):
