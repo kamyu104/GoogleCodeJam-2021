@@ -32,16 +32,16 @@ def median_sort():
             x = query(result[m1], result[m2], i)
             if x == result[m1]:
                 right = m1-1
-                if left == right:
+                if left == right:  # padded for the last query 
                     right += 1
             elif x == result[m2]:
                 left = m2+1
-                if left == right:
+                if left == right:  # padded for the last query 
                     left -= 1
             else:
                 left, right = m1+1, m2-1
-                if left == right:
-                    right += 1                
+                if left == right:  # padded for the last query 
+                    left -= 1                
         result.insert(left, i)  # Time: O(N)
     check(result)
 
