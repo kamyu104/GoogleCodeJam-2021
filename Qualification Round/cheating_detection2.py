@@ -7,7 +7,7 @@ def diff(player1, player2, questions):
                sum(player1[questions[i]] == '1' for i in xrange(Q-int(Q*RATIO), Q)) -
                sum(player2[questions[i]] == '1' for i in xrange(Q-int(Q*RATIO), Q)))
 
-def f(scores, players, questions, i):
+def neighbor_diffs(scores, players, questions, i):
     val = 0.0
     cnt = 0
     if i-1 >= 0:
@@ -33,7 +33,7 @@ def cheating_detection():
     questions = sorted(range(Q), key=lambda x:q_count[x])
     result = 0
     for i in xrange(S):
-        if f(scores, players, questions, i) > f(scores, players, questions, result):
+        if neighbor_diffs(scores, players, questions, i) > neighbor_diffs(scores, players, questions, result):
             result = i
     return players[result]+1
 
