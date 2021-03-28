@@ -28,18 +28,18 @@ def median_sort():
         left, right = 0, len(result)-1
         while left < right:  # Time: O(logN)
             m1 = left + (right-left)//3
-            m3 = right - (right-left)//3
-            x = query(result[m1], result[m3], i)
+            m2 = right - (right-left)//3
+            x = query(result[m1], result[m2], i)
             if x == result[m1]:
                 right = m1-1
                 if left == right:
                     right += 1
-            elif x == result[m3]:
-                left = m3+1
+            elif x == result[m2]:
+                left = m2+1
                 if left == right:
                     left -= 1
             else:
-                left, right = m1+1, m3-1
+                left, right = m1+1, m2-1
                 if left == right:
                     right += 1                
         result.insert(left, i)  # Time: O(N)
