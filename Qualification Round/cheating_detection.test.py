@@ -1,4 +1,5 @@
 # Usage: pypy cheating_detection.test.py >data.in 2>data.out
+#        pypy cheating_detection.py < data.in > data.tmp && diff -y --suppress-common-lines data.tmp data.out | wc -l
 
 from random import uniform, randint, seed
 from math import exp
@@ -8,7 +9,7 @@ def f(x):
     return 1.0/(1.0+exp(-x))
 
 seed(0)
-T, P, S, Q = 50, 86, 100, 10000
+T, P, S, Q = 1000, 86, 100, 10000
 print T
 print Q
 for case in xrange(T):

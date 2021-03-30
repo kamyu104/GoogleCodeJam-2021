@@ -6,6 +6,9 @@
 # Time:  O(S * Q)
 # Space: O(S + Q)
 #
+# Correlation coefficient method
+# Accuracy: 895/1000 = 89.5%
+#
 
 def normalized(a):
     avg = float(sum(a))/len(a)

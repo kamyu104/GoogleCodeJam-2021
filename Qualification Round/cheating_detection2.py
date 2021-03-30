@@ -6,6 +6,9 @@
 # Time:  O(S * Q + SlogS + QlogQ)
 # Space: O(S + Q)
 #
+# Difference with Best and worst 5% neighbors method
+# Accuracy: 982/1000 = 98.2%
+#
 
 def diff(player1, player2, extreme_questions):
     return abs(sum(player1[j] for j in extreme_questions) - sum(player2[j] for j in extreme_questions))

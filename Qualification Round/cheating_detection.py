@@ -6,6 +6,9 @@
 # Time:  O(S * Q + QlogQ)
 # Space: O(S + Q)
 #
+# Inversion count method
+# Accuracy: 996/1000 = 99.6%
+#
 
 def cheating_detection():
     scores = []

@@ -6,6 +6,9 @@
 # Time:  O(S * Q + SlogS + QlogQ)
 # Space: O(S + Q)
 #
+# Difference with expeceted distribution method
+# Accuracy: 1000/1000 = 100.0%
+#
 
 from math import exp
 
