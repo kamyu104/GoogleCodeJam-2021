@@ -6,7 +6,7 @@
 # Time:  O(S * Q + SlogS + QlogQ)
 # Space: O(S + Q)
 #
-# Difference with best and worst 5% neighbors method
+# Difference with neighbors in easiest and hardest 5% questions method
 # Accuracy: 982/1000 = 98.2%
 #
 
