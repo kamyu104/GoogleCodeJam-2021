@@ -13,7 +13,7 @@ from collections import OrderedDict
 # (1) p1+p2+...+pk = total
 # (2) numbers of p1,p2,...pk are within the given count limit
 def check(prod, total, count):  # Time: O(M + logX)
-    for p in count.iterkeys():
+    for p in count.iterkeys():  # count.iterkeys() faster than count.iteritems()
         for _ in xrange(count[p]):
             if prod%p != 0:
                 break
