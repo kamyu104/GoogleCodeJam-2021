@@ -19,7 +19,7 @@ def check(prod, total, count):  # Time: O(M + logX)
                 break
             prod //= p  # at most O(logX) times
             total -= p
-            if total < 0:
+            if total < 0:  # early return
                 return False
     return prod == 1 and total == 0
 
@@ -38,7 +38,7 @@ def prime_time():
         max_card_number_of_group2 -= min(max_card_number_of_group2, count[p])
         if max_card_number_of_group2 == 0:
             break
-    for i in xrange(1, max_card_sum_of_group2+1):
+    for i in xrange(1, max_card_sum_of_group2+1):  # pruning for impossible i
         if check(X-i, i, count):
             return X-i
     return 0
