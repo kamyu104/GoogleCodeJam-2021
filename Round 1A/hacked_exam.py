@@ -37,7 +37,7 @@ def hacked_exam():
         br = (S[1]+S[2]-cn-dn)//2-ar  # [(2)+(3)]/2, since at least one br exists and (S[1]+S[2]-cn-dn)//2 is constant, so (S[1]+S[2]-cn-dn)%2 is always 0
         cr = (S[2]+S[0]-bn-dn)//2-ar  # [(3)+(1)]/2, since at least one cr exists and (S[2]+S[0]-bn-dn)//2 is constant, so (S[2]+S[0]-bn-dn)%2 is always 0
         dr = (S[0]+S[1]-bn-cn)//2-ar  # [(1)+(2)]/2, since at least one dr exists and (S[0]+S[1]-bn-cn)//2 is constant, so (S[0]+S[1]-bn-cn)%2 is always 0
-        if not (0 <= br <= bn and 0 <= cr <= cn and 0 <= dr <= dn):
+        if not (0 <= br <= bn and 0 <= cr <= cn and 0 <= dr <= dn):  # ar is invalid
             continue
         ways = nCr[an][ar] * nCr[bn][br] * nCr[cn][cr] * nCr[dn][dr]
         total += ways
