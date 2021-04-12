@@ -21,7 +21,7 @@ def max_card_number_of_group2(X, count):  # Time: O(logX)
     return result
 
 def max_card_sum_of_group2(X, count):  # Time: O(logX)
-    # return max_card_number_of_group2(X, count) * max(count.iterkeys())  # approximate max_card_sum_of_group2
+    # return max_card_number_of_group2(X, count) * next(reversed(count))  # approximate max_card_sum_of_group2
     result, remain = 0, max_card_number_of_group2(X, count)  # Time: O(logX)
     for p in reversed(count):
         result += p*min(remain, count[p])
