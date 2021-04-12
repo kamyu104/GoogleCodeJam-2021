@@ -9,6 +9,25 @@
 
 from collections import OrderedDict
 
+def max_card_number_of_group2(X, count):  # Time: O(logX)
+    result, prod = 0, 1
+    for p in count.iterkeys():  # use count.iterkeys() instead of count.iteritems() to avoid TLE
+        for _ in xrange(count[p]):
+            if prod*p > X:
+                return result
+            prod *= p
+            result += 1
+    return result
+
+def max_card_sum_of_group2(X, count):  # Time: O(logX)
+    result, remain = 0, max_card_number_of_group2(X, count)  # Time: O(logX)
+    for p in reversed(count):
+        if remain == 0:
+            break
+        result += p*min(remain, count[p])
+        remain -= min(remain, count[p])
+    return result
+
 # given prod = p1*p2*...*pk, check if
 # (1) p1+p2+...+pk = total
 # (2) numbers of p1,p2,...pk are within the given count limit
@@ -31,14 +50,7 @@ def prime_time():
         count[P] = N
     X = sum(p*n for p, n in count.iteritems())
 
-    max_card_number_of_group2 = (X-1).bit_length()  # ceil_log2_X
-    max_card_sum_of_group2 = 0
-    for p in reversed(count):
-        max_card_sum_of_group2 += p*min(max_card_number_of_group2, count[p])
-        max_card_number_of_group2 -= min(max_card_number_of_group2, count[p])
-        if max_card_number_of_group2 == 0:
-            break
-    for i in xrange(1, max_card_sum_of_group2+1):  # pruning for impossible i
+    for i in xrange(1, max_card_sum_of_group2(X, count)+1):  # pruning for impossible i
         if check(X-i, i, count):
             return X-i
     return 0
