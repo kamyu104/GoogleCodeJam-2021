@@ -52,7 +52,7 @@ def prime_time():
         count[P] = N
     X = sum(p*n for p, n in count.iteritems())
 
-    for i in xrange(1, estimated_max_card_sum_of_group2(X, count)+1):  # pruning for impossible i
+    for i in xrange(1, estimated_max_card_sum_of_group2(X, count)+1):  # prune impossible i
         if check(X-i, i, count):
             return X-i
     return 0
