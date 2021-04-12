@@ -10,7 +10,7 @@
 from collections import OrderedDict
 
 def max_card_number_of_group2(X, count):  # Time: O(logX)
-    # return (X-1).bit_length()  # ceil_log2_X, estimated_max_card_number_of_group2
+    # return (X-1).bit_length()  # ceil_log2_X, estimated max_card_number_of_group2
     result, prod = 0, 1
     for p in count.iterkeys():  # use count.iterkeys() instead of count.iteritems() to avoid TLE
         for _ in xrange(count[p]):
