@@ -24,10 +24,10 @@ def max_card_sum_of_group2(X, count):  # Time: O(logX)
     # return max_card_number_of_group2(X, count) * max(count.iterkeys())  # approximate max_card_sum_of_group2
     result, remain = 0, max_card_number_of_group2(X, count)  # Time: O(logX)
     for p in reversed(count):
-        if remain == 0:
-            break
         result += p*min(remain, count[p])
         remain -= min(remain, count[p])
+        if remain == 0:
+            break
     return result  # more accurate but may not be the lower bound of max_card_sum_of_group2
 
 # given prod = p1*p2*...*pk, check if
