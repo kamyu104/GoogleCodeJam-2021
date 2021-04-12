@@ -10,7 +10,7 @@
 from collections import OrderedDict
 
 def max_card_number_of_group2(X, count):  # Time: O(logX)
-    # return (X-1).bit_length()  # ceil_log2_X, approximate max_card_number_of_group2
+    # return (X-1).bit_length()  # ceil_log2_X, estimated_max_card_number_of_group2
     result, prod = 0, 1
     for p in count.iterkeys():  # use count.iterkeys() instead of count.iteritems() to avoid TLE
         for _ in xrange(count[p]):
@@ -20,8 +20,8 @@ def max_card_number_of_group2(X, count):  # Time: O(logX)
             result += 1
     return result
 
-def max_card_sum_of_group2(X, count):  # Time: O(logX)
-    # return max_card_number_of_group2(X, count) * next(reversed(count))  # approximate max_card_sum_of_group2
+def estimated_max_card_sum_of_group2(X, count):  # Time: O(logX)
+    # return max_card_number_of_group2(X, count) * next(reversed(count))  # less accurate estimated_max_card_sum_of_group2
     result, remain = 0, max_card_number_of_group2(X, count)  # Time: O(logX)
     for p in reversed(count):
         result += p*min(remain, count[p])
@@ -52,7 +52,7 @@ def prime_time():
         count[P] = N
     X = sum(p*n for p, n in count.iteritems())
 
-    for i in xrange(1, max_card_sum_of_group2(X, count)+1):  # pruning for impossible i
+    for i in xrange(1, estimated_max_card_sum_of_group2(X, count)+1):  # pruning for impossible i
         if check(X-i, i, count):
             return X-i
     return 0
