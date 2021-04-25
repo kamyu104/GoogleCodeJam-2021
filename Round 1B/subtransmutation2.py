@@ -31,12 +31,13 @@ def subtransmutation():
     g = gcd(A, B)
     k = None
     for i, c in enumerate(U, 1):
-        if c:
-            if k is None:
-                k = i%g
-                continue
-            if i%g != k:
-                return "IMPOSSIBLE" 
+        if not c:
+            continue
+        if k is None:
+            k = i%g
+            continue
+        if i%g != k:
+            return "IMPOSSIBLE" 
     result = N+(k-N%g)%g
     while not check(A, B, U, result):
         result += g
