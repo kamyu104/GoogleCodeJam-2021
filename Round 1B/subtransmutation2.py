@@ -38,7 +38,7 @@ def subtransmutation():
             continue
         if i%g != k:
             return "IMPOSSIBLE" 
-    result = N+(k-N%g)%g
+    result = N+(k-N)%g
     while not check(A, B, U, result):
         result += g
     return result
