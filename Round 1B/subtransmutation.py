@@ -48,7 +48,6 @@ for A in xrange(1, MAX_A+1):
                 break
             result += 1
 assert(MAX_M == 402)
-exit(0)
 '''
 MAX_M = 402
 for case in xrange(input()):
