@@ -40,7 +40,7 @@ def solution():
     # => 11*t % TOTAL = (m-h) % TOTAL
     for h, m, s in set(permutations([A, B, C])):
         t = INV_11*(m-h)%TOTAL
-        if 708*t%TOTAL == (s-m)%TOTAL and 719*t%TOTAL == (s-h)%TOTAL:
+        if 708*t%TOTAL == (s-m)%TOTAL:
             break
     return format_ticks(t)
 
