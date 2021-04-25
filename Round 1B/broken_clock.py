@@ -27,8 +27,10 @@ def linear_congruence(a, b, m):  # Time: O(logN), the same as gcd, Space: O(logN
     return x
 
 def format_ticks(t):
-    t, n = divmod(t, TICKS_PER_SECOND)
-    return "%s %s %s %s" % (t//3600, (t//60)%60, t%60, n)
+    s, n = divmod(t, TICKS_PER_SECOND)
+    m, s = divmod(s, 60)
+    h, m = divmod(m, 60)
+    return "%s %s %s %s" % (h, m, s, n)
 
 def solution():
     A, B, C = map(int, raw_input().strip().split())
