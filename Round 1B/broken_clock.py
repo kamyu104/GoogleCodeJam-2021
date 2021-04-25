@@ -34,9 +34,9 @@ def format_ticks(t):
 
 def solution():
     A, B, C = map(int, raw_input().strip().split())
-    # t = (h+x+1)%TOTAL
-    # 12*t%TOTAL = (m+x+1)%TOTAL
-    # 720*t%TOTAL = (s+x+1)%TOTAL
+    # t = (h+x)%TOTAL
+    # 12*t%TOTAL = (m+x)%TOTAL
+    # 720*t%TOTAL = (s+x)%TOTAL
     # => 11*t % TOTAL = (m-h) % TOTAL
     for h, m, s in set(permutations([A, B, C])):
         t = INV_11*(m-h)%TOTAL
