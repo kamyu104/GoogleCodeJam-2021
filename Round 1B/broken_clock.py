@@ -37,7 +37,9 @@ def solution():
     # t = (h+x)%TOTAL
     # 12*t%TOTAL = (m+x)%TOTAL
     # 720*t%TOTAL = (s+x)%TOTAL
-    # => 11*t % TOTAL = (m-h) % TOTAL
+    # => find t s.t.
+    # 11*t%TOTAL = (m-h)%TOTAL
+    # 708*t%TOTAL = (s-m)%TOTAL
     for h, m, s in set(permutations([A, B, C])):
         t = INV_11*(m-h)%TOTAL
         if 708*t%TOTAL == (s-m)%TOTAL:
