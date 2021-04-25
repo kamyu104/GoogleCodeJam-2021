@@ -10,8 +10,8 @@
 def get_U(U, i):
     return U[i] if i < len(U) else 0
 
-def check(A, B, U, result):
-    count = [0]*result
+def check(A, B, U, x):
+    count = [0]*x
     count[-1] = 1
     for i in reversed(xrange(len(count))):
         if count[i] < get_U(U, i):
