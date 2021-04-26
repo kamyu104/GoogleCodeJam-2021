@@ -11,9 +11,9 @@
 from itertools import permutations
 
 def linear_congruence(a, m, b):  # Time: O(logN), the same as gcd, Space: O(logN)
-    # gcd(a, m) = 1, find x, s.t. ax % m = b % m
+    # gcd(a, m) = g and g|b, find x, s.t. ax % m = b % m
     # => (a%m)x = my+(b%m)
-    # => gcd(m, a%m) = 1, find y, s.t. my % (a%m) = -(b%m) % (a%m)
+    # => gcd(m, a%m) = g and g|-(b%m), find y, s.t. my % (a%m) = -(b%m) % (a%m)
     # => y = linear_congruence(m, a%m, -(b%m))
     # => x = (my+(b%m))/(a%m)
     ambs = []
@@ -21,8 +21,7 @@ def linear_congruence(a, m, b):  # Time: O(logN), the same as gcd, Space: O(logN
         a, m, b = m, a%m, -(b%m)
         if m:
             ambs.append((m, a, -b))
-    assert(a == 1)  # a is gcd
-    x = a
+    x = a  # a is gcd
     while ambs:
         a, m, b = ambs.pop()
         x = (m*x+b)//a
