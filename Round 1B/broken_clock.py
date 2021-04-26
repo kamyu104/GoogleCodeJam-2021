@@ -7,7 +7,7 @@
 # Space: O(logT)
 #
 
-from itertools import permutations 
+from itertools import permutations
 
 def linear_congruence(a, m, b):  # Time: O(logN), the same as gcd, Space: O(logN)
     # gcd(a, m) = 1, find x, s.t. ax % m = b % m
