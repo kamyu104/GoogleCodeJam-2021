@@ -44,7 +44,7 @@ D = 10
 T, N, B, P = map(int, raw_input().strip().split())
 P = [1]
 while len(P) < B:
-    P.append(P[-1]*10)
+    P.append(P[-1]*D)
 dp = [[[[0.0 for _ in xrange(B-2)] for _ in xrange(N+1)] for _ in xrange(N+1)] for _ in xrange(N+1)]
 choice = [[[[[None for _ in xrange(D)] for _ in xrange(B-2)] for _ in xrange(N+1)] for _ in xrange(N+1)] for _ in xrange(N+1)]
 for remain0_cnt in reversed(xrange(N)):
@@ -68,7 +68,7 @@ for remain0_cnt in reversed(xrange(N)):
                         if ex > max_ex:
                             max_ex = ex
                             choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = grow_h
-                    dp[remain0_cnt][remain1_cnt][remain2_cnt][grow_h] += max_ex/10
+                    dp[remain0_cnt][remain1_cnt][remain2_cnt][grow_h] += max_ex/D
 S = 19131995794056374.42
 assert(dp[0][0][0][0]/S >= 0.9976)
 for case in xrange(T):
