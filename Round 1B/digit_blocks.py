@@ -8,7 +8,7 @@
 # Space: O(N^3 * B * D)
 # Usage: python interactive_runner.py python3 testing_tool.py 1 -- python digit_blocks.py
 #
-# accuracy = 19086952424670896.00/19131995794056374.42 = 99.76%
+# P = 19086952424670896.00/19131995794056374.42 = 99.76%
 #
 
 from sys import stdout
@@ -80,7 +80,7 @@ for zero in reversed(xrange(N+1)):
                                 max_ex = ex
                                 bt[zero][one][two][other][d] = other
                     dp[zero][one][two][other] += max_ex/10
-MAX_SCORE = 19131995794056374.42
-assert(dp[0][0][0][0]/MAX_SCORE >= 0.9976)
+S = 19131995794056374.42
+assert(dp[0][0][0][0]/S >= 0.9976)
 for case in xrange(T):
     digit_blocks()
