@@ -1,7 +1,7 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Round 1B - Problem A. Broken Clock
-# https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae694
+# Google Code Jam 2021 Round 1B - Problem B. Subtransmutation
+# https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae4aa
 #
 # Time:  O(MAX_M^2), MAX_M is the max possible m in the given limit
 # Space: O(MAX_M)

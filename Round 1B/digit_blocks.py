@@ -1,7 +1,7 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Qualification Round - Problem D. Median Sort
-# https://codingcompetitions.withgoogle.com/codejam/round/000000000043580a/00000000006d1284
+# Google Code Jam 2021 Round 1B - Problem C. Digit Blocks
+# https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae37b
 #
 # Time:  precompute: O(N^3 * B * D)
 #        runtime:    O(N * B)
