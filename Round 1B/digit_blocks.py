@@ -35,10 +35,8 @@ def digit_blocks():
             remain2_cnt -= 1
             remain1_cnt += 1
         else:
-            grow_h += 1
-            if grow_h == B-2:
-                grow_h = 0
-                remain2_cnt += 1
+            remain2_cnt += (grow_h+1)//(B-2)
+            grow_h = (grow_h+1)%(B-2)
         lookup[h+1].append(lookup[h].pop())
         write(lookup[h+1][-1]+1)
         
@@ -68,16 +66,10 @@ for remain0_cnt in reversed(xrange(N+1)):
                             max_ex = ex
                             choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = B-2
                     if remain0_cnt+remain1_cnt+remain2_cnt != N:
-                        if grow_h == B-3:
-                            ex = dp[remain0_cnt][remain1_cnt][remain2_cnt+1][0] + P[grow_h]*d
-                            if ex > max_ex:
-                                max_ex = ex
-                                choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = grow_h
-                        else:
-                            ex = dp[remain0_cnt][remain1_cnt][remain2_cnt][grow_h+1] + P[grow_h]*d
-                            if ex > max_ex:
-                                max_ex = ex
-                                choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = grow_h
+                        ex = dp[remain0_cnt][remain1_cnt][remain2_cnt+(grow_h+1)//(B-2)][(grow_h+1)%(B-2)] + P[grow_h]*d
+                        if ex > max_ex:
+                            max_ex = ex
+                            choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = grow_h
                     dp[remain0_cnt][remain1_cnt][remain2_cnt][grow_h] += max_ex/10
 S = 19131995794056374.42
 assert(dp[0][0][0][0]/S >= 0.9976)
