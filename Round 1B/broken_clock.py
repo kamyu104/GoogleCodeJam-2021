@@ -34,7 +34,7 @@ def format_ticks(t):
 
 def solution():
     A, B, C = map(int, raw_input().strip().split())
-    # t = h+x
+    # t = (h+x)%TOTAL
     # 12*t%TOTAL = (m+x)%TOTAL
     # 720*t%TOTAL = (s+x)%TOTAL
     # => find t s.t.
