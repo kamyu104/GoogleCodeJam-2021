@@ -3,8 +3,7 @@
 # Google Code Jam 2021 Round 1B - Problem A. Broken Clock
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae694
 #
-# Time:  precompute: O(1)
-#        runtime:    O(1)
+# Time:  O(1)
 # Space: O(1)
 #
 
