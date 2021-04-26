@@ -9,12 +9,12 @@
 
 from itertools import permutations 
 
-def linear_congruence(a, b, m):  # Time: O(logN), the same as gcd, Space: O(logN)
+def linear_congruence(a, m, b):  # Time: O(logN), the same as gcd, Space: O(logN)
     # gcd(a, m) = 1, find x, s.t. ax % m = b % m
-    # => (a%m)x = my+b
-    # => gcd(m, a%m) = 1, find x, s.t. my % (a%m) = -b % (a%m)
-    # => y = linear_congruence(m, -b, a%m)
-    # => x = (my+b)/(a%m)
+    # => (a%m)x = my+(b%m)
+    # => gcd(m, a%m) = 1, find y, s.t. my % (a%m) = -(b%m) % (a%m)
+    # => y = linear_congruence(m, a%m, -(b%m))
+    # => x = (my+(b%m))/(a%m)
     ambs = []
     while m:
         a, m, b = m, a%m, -(b%m)
@@ -48,6 +48,6 @@ def solution():
 
 TICKS_PER_SECOND = 10**9
 TOTAL = 12*60*60*TICKS_PER_SECOND
-INV_11 = linear_congruence(11, 1, TOTAL)%TOTAL
+INV_11 = linear_congruence(11, TOTAL, 1)%TOTAL
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, solution())
