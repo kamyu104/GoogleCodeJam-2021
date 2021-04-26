@@ -22,20 +22,13 @@ def write(i):
     stdout.flush()
 
 def digit_blocks():
-    remain0_cnt = remain1_cnt = remain2_cnt = grow_h = 0
+    grow_h = 0
     lookup =  [[] for _ in xrange(B+1)]
     lookup[0] = range(N)
     for _ in xrange(N*B):
         d = read()
-        h = choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d]
-        if h == B-1:
-            remain0_cnt +=1
-            remain1_cnt -= 1
-        elif h == B-2:
-            remain1_cnt += 1
-            remain2_cnt -= 1
-        else:
-            remain2_cnt += (grow_h+1)//(B-2)
+        h = choice[len(lookup[B])][len(lookup[B-1])][len(lookup[B-2])][grow_h][d]
+        if h < B-2:
             grow_h = (grow_h+1)%(B-2)
         lookup[h+1].append(lookup[h].pop())
         write(lookup[h+1][-1]+1)
