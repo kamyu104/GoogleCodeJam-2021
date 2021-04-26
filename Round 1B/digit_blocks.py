@@ -29,11 +29,11 @@ def digit_blocks():
         d = read()
         h = choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d]
         if h == B-1:
-            remain1_cnt -= 1
             remain0_cnt +=1
+            remain1_cnt -= 1
         elif h == B-2:
-            remain2_cnt -= 1
             remain1_cnt += 1
+            remain2_cnt -= 1
         else:
             remain2_cnt += (grow_h+1)//(B-2)
             grow_h = (grow_h+1)%(B-2)
