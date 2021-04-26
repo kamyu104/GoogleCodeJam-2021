@@ -39,9 +39,8 @@ def digit_blocks():
             if other == B-2:
                 other = 0
                 two += 1
-        i = lookup[h].pop()
-        lookup[h+1].append(i)
-        write(i+1)
+        lookup[h+1].append(lookup[h].pop())
+        write(lookup[h+1][-1]+1)
         
 D = 10
 T, N, B, P = map(int, raw_input().strip().split())
