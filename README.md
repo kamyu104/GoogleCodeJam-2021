@@ -1,11 +1,12 @@
-# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-8%20%2F%208-ff69b4.svg)
+# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-12%20%2F%2012-ff69b4.svg)
 
 Python solutions of Google Code Jam 2021. Solution begins with `*` means it will get TLE in the largest data set (total computation amount > `10^8`, which is not friendly for Python to solve in 5 ~ 15 seconds). A problem was marked as `Very Hard` means that it was an unsolved one during the contest and may not be that difficult.
 
 * [Code Jam 2020](https://github.com/kamyu104/GoogleCodeJam-2020)
 * [Qualification Round](https://github.com/kamyu104/GoogleCodeJam-2021#qualification-round)
 * [Round 1A](https://github.com/kamyu104/GoogleCodeJam-2021#round-1a)
-  
+* [Round 1B](https://github.com/kamyu104/GoogleCodeJam-2021#round-1b)
+
 ## Qualification Round
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
@@ -21,3 +22,10 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 |A| [Append Sort](https://codingcompetitions.withgoogle.com/codejam/round/000000000043585d/00000000007549e5)| [Python](./Round%201A/append_sort.py) [Python](./Round%201A/append_sort2.py) | _O(N * log(MAX_X))_ | _O(1)_ | Easy | | Greedy |
 |B| [Prime Time](https://codingcompetitions.withgoogle.com/codejam/round/000000000043585d/00000000007543d8)| [Python](./Round%201A/prime_time.py)| _O((MAX_P * logX) * (M + logX))_ | _O(1)_ | Medium | | Math, Prime Factorization, Pruning |
 |C| [Hacked Exam](https://codingcompetitions.withgoogle.com/codejam/round/000000000043585d/0000000000754750)| [Python](./Round%201A/hacked_exam.py) | precompute: _O(MAX_Q^2)_<br>runtime: _O(Q)_ | _O(MAX_Q^2)_ | Hard | | Binomial Coefficients, DP, Math, Expected Value |
+
+## Round 1B
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
+|A| [Broken Clock](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae694)| [Python](./Round%201B/broken_clock.py) | _O(logC)_ | _O(logC)_ | Medium | | Math, Linear Congruence |
+|B| [Subtransmutation](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae4aa)| [Python](./Round%201B/subtransmutation.py)| _O((MAX_M^2)_ | _O(MAX_M)_ | Medium | | Math, Bézout's identity |
+|C| [Digit Blocks](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae37b)| [Python](./Round%201B/digit_blocks.py) | precompute: _O(N^3 * B * D)_<br>runtime: _O(N * B)_ | _O(N^3 * B * D)_ | Hard | | DP, Expected Value |
