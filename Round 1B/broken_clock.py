@@ -3,9 +3,9 @@
 # Google Code Jam 2021 Round 1B - Problem A. Broken Clock
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae694
 #
-# Time:  precompute: O(logT), T is the max ticks
+# Time:  precompute: O(1)
 #        runtime:    O(1)
-# Space: O(logT)
+# Space: O(1)
 #
 
 from itertools import permutations
@@ -49,6 +49,6 @@ def solution():
 
 TICKS_PER_SECOND = 10**9
 TOTAL = 12*60*60*TICKS_PER_SECOND
-INV_11 = linear_congruence(11, TOTAL, 1)%TOTAL
+INV_11 = linear_congruence(11, TOTAL, 1)%TOTAL  # Time: O(log(min(11, TOTAL))) = O(log11) = O(1)
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, solution())
