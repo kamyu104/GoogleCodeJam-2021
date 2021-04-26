@@ -3,7 +3,8 @@
 # Google Code Jam 2021 Round 1B - Problem A. Broken Clock
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae694
 #
-# Time:  O(logT), T is the max ticks
+# Time:  precompute: O(logT), T is the max ticks
+#        runtime:    O(1)
 # Space: O(logT)
 #
 
