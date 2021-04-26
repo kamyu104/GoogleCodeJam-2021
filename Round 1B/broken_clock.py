@@ -15,14 +15,14 @@ def linear_congruence(a, b, m):  # Time: O(logN), the same as gcd, Space: O(logN
     # => gcd(m, a%m) = 1, find x, s.t. my % (a%m) = -b % (a%m)
     # => y = linear_congruence(m, -b, a%m)
     # => x = (my+b)/(a%m)
-    abms = []
+    ambs = []
     while m:
         a, m, b = m, a%m, -(b%m)
         if m:
-            abms.append((m, -b, a))
+            ambs.append((m, a, -b))
     x = a
-    while abms:
-        a, b, m = abms.pop()
+    while ambs:
+        a, m, b = ambs.pop()
         x = (m*x+b)//a
     return x
 
