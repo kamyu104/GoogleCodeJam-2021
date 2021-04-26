@@ -47,11 +47,11 @@ while len(P) < B:
     P.append(P[-1]*10)
 dp = [[[[0.0 for _ in xrange(B-2)] for _ in xrange(N+1)] for _ in xrange(N+1)] for _ in xrange(N+1)]
 choice = [[[[[None for _ in xrange(D)] for _ in xrange(B-2)] for _ in xrange(N+1)] for _ in xrange(N+1)] for _ in xrange(N+1)]
-for remain0_cnt in reversed(xrange(N+1)):
+for remain0_cnt in reversed(xrange(N)):
     for remain1_cnt in reversed(xrange(N-remain0_cnt+1)):
         for remain2_cnt in reversed(xrange(N-remain0_cnt-remain1_cnt+1)):
             for grow_h in reversed(xrange(B-2)):
-                if (remain0_cnt, remain1_cnt, remain2_cnt) == (N, 0, 0) or (remain0_cnt+remain1_cnt+remain2_cnt == N and grow_h):
+                if (remain0_cnt+remain1_cnt+remain2_cnt == N and grow_h):
                     continue
                 for d in xrange(D):
                     max_ex = float("-inf")
