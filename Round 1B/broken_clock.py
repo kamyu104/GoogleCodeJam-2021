@@ -20,7 +20,7 @@ def linear_congruence(a, m, b):  # Time: O(logN), the same as gcd, Space: O(logN
         a, m, b = m, a%m, -(b%m)
         if m:
             ambs.append((m, a, -b))
-    x = a
+    x = a  # x is gcd
     while ambs:
         a, m, b = ambs.pop()
         x = (m*x+b)//a
