@@ -13,7 +13,6 @@
 #
 
 from sys import stdout
-from collections import defaultdict
 
 def read():
     return input()
@@ -24,7 +23,7 @@ def write(i):
 
 def digit_blocks():
     remain0_cnt = remain1_cnt = remain2_cnt = grow_h = 0
-    lookup = defaultdict(list)
+    lookup =  [[] for _ in xrange(B+1)]
     lookup[0] = range(N)
     for _ in xrange(N*B):
         d = read()
