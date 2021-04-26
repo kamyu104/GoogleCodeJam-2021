@@ -50,9 +50,7 @@ choice = [[[[[None for _ in xrange(D)] for _ in xrange(B-2)] for _ in xrange(N+1
 for remain0_cnt in reversed(xrange(N)):
     for remain1_cnt in reversed(xrange(N-remain0_cnt+1)):
         for remain2_cnt in reversed(xrange(N-remain0_cnt-remain1_cnt+1)):
-            for grow_h in reversed(xrange(B-2)):
-                if (remain0_cnt+remain1_cnt+remain2_cnt == N and grow_h):
-                    continue
+            for grow_h in reversed(xrange(1 if remain0_cnt+remain1_cnt+remain2_cnt == N else B-2)):
                 for d in xrange(D):
                     max_ex = float("-inf")
                     if remain1_cnt:
