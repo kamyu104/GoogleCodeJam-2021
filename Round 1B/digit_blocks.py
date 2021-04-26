@@ -6,9 +6,10 @@
 # Time:  precompute: O(N^3 * B * D)
 #        runtime:    O(N * B)
 # Space: O(N^3 * B * D)
+#
 # Usage: python interactive_runner.py python3 testing_tool.py 1 -- python digit_blocks.py
 #
-# P = 19086952424670896.00/19131995794056374.42 = 99.76%
+# Expected score compared to the max expected score = 19086952424670896.00/19131995794056374.42 = 99.76%
 #
 
 from sys import stdout
