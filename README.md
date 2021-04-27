@@ -27,5 +27,5 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Broken Clock](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae694)| [Python](./Round%201B/broken_clock.py) | _O(1)_ | _O(1)_ | Medium | | Math, Linear Congruence |
-|B| [Subtransmutation](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae4aa)| [Python](./Round%201B/subtransmutation.py) [Python](./Round%201B/subtransmutation2.py) | _O((MAX_M^2)_ | _O(MAX_M)_ | Medium | | Math, Bézout's Identity, Greedy |
+|B| [Subtransmutation](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae4aa)| [Python](./Round%201B/subtransmutation.py) [Python](./Round%201B/subtransmutation2.py) | _O(MAX_M^2)_ | _O(MAX_M)_ | Medium | | Math, Bézout's Identity, Greedy |
 |C| [Digit Blocks](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435baf/00000000007ae37b)| [Python](./Round%201B/digit_blocks.py) | precompute: _O(N^3 * B * D)_<br>runtime: _O(N * B)_ | _O(N^3 * B * D)_ | Hard | | DP, Math, Expected Value |
