@@ -14,11 +14,11 @@ def closest_pick():
         return 0.0
 
     P = sorted(P)
-    result = prev_max = P[0]-1
+    result = prev_max = P[0]-1  # one or two in the first interval
     for i in xrange(1, len(P)):
-        result = max(result, prev_max+(P[i]-P[i-1])//2, P[i]-P[i-1]-1)  # two in different intervals or two in the same interval
+        result = max(result, prev_max+(P[i]-P[i-1])//2, P[i]-P[i-1]-1)  # one or two in this interval
         prev_max = max(prev_max, (P[i]-P[i-1])//2)
-    result = max(result, prev_max+(K-P[-1]))
+    result = max(result, prev_max+(K-P[-1]))  # one or two in the last interval
     return float(result)/K
 
 for case in xrange(input()):
