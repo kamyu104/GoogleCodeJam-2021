@@ -29,10 +29,7 @@ def min_fn(Y, n):
 
 def roaring_years():
     Y = raw_input().strip()
-    result = float("inf")
-    for n in xrange(2, (len(Y)+1)+1):
-        result = min(result, min_fn(Y, n))
-    return result
+    return min(min_fn(Y, n) for n in xrange(2, (len(Y)+1)+1))
 
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, roaring_years())
