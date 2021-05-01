@@ -11,7 +11,7 @@ def flip(s):
     return "".join(["01"[c == '0'] for c in s]).lstrip('0') or "0"
 
 def change_count(s):
-    s += '0'  # if s ends with '1', it requires one more "not", which can be easily counted by appending a '0' 
+    s += '0'  # if s ends with '1', it requires one more "not" operation, which could be easily counted by appending a '0' 
     return sum(int(s[i] != s[i+1]) for i in xrange(len(s)-1))
 
 def double_or_noting():
