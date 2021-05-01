@@ -34,6 +34,6 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 ## Round 1C
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
-|A| [Closest Pick](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f00)| [Python](./Round%201C/closest_pick.py) | _O(NlogN)_ | _O(N)_ | Easy | | Math |
+|A| [Closest Pick](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f00)| [Python](./Round%201C/closest_pick.py) | _O(NlogN)_ | _O(N)_ | Easy | | Math, Sort |
 |B| [Roaring Years](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f01)| [Python](./Round%201C/roaring_years.py) | _O((logY)^3)_ | _O(logY)_ | Medium | | Math, Binary Search |
 |C| [Double or NOTing](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139)| [Python](./Round%201C/double_or_noting.py) | _O(K * \|S\| )_ | _O(\|S\|)_ | Hard | | Math, Bit Manipulation |
