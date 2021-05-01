@@ -3,8 +3,8 @@
 # Google Code Jam 2021 Round 1C - Problem C. Double or NOTthing
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139
 #
-# Time:  O(K * len(S)), K is the number of bit groups of S
-# Space: O(len(S))
+# Time:  O(K * |S|), K is the number of bit groups of S
+# Space: O(|S|)
 #
 
 def flip(s):
