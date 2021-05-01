@@ -1,6 +1,6 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Round 1C - Problem A. Broken Clock
+# Google Code Jam 2021 Round 1C - Problem A. Closest Pick
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f00
 #
 # Time:  O(NlogN)
