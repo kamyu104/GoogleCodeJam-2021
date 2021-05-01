@@ -34,7 +34,7 @@ def double_or_noting():
             result = min(result, X+1+(len(E)-1))
         elif cnt == 1:  # if E is one of 110..0, ..., 111..10, 111..1
             result = min(result, X+1+len(E)+1)
-    return "IMPOSSIBLE" if result == float("inf") else result
+    return result if result != float("inf") else "IMPOSSIBLE"
 
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, double_or_noting())
