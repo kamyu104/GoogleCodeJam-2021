@@ -28,9 +28,10 @@ def double_or_nothing():
     if E == '0':
         result = min(result, X)
     elif E[0] == '1':
-        if E[1:] == '0'*(len(E)-1):  # cases of 1, 10..0
+        cnt = change_count(E[1:]+'0')
+        if cnt == 0:  # if E is one of 1, 10..0
             result = min(result, X+1+(len(E)-1))
-        elif change_count(E) <= 1:  # cases of 110..0, ..., 111..10, 111..1
+        elif cnt == 1:  # if E is one of 110..0, ..., 111..10, 111..1
             result = min(result, X+1+len(E)+1)
     return "IMPOSSIBLE" if result == float("inf") else result
 
