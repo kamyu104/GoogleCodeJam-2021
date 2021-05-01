@@ -8,7 +8,7 @@
 #
 
 def flip(s):
-    return "".join([('1' if c == '0' else '0') for c in s]).lstrip('0') or '0'
+    return "".join(["01"[c == '0'] for c in s]).lstrip('0') or '0'
 
 def change_count(s):
     return sum(int(s[i] != s[i+1]) for i in xrange(len(s)-1))
