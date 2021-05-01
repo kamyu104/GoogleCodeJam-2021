@@ -7,8 +7,6 @@
 # Space: O(len(S))
 #
 
-from itertools import groupby
-
 def flip(s):
     return "".join([('1' if c == '0' else '0') for c in s]).lstrip('0') or '0'
 
