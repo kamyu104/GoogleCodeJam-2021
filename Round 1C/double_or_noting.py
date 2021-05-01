@@ -1,6 +1,6 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Round 1C - Problem C. Double or NOTthing
+# Google Code Jam 2021 Round 1C - Problem C. Double or NOTing
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139
 #
 # Time:  O(K * |S|), K is the number of bit groups of S
@@ -8,7 +8,7 @@
 #
 
 def flip(s):
-    return "".join(["01"[c == '0'] for c in s]).lstrip('0') or '0'
+    return "".join(["01"[c == '0'] for c in s]).lstrip('0') or "0"
 
 def change_count(s):
     return sum(int(s[i] != s[i+1]) for i in xrange(len(s)-1))
