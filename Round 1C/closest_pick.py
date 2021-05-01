@@ -14,14 +14,10 @@ def closest_pick():
         return 0.0
 
     P = sorted(P)
-    result = prev_max = 0
-    for i, x in enumerate(P):
-        if i == 0:
-            result = max(result, prev_max+(x-1))
-            prev_max = max(prev_max, x-1)
-            continue
-        result = max(result, prev_max+(x-P[i-1])//2, x-P[i-1]-1)  # two in different intervals or two in the same interval
-        prev_max = max(prev_max, (x-P[i-1])//2)
+    result = prev_max = P[0]-1
+    for i in xrange(1, len(P)):
+        result = max(result, prev_max+(P[i]-P[i-1])//2, P[i]-P[i-1]-1)  # two in different intervals or two in the same interval
+        prev_max = max(prev_max, (P[i]-P[i-1])//2)
     result = max(result, prev_max+(K-P[-1]))
     return float(result)/K
 
