@@ -30,7 +30,7 @@ def double_or_nothing():
     if E == '0':
         result = min(result, X)
     elif E[0] == '1':
-        if len(E) == 1: # case of 1
+        if len(E) == 1:  # case of 1
             result = min(result, X+1)
         else:
             if E[1:] == '0'*(len(E)-1):  # case of 10..0
