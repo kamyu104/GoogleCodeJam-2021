@@ -18,8 +18,7 @@ def closest_pick():
     for i in xrange(1, len(P)):
         result = max(result, prev_max+(P[i]-P[i-1])//2, P[i]-P[i-1]-1)  # one or two in this interval
         prev_max = max(prev_max, (P[i]-P[i-1])//2)
-    result = max(result, prev_max+(K-P[-1]))  # one or two in the last interval
-    return float(result)/K
+    return float(max(result, prev_max+(K-P[-1])))/K  # one or two in the last interval
 
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, closest_pick())
