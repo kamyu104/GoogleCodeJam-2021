@@ -13,7 +13,7 @@ def flip(s):
 def change_count(s):
     return sum(int(s[i] != s[i+1]) for i in xrange(len(s)-1))
 
-def double_or_nothing():
+def double_or_noting():
     S, E = raw_input().strip().split()
 
     result = float("inf")
@@ -36,4 +36,4 @@ def double_or_nothing():
     return "IMPOSSIBLE" if result == float("inf") else result
 
 for case in xrange(input()):
-    print 'Case #%d: %s' % (case+1, double_or_nothing())
+    print 'Case #%d: %s' % (case+1, double_or_noting())
