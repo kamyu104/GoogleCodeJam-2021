@@ -15,9 +15,6 @@ def flip(s):
 def change_count(s):
     return sum(int(s[i] != s[i+1]) for i in xrange(len(s)-1))
 
-def check(X, suffix):
-    return X >= change_count(suffix)
-
 def double_or_nothing():
     S, E = raw_input().strip().split()
 
@@ -25,19 +22,11 @@ def double_or_nothing():
     prefix = S
     X = 0
     while prefix != "0":
-        if prefix != E[:len(prefix)]:
-            prefix = flip(prefix)
-            X += 1
-            continue
-        suffix = E[len(prefix):]
-        if not check(X, suffix+'0'):
-            prefix = flip(prefix)
-            X += 1
-            continue
-        result = min(result, X+len(suffix))
+        if prefix == E[:len(prefix)] and X >= change_count(E[len(prefix):]+'0'):
+            result = min(result, X+len(E[len(prefix):]))
         prefix = flip(prefix)
         X += 1
-    if check(X, E+'0'):
+    if X >= change_count(E+'0'):
         result = min(result, X+len(E))
     if E == '0':
         result = min(result, X)
