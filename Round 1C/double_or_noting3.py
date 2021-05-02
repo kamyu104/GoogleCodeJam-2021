@@ -45,7 +45,7 @@ def get_flip_count(suffix_flip_cnt, i):
     return suffix_flip_cnt[i] if i < len(suffix_flip_cnt) else 0
 
 def find_X(S):
-    X_cnt = [-1]*len(S)
+    X_cnt = [-1]*len(S)  # only valid positions with X >= 0
     X_cnt[0] = X = 0
     for i in xrange(1, len(S)):
         if S[i] == S[i-1]:
