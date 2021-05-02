@@ -34,10 +34,10 @@ def double_or_noting():
         cnt = not_count(E[1:])
         if cnt == 0:
             # assert(match("^10*$", E))
-            result = min(result, X+1+(len(E)-1))
+            result = min(result, X+1+(len(E)-1))  # S =X=> "0" =1=> "1" =(len(E)-1)=> "10*"
         elif cnt == 1:
             # assert(match("^11+0*$", E))
-            result = min(result, X+1+len(E)+1)
+            result = min(result, X+1+len(E)+1)  # S =X=> "0" =1=> "1" =k=> "100+" =1=> "11+" =(len(E)-k)=> "11+0*", where 2 <= k <= len(E)
     return result if result != float("inf") else "IMPOSSIBLE"
 
 for case in xrange(input()):
