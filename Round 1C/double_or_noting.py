@@ -28,9 +28,9 @@ def double_or_noting():
         X += 1
     if X >= not_count(E):
         result = min(result, X+len(E))
-    if E == '0':
+    if E[0] == '0':
         result = min(result, X)
-    elif E[0] == '1':
+    else:
         cnt = not_count(E[1:])
         if cnt == 0:
             # assert(match("^10*$", E))
