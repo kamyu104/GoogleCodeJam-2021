@@ -4,7 +4,7 @@
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139
 #
 # Time:  O(|E| + K * |S|), K is the number of bit groups of S
-# Space: O(|S|)
+# Space: O(|E| + |S|)
 #
 
 # from re import match
