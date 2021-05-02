@@ -10,7 +10,7 @@
 # from re import match
 from collections import deque
 
-def flip(s, flag):
+def logical_flip(s, flag):
     while s and s[0]^flag == 1:
         s.popleft()
     if not s:
@@ -43,7 +43,7 @@ def double_or_noting():
     while S[0] != 0^(X%2):
         if compare(S, E, X%2) and X >= get_flip_count(suffix_cnt, len(S)):
             result = min(result, X+(len(E)-len(S)))
-        flip(S, X%2)
+        logical_flip(S, X%2)
         X += 1
     if X >= get_flip_count(suffix_cnt, 0):
         result = min(result, X+len(E))
