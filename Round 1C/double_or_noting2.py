@@ -34,10 +34,7 @@ def init_flip_count(E):
 def get_flip_count(suffix_flip_cnt, i):
     return suffix_flip_cnt[i] if i < len(suffix_flip_cnt) else 0
 
-def double_or_noting():
-    S, E = map(lambda x: deque(int(c) for c in list(x)), raw_input().strip().split())
-
-    suffix_flip_cnt = init_flip_count(E)
+def find_prefix_and_count(S, E, suffix_flip_cnt):
     result = float("inf")
     X = 0
     while S[0] != 0^(X%2):
@@ -45,6 +42,13 @@ def double_or_noting():
             result = min(result, X+(len(E)-len(S)))
         logical_flip(S, X%2)
         X += 1
+    return result, X
+
+def double_or_noting():
+    S, E = map(lambda x: deque(int(c) for c in list(x)), raw_input().strip().split())
+
+    suffix_flip_cnt = init_flip_count(E)
+    result, X = find_prefix_and_count(S, E, suffix_flip_cnt)
     if X >= get_flip_count(suffix_flip_cnt, 0):
         result = min(result, X+len(E))
     if E[0] == 0:

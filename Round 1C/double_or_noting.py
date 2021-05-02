@@ -18,9 +18,7 @@ def not_count(s):
     s += '0'  # if s ends with '1', it requires one more "not" operation, which could be easily counted by appending a '0'
     return sum(int(s[i] != s[i+1]) for i in reversed(xrange(len(s)-1)))
 
-def double_or_noting():
-    S, E = raw_input().strip().split()
-
+def find_prefix_and_count(S, E):
     result = float("inf")
     X = 0
     while S != "0":
@@ -28,6 +26,12 @@ def double_or_noting():
             result = min(result, X+(len(E)-len(S)))
         S = flip(S)
         X += 1
+    return result, X
+
+def double_or_noting():
+    S, E = raw_input().strip().split()
+
+    result, X = find_prefix_and_count(S, E)
     if X >= not_count(E):
         result = min(result, X+len(E))
     if E[0] == '0':
