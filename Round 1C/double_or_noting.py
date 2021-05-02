@@ -14,7 +14,7 @@ def flip(s):
 
 def not_count(s):
     s += '0'  # if s ends with '1', it requires one more "not" operation, which could be easily counted by appending a '0'
-    return sum(int(s[i] != s[i+1]) for i in xrange(len(s)-1))
+    return sum(int(s[i] != s[i+1]) for i in reversed(xrange(len(s)-1)))
 
 def double_or_noting():
     S, E = raw_input().strip().split()
