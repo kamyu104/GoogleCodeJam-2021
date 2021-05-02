@@ -31,7 +31,7 @@ def min_fn(Y, n):
     # => let x = 10**(ceil(len(Y)+1, n)-1)
     x = 10**(ceil(len(Y)+1, n)-1)
     assert(f(x, n) > y)
-    x = binary_search(1, x, lambda x: f(x, n) > y)
+    x = binary_search(1, x, lambda x: f(x, n) > y)  # find the smallest x, s.t. f(x, n) > y
     return f(x, n)
 
 def roaring_years():
