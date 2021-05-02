@@ -28,6 +28,7 @@ def min_fn(Y, n):
     # => X = str(x), f(x, n) > X*n >= 10**len(Y) > y
     # => len(X)*n >= len(Y)+1
     # => len(X) = ceil(len(Y)+1, n)
+    # => x is in the range [10**(ceil(len(Y)+1, n)-1), 10**ceil(len(Y)+1, n)-1]
     # => let x = 10**(ceil(len(Y)+1, n)-1)
     x = 10**(ceil(len(Y)+1, n)-1)
     assert(f(x, n) > y)
