@@ -7,6 +7,8 @@
 # Space: O(|S|)
 #
 
+# import re
+
 def flip(s):
     return "".join(["01"[c == '0'] for c in s]).lstrip('0') or "0"
 
@@ -30,9 +32,11 @@ def double_or_noting():
         result = min(result, X)
     elif E[0] == '1':
         cnt = not_count(E[1:])
-        if cnt == 0:  # if E is one of 1, 10..0
+        if cnt == 0:
+            # assert(re.match("^10*$", E))
             result = min(result, X+1+(len(E)-1))
-        elif cnt == 1:  # if E is one of 110..0, ..., 111..10, 111..1
+        elif cnt == 1:
+            # assert(re.match("^11+0*$", E))
             result = min(result, X+1+len(E)+1)
     return result if result != float("inf") else "IMPOSSIBLE"
 
