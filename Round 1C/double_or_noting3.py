@@ -45,28 +45,28 @@ def get_flip_count(suffix_cnt, i):
     return suffix_cnt[i] if i < len(suffix_cnt) else 0
 
 def find_X(S):
-    S_X = [-1]*len(S)
-    S_X[0] = X = 0
+    X_cnt = [-1]*len(S)
+    X_cnt[0] = X = 0
     for i in xrange(1, len(S)):
         if S[i] == S[i-1]:
             continue
         X += 1
-        S_X[i] = X
-    return S_X, X+S[0]
+        X_cnt[i] = X
+    return X_cnt, X+S[0]
 
 def find_prefix_and_count(S, E, suffix_cnt):
     result = float("inf")
     lookup = [-1]*(len(S))
-    S_X, X = find_X(S)
+    X_cnt, X = find_X(S)
     if 0 in [S[0], E[0]]:
         return result, X
     prefix = getPrefix(E)
     for i in xrange(2):
         j = modified_KMP(S, E, prefix, i)
         while j != -1:
-            if S_X[-1-j] >= get_flip_count(suffix_cnt, (j+1)):
-                lookup[-1-j] = S_X[-1-j]
-                result = min(result, S_X[-1-j]+(len(E)-(j+1)))
+            if X_cnt[-1-j] >= get_flip_count(suffix_cnt, (j+1)):
+                lookup[-1-j] = X_cnt[-1-j]
+                result = min(result, X_cnt[-1-j]+(len(E)-(j+1)))
             j = prefix[j]
     return result, X
 
