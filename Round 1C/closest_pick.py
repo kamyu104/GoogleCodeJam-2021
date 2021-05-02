@@ -9,11 +9,8 @@
 
 def closest_pick():
     N, K = map(int, raw_input().strip().split())
-    P = set(map(int, raw_input().strip().split()))
-    if len(P) == K:
-        return 0.0
+    P = sorted(set(map(int, raw_input().strip().split())))
 
-    P = sorted(P)
     result = prev_max = P[0]-1  # one or two in the first interval
     for i in xrange(1, len(P)):
         result = max(result, prev_max+(P[i]-P[i-1])//2, P[i]-P[i-1]-1)  # one or two in this interval
