@@ -3,54 +3,37 @@
 # Google Code Jam 2021 Round 1C - Problem C. Double or NOTing
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139
 #
-# Time:  O(|E| + K * |S|), K is the number of bit groups of S
+# Time:  O(K * (|S| + |E|)), K is the number of bit groups of S
 # Space: O(|E| + |S|)
+#
+# shorter but slower slolution
 #
 
 # from re import match
-from collections import deque
 
-def logical_flip(s, flag):
-    while s and s[0]^flag == 1:
-        s.popleft()
-    if not s:
-        s.append(0^(1^flag))
+def flip(s):
+    return "".join(["01"[c == '0'] for c in s]).lstrip('0') or "0"
 
-def compare(s, e, flag):
-    if len(s) > len(e):
-        return False
-    for i in xrange(len(s)):
-        if s[i]^flag != e[i]:
-            return False
-    return True
-
-def init_flip_count(E):
-    s = list(E)+[0]  # if s ends with '1', it requires one more "not" operation (flip), which could be easily counted by appending a '0'
-    suffix_cnt = [0]*len(s)
-    for i in reversed(xrange(len(s)-1)):
-        suffix_cnt[i] = suffix_cnt[i+1] + int(s[i] != s[i+1])
-    return suffix_cnt
-
-def get_flip_count(suffix_cnt, i):
-    return suffix_cnt[i] if i < len(suffix_cnt) else 0
+def not_count(s):
+    s += '0'  # if s ends with '1', it requires one more "not" operation, which could be easily counted by appending a '0'
+    return sum(int(s[i] != s[i+1]) for i in reversed(xrange(len(s)-1)))
 
 def double_or_noting():
-    S, E = map(lambda x: deque(int(c) for c in list(x)), raw_input().strip().split())
+    S, E = raw_input().strip().split()
 
-    suffix_cnt = init_flip_count(E)
     result = float("inf")
     X = 0
-    while S[0] != 0^(X%2):
-        if compare(S, E, X%2) and X >= get_flip_count(suffix_cnt, len(S)):
+    while S != "0":
+        if S == E[:len(S)] and X >= not_count(E[len(S):]):
             result = min(result, X+(len(E)-len(S)))
-        logical_flip(S, X%2)
+        S = flip(S)
         X += 1
-    if X >= get_flip_count(suffix_cnt, 0):
+    if X >= not_count(E):
         result = min(result, X+len(E))
-    if E[0] == 0:
+    if E[0] == '0':
         result = min(result, X)
     else:
-        cnt = get_flip_count(suffix_cnt, 1)
+        cnt = not_count(E[1:])
         if cnt == 0:
             # assert(match("^10*$", E))
             result = min(result, X+1+(len(E)-1))  # S =X=> "0" =1=> "1" =(len(E)-1)=> "10*"
