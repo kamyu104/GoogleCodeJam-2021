@@ -24,10 +24,14 @@ def ceil(x, n):
 
 def min_fn(Y, n):
     y = int(Y)
-    # len(x)*n >= len(Y)+1
-    # => len(x) >= ceil(len(Y)+1, n) 
-    # => right = 10**ceil(len(Y)+1, n)-1
-    x = binary_search(1, 10**ceil(len(Y)+1, n)-1, lambda x: f(x, n) > y)
+    # find one x, s.t. f(x, n) > y
+    # => f(x, n) > x*n >= 10**len(Y) > y
+    # => len(x)*n >= len(Y)+1
+    # => len(x) = ceil(len(Y)+1, n) 
+    # => x = str(10**(ceil(len(Y)+1, n)-1))
+    right = 10**(ceil(len(Y)+1, n)-1)
+    assert(f(right, n) > y)
+    x = binary_search(1, right, lambda x: f(x, n) > y)
     return f(x, n)
 
 def roaring_years():
