@@ -3,8 +3,8 @@
 # Google Code Jam 2021 Round 1C - Problem B. Roaring Years
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f01
 #
-# Time:  O((logY)^3)
-# Space: O(logY)
+# Time:  O(D^2 * logD), D is the digit count of Y, since sum((D/x)*D for x in [2, D+1]) = D^2 * O(logD)
+# Space: O(D)
 #
 
 def f(x, n):
@@ -24,7 +24,10 @@ def ceil(x, n):
 
 def min_fn(Y, n):
     y = int(Y)
-    x = binary_search(1, 10**(ceil(len(Y)+1, n))-1, lambda x: f(x, n) > y)
+    # len(x)*n >= len(Y)+1
+    # => len(x) >= ceil(len(Y)+1, n) 
+    # => right = 10**ceil(len(Y)+1, n)-1
+    x = binary_search(1, 10**ceil(len(Y)+1, n)-1, lambda x: f(x, n) > y)
     return f(x, n)
 
 def roaring_years():
