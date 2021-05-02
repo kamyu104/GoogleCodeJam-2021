@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 1C - Problem B. Roaring Years
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f01
 #
-# Time:  O(D^2 * logD), D is the digit count of Y, since sum((D/x)*D for x in [2, D+1]) = D^2 * O(logD)
+# Time:  O(D^2 * logD), D is the digit count of Y, since sum((D/n)*D for n in [2, D+1]) = D^2 * O(logD)
 # Space: O(D)
 #
 
