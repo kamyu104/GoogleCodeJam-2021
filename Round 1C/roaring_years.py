@@ -24,7 +24,7 @@ def ceil(x, n):
 
 def min_fn(Y, n):
     y = int(Y)
-    # find one x, s.t. f(x, n) > y
+    # find any x, s.t. f(x, n) > y
     # => X = str(x), f(x, n) > X*n >= 10**len(Y) > y
     # => len(X)*n >= len(Y)+1
     # => len(X) = ceil(len(Y)+1, n)
