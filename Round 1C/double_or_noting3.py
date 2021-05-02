@@ -23,7 +23,7 @@ def modified_KMP(text, pattern, prefix, flag):
                 j = prefix[j]
     return j  # pattern[:j+1] is the longest suffix of text
 
-def getPrefix(pattern):
+def get_prefix(pattern):
     prefix = [-1]*len(pattern)
     j = -1
     for i in xrange(1, len(pattern)):
@@ -60,7 +60,7 @@ def find_prefix_and_count(S, E, suffix_flip_cnt):
     X_cnt, X = find_X(S)
     if 0 in [S[0], E[0]]:
         return result, X
-    prefix = getPrefix(E)
+    prefix = get_prefix(E)
     for i in xrange(2):
         j = modified_KMP(S, E, prefix, i)
         while j != -1:
