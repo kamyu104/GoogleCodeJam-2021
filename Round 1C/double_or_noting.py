@@ -8,12 +8,24 @@
 #
 
 # from re import match
+from collections import deque
 
-def flip(s):
-    return "".join(["01"[c == '0'] for c in s]).lstrip('0') or "0"
+def flip(s, flag):
+    while s and s[0]^flag == 1:
+        s.popleft()
+    if not s:
+        s.append(0^(1^flag))
+
+def compare(s, e, flag):
+    if len(s) > len(e):
+        return False
+    for i in xrange(len(s)):
+        if s[i]^flag != e[i]:
+            return False
+    return True
 
 def init_flip_count(E):
-    s = E+'0'  # if s ends with '1', it requires one more "not" operation (flip), which could be easily counted by appending a '0'
+    s = list(E)+[0]  # if s ends with '1', it requires one more "not" operation (flip), which could be easily counted by appending a '0'
     suffix_cnt = [0]*len(s)
     for i in reversed(xrange(len(s)-1)):
         suffix_cnt[i] = suffix_cnt[i+1] + int(s[i] != s[i+1])
@@ -23,19 +35,19 @@ def get_flip_count(suffix_cnt, i):
     return suffix_cnt[i] if i < len(suffix_cnt) else 0
 
 def double_or_noting():
-    S, E = raw_input().strip().split()
+    S, E = map(lambda x: deque(int(c) for c in list(x)), raw_input().strip().split())
 
     suffix_cnt = init_flip_count(E)
     result = float("inf")
     X = 0
-    while S != "0":
-        if S == E[:len(S)] and X >= get_flip_count(suffix_cnt, len(S)):
-            result = min(result, X+len(E[len(S):]))
-        S = flip(S)
+    while S[0] != 0^(X%2):
+        if compare(S, E, X%2) and X >= get_flip_count(suffix_cnt, len(S)):
+            result = min(result, X+(len(E)-len(S)))
+        flip(S, X%2)
         X += 1
     if X >= get_flip_count(suffix_cnt, 0):
         result = min(result, X+len(E))
-    if E[0] == '0':
+    if E[0] == 0:
         result = min(result, X)
     else:
         cnt = get_flip_count(suffix_cnt, 1)
