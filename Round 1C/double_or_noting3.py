@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 1C-Problem C. Double or NOTing
 # https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139
 #
-# Time:  O(|E| + |S|), K is the number of bit groups of S
+# Time:  O(|E| + |S|)
 # Space: O(|E| + |S|)
 #
 # KMP solution
