@@ -64,7 +64,7 @@ def find_prefix_and_count(S, E, suffix_flip_cnt):
     for i in xrange(2):
         j = modified_KMP(S, E, prefix, i)
         while j != -1:
-            if X_cnt[-1-j] >= get_flip_count(suffix_flip_cnt, j+1):  # S[-1-j:] equals E[:j+1] and its X >= flip_cnt(E[j+1:])
+            if X_cnt[-1-j] >= get_flip_count(suffix_flip_cnt, j+1):  # S[-1-j:] is the same structure as E[:j+1] and its X >= flip_cnt(E[j+1:])
                 lookup[-1-j] = X_cnt[-1-j]
                 result = min(result, X_cnt[-1-j]+(len(E)-(j+1)))
             j = prefix[j]
