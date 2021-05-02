@@ -36,13 +36,13 @@ def getPrefix(pattern):
 
 def init_flip_count(E):
     s = E+[0]  # if s ends with '1', it requires one more "not" operation (flip), which could be easily counted by appending a '0'
-    suffix_cnt = [0]*len(s)
+    suffix_flip_cnt = [0]*len(s)
     for i in reversed(xrange(len(s)-1)):
-        suffix_cnt[i] = suffix_cnt[i+1]+int(s[i] != s[i+1])
-    return suffix_cnt
+        suffix_flip_cnt[i] = suffix_flip_cnt[i+1]+int(s[i] != s[i+1])
+    return suffix_flip_cnt
 
-def get_flip_count(suffix_cnt, i):
-    return suffix_cnt[i] if i < len(suffix_cnt) else 0
+def get_flip_count(suffix_flip_cnt, i):
+    return suffix_flip_cnt[i] if i < len(suffix_flip_cnt) else 0
 
 def find_X(S):
     X_cnt = [-1]*len(S)
@@ -54,7 +54,7 @@ def find_X(S):
         X_cnt[i] = X
     return X_cnt, X+S[0]
 
-def find_prefix_and_count(S, E, suffix_cnt):
+def find_prefix_and_count(S, E, suffix_flip_cnt):
     result = float("inf")
     lookup = [-1]*(len(S))
     X_cnt, X = find_X(S)
@@ -64,7 +64,7 @@ def find_prefix_and_count(S, E, suffix_cnt):
     for i in xrange(2):
         j = modified_KMP(S, E, prefix, i)
         while j != -1:
-            if X_cnt[-1-j] >= get_flip_count(suffix_cnt, (j+1)):
+            if X_cnt[-1-j] >= get_flip_count(suffix_flip_cnt, (j+1)):
                 lookup[-1-j] = X_cnt[-1-j]
                 result = min(result, X_cnt[-1-j]+(len(E)-(j+1)))
             j = prefix[j]
@@ -73,14 +73,14 @@ def find_prefix_and_count(S, E, suffix_cnt):
 def double_or_noting():
     S, E = map(lambda x: [int(c) for c in list(x)], raw_input().strip().split())
 
-    suffix_cnt = init_flip_count(E)
-    result, X = find_prefix_and_count(S, E, suffix_cnt)
-    if X >= get_flip_count(suffix_cnt, 0):
+    suffix_flip_cnt = init_flip_count(E)
+    result, X = find_prefix_and_count(S, E, suffix_flip_cnt)
+    if X >= get_flip_count(suffix_flip_cnt, 0):
         result = min(result, X+len(E))
     if E[0] == 0:
         result = min(result, X)
     else:
-        cnt = get_flip_count(suffix_cnt, 1)
+        cnt = get_flip_count(suffix_flip_cnt, 1)
         if cnt == 0:
             # assert(match("^10*$", E))
             result = min(result, X+1+(len(E)-1))  # S =X=> "0" =1=> "1" =(len(E)-1)=> "10*"
