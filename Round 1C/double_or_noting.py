@@ -6,7 +6,7 @@
 # Time:  O(K * (|S| + |E|)), K is the number of bit groups of S
 # Space: O(|E| + |S|)
 #
-# shorter but slower slolution
+# shorter but slower solution
 #
 
 # from re import match
