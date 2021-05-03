@@ -22,9 +22,6 @@ def binary_search(left, right, check):
 def ceil(x, n):
     return (x-1)//n+1
 
-def floor(x, n):
-    return x//n
-
 def min_fn(Y, n):
     y = int(Y)
     # find any x, s.t. f(x, n) > y
@@ -32,11 +29,10 @@ def min_fn(Y, n):
     # => len(X)*n >= len(Y)+1
     # => len(X) = ceil(len(Y)+1, n)
     # => x is in the range [10**(ceil(len(Y)+1, n)-1), 10**ceil(len(Y)+1, n)-1]
-    # => let right be 10**(ceil(len(Y)+1, n)-1)
-    right = 10**(ceil(len(Y)+1, n)-1)
-    assert(f(right, n) > y)
-    left = 10**(max(floor(len(Y), n), 1)-1)
-    x = binary_search(left, right, lambda x: f(x, n) > y)  # find the smallest x, s.t. f(x, n) > y
+    # => let x = 10**(ceil(len(Y)+1, n)-1)
+    x = 10**(ceil(len(Y)+1, n)-1)
+    assert(f(x, n) > y)
+    x = binary_search(1, x, lambda x: f(x, n) > y)  # find the smallest x, s.t. f(x, n) > y
     return f(x, n)
 
 def roaring_years():
