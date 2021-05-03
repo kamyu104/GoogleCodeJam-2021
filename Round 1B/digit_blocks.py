@@ -45,23 +45,23 @@ for remain0_cnt in reversed(xrange(N)):
         for remain2_cnt in reversed(xrange(N-remain0_cnt-remain1_cnt+1)):
             for grow_h in reversed(xrange(1 if remain0_cnt+remain1_cnt+remain2_cnt == N else B-2)):
                 for d in xrange(D):
-                    max_ex = float("-inf")
+                    max_ev = float("-inf")
                     if remain1_cnt:
-                        ex = dp[remain0_cnt+1][remain1_cnt-1][remain2_cnt][grow_h] + P[B-1]*d
-                        if ex > max_ex:
-                            max_ex = ex
+                        ev = dp[remain0_cnt+1][remain1_cnt-1][remain2_cnt][grow_h] + P[B-1]*d
+                        if ev > max_ev:
+                            max_ev = ev
                             choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = B-1
                     if remain2_cnt:
-                        ex = dp[remain0_cnt][remain1_cnt+1][remain2_cnt-1][grow_h] + P[B-2]*d
-                        if ex > max_ex:
-                            max_ex = ex
+                        ev = dp[remain0_cnt][remain1_cnt+1][remain2_cnt-1][grow_h] + P[B-2]*d
+                        if ev > max_ev:
+                            max_ev = ev
                             choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = B-2
                     if remain0_cnt+remain1_cnt+remain2_cnt != N:
-                        ex = dp[remain0_cnt][remain1_cnt][remain2_cnt+(grow_h+1)//(B-2)][(grow_h+1)%(B-2)] + P[grow_h]*d
-                        if ex > max_ex:
-                            max_ex = ex
+                        ev = dp[remain0_cnt][remain1_cnt][remain2_cnt+(grow_h+1)//(B-2)][(grow_h+1)%(B-2)] + P[grow_h]*d
+                        if ev > max_ev:
+                            max_ev = ev
                             choice[remain0_cnt][remain1_cnt][remain2_cnt][grow_h][d] = grow_h
-                    dp[remain0_cnt][remain1_cnt][remain2_cnt][grow_h] += max_ex/D
+                    dp[remain0_cnt][remain1_cnt][remain2_cnt][grow_h] += max_ev/D
 S = 19131995794056374.42
 assert(dp[0][0][0][0]/S >= 0.9976)
 for case in xrange(T):
