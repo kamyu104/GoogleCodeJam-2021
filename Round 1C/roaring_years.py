@@ -7,6 +7,12 @@
 # Space: O(D)
 #
 
+def ceil(x, n):
+    return (x-1)//n+1
+
+def floor(x, n):
+    return x//n
+
 def f(x, n):
     return int("".join(str(i) for i in xrange(x, x+n)))
 
@@ -18,12 +24,6 @@ def binary_search(left, right, check):
         else:
             left = mid+1
     return left
-
-def ceil(x, n):
-    return (x-1)//n+1
-
-def floor(x, n):
-    return x//n
 
 def min_fn(Y, n):
     y = int(Y)
