@@ -40,7 +40,7 @@ def double_or_noting():
     if cnt == 0:
         # assert(match("^10*$", E))
         return X+1+(len(E)-1)  # S =X=> "0" =1=> "1" =(len(E)-1)=> "10*"
-    elif cnt == 1:
+    if cnt == 1:
         # assert(match("^11+0*$", E))
         return X+1+len(E)+1  # S =X=> "0" =1=> "1" =k=> "100+" =1=> "11+" =(len(E)-k)=> "11+0*", where 2 <= k <= len(E)
     return "IMPOSSIBLE"
