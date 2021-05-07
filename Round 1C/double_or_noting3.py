@@ -65,6 +65,7 @@ def find_prefix_and_count(S, E, suffix_flip_cnt):
         while j != -1:
             if X_cnt[-1-j] >= get_flip_count(suffix_flip_cnt, j+1):  # S[-1-j:] is the same structure as E[:j+1] and its X >= flip_cnt(E[j+1:])
                 result = min(result, X_cnt[-1-j]+(len(E)-(j+1)))
+                break
             j = prefix[j]
     return result, X
 
@@ -73,19 +74,18 @@ def double_or_noting():
 
     suffix_flip_cnt = init_flip_count(E)
     result, X = find_prefix_and_count(S, E, suffix_flip_cnt)
+    if result != float("inf"):
+        return result
     if X >= get_flip_count(suffix_flip_cnt, 0):
-        result = min(result, X+len(E))
-    if E[0] == 0:
-        result = min(result, X)
-    else:
-        cnt = get_flip_count(suffix_flip_cnt, 1)
-        if cnt == 0:
-            # assert(match("^10*$", E))
-            result = min(result, X+1+(len(E)-1))  # S =X=> "0" =1=> "1" =(len(E)-1)=> "10*"
-        elif cnt == 1:
-            # assert(match("^11+0*$", E))
-            result = min(result, X+1+len(E)+1)  # S =X=> "0" =1=> "1" =k=> "100+" =1=> "11+" =(len(E)-k)=> "11+0*", where 2 <= k <= len(E)
-    return result if result != float("inf") else "IMPOSSIBLE"
+        return X+len(E)-int(E[0] == 0)
+    cnt = get_flip_count(suffix_flip_cnt, 1)
+    if cnt == 0:
+        # assert(match("^10*$", E))
+        return X+1+(len(E)-1)  # S =X=> "0" =1=> "1" =(len(E)-1)=> "10*"
+    elif cnt == 1:
+        # assert(match("^11+0*$", E))
+        return X+1+len(E)+1  # S =X=> "0" =1=> "1" =k=> "100+" =1=> "11+" =(len(E)-k)=> "11+0*", where 2 <= k <= len(E)
+    return "IMPOSSIBLE"
 
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, double_or_noting())
