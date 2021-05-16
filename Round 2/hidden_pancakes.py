@@ -9,6 +9,10 @@
 #
 
 def nCr(n, k):
+    while len(inv) <= n:  # lazy initialization
+        fact.append(fact[-1]*len(inv) % MOD)
+        inv.append(inv[MOD%len(inv)]*(MOD-MOD//len(inv)) % MOD)  # https://cp-algorithms.com/algebra/module-inverse.html
+        inv_fact.append(inv_fact[-1]*inv[-1] % MOD)
     return (fact[n]*inv_fact[n-k] % MOD) * inv_fact[k] % MOD
 
 def hidden_pancakes():
@@ -29,14 +33,8 @@ def hidden_pancakes():
     return result
 
 MOD = 10**9+7
-MAX_N = 10**5
-fact = [0]*(MAX_N+1)
-inv = [0]*(MAX_N+1)
-inv_fact = [0]*(MAX_N+1)
-fact[0] = inv_fact[0] = fact[1] = inv_fact[1] = inv[1] = 1
-for i in xrange(2, len(fact)):
-    fact[i] = fact[i-1]*i % MOD
-    inv[i] = inv[MOD%i]*(MOD-MOD//i) % MOD  # https://cp-algorithms.com/algebra/module-inverse.html
-    inv_fact[i] = inv_fact[i-1]*inv[i] % MOD
+fact = [1, 1]
+inv = [0, 1]
+inv_fact = [1, 1]    
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, hidden_pancakes())
