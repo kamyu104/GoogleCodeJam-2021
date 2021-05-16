@@ -25,7 +25,7 @@ def hidden_pancakes():
             return 0
         cnt = 0
         while v < len(stk)+1:
-            result = result * nCr(cnt+stk[-1]-1, cnt) % MOD
+            result = result * nCr(cnt+(stk[-1]-1), cnt) % MOD
             cnt += stk.pop()
         stk.append(cnt+1)
     return result
