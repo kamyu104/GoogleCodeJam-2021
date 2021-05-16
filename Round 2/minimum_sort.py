@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 2 - Problem A. Minimum Sort
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc51c
 #
-# Time:  O(logN)
+# Time:  O(N * Q), Q is the time of query minimum
 # Space: O(1)
 #
 # Usage: python interactive_runner.py python3 testing_tool.py -- python minimum_sort.py
