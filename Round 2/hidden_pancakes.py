@@ -3,8 +3,7 @@
 # Google Code Jam 2021 Round 2 - Problem C. Hidden Pancakes
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc20c
 #
-# Time:  precompute: O(N)
-#        runtime:    O(N)
+# Time:  O(N)
 # Space: O(N)
 #
 
