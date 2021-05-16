@@ -8,10 +8,14 @@
 #
 
 def factorial(n):
-    while len(inv) <= n:  # lazy initialization
-        fact.append(fact[-1]*len(inv) % MOD)
-        inv.append(inv[MOD%len(inv)]*(MOD-MOD//len(inv)) % MOD)  # https://cp-algorithms.com/algebra/module-inverse.html
+    while len(fact) <= n:  # lazy initialization
+        fact.append(fact[-1]*len(fact) % MOD)
     return fact[n]
+
+def inverse(n):
+    while len(inv) <= n:  # lazy initialization
+        inv.append(inv[MOD%len(inv)]*(MOD-MOD//len(inv)) % MOD)  # https://cp-algorithms.com/algebra/module-inverse.html
+    return inv[n]
 
 def hidden_pancakes():
     N = input()
@@ -25,7 +29,7 @@ def hidden_pancakes():
         cnt = 0
         while v < len(stk)+1:
             cnt += stk.pop()
-            result = (result * inv[cnt]) % MOD
+            result = (result * inverse(cnt)) % MOD
         stk.append(cnt+1)
     return result
 
