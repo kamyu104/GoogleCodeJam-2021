@@ -6,7 +6,7 @@
 # Time:  O(logN)
 # Space: O(1)
 #
-# Usage: python interactive_runner.py python3 testing_tool.py 1 -- python minimum_sort.py
+# Usage: python interactive_runner.py python3 testing_tool.py -- python minimum_sort.py
 #
 
 from sys import stdout
