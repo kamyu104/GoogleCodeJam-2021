@@ -18,8 +18,7 @@ dp = [0]*(MAX_N+1)
 for i in xrange(1, MAX_N+1):  # time < sum(N/i for i in xrange(1, N)) = O(NlogN)
     for j in xrange(2*i, MAX_N+1, i):  # min size of pseudo-polygon could be at least 2
         pseudo[j] = max(pseudo[j], pseudo[i-1]+1)
-for i in xrange(1, MAX_N+1):  # time < sum(N/i for i in xrange(1, N)) = O(NlogN)
-    for j in xrange(3*i, MAX_N+1, i):  # min size of polygon should be at least 3
-        dp[j] = max(dp[j], pseudo[i-1]+1)
+        if j >= 3*i:  # min size of polygon should be at least 3
+            dp[j] = max(dp[j], pseudo[i-1]+1)
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, matrygons())
