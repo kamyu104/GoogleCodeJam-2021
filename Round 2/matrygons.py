@@ -3,7 +3,8 @@
 # Google Code Jam 2021 Round 2 - Problem B. Matrygons
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dbf06
 #
-# Time:  O(NlogN)
+# Time:  precompute: O(NlogN)
+#        runtime:    O(1)
 # Space: O(N)
 #
 
