@@ -15,7 +15,7 @@ def matrygons():
 MAX_N = 10**6
 pseudo = [0]*(MAX_N+1)
 dp = [0]*(MAX_N+1)
-for i in xrange(1, MAX_N+1):  # time < sum(N/i for i in xrange(1, N)) = O(NlogN)
+for i in xrange(1, MAX_N//2+1):  # time < sum(N/i for i in xrange(1, N)) = O(NlogN)
     for j in xrange(2*i, MAX_N+1, i):  # min size of pseudo-polygon could be at least 2
         pseudo[j] = max(pseudo[j], pseudo[i-1]+1)  # pseudo(j) = max(pseudo(k * i) for each k|j and k >= 2) = max(pseudo(i-1)+1 for each k|j and k >= 2)
         if j//i >= 3:  # min size of polygon should be at least 3
