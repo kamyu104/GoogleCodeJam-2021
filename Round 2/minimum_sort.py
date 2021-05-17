@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 2 - Problem A. Minimum Sort
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc51c
 #
-# Time:  O(N * Q) = O(N^2), Q is the time of query_minimum
+# Time:  O(ClogN) = C/N + C/(N-1) + ... + C/2 = 4.187 * 10^8 (given N = 100, C = 10^8)
 # Space: O(1)
 #
 # Usage: python interactive_runner.py python3 testing_tool.py -- python minimum_sort.py
