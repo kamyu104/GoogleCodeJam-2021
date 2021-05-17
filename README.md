@@ -1,4 +1,4 @@
-# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-14%20%2F%2014-ff69b4.svg)
+# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-18%20%2F%2018-ff69b4.svg)
 
 Python solutions of Google Code Jam 2021. Solution begins with `*` means it will get TLE in the largest data set (total computation amount > `10^8`, which is not friendly for Python to solve in 5 ~ 15 seconds). A problem was marked as `Very Hard` means that it was an unsolved one during the contest and may not be that difficult.
 
@@ -7,6 +7,7 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 * [Round 1A](https://github.com/kamyu104/GoogleCodeJam-2021#round-1a)
 * [Round 1B](https://github.com/kamyu104/GoogleCodeJam-2021#round-1b)
 * [Round 1C](https://github.com/kamyu104/GoogleCodeJam-2021#round-1c)
+* [Round 2](https://github.com/kamyu104/GoogleCodeJam-2021#round-2)
 
 ## Qualification Round
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
@@ -36,4 +37,12 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Closest Pick](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f00)| [Python](./Round%201C/closest_pick.py) | _O(NlogN)_ | _O(N)_ | Easy | | Math, Sort |
 |B| [Roaring Years](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c0f01)| [Python](./Round%201C/roaring_years.py) | _O(D^2 * logD)_ | _O(D)_ | Medium | | Math, Binary Search |
-|C| [Double or NOTing](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139)| [Python](./Round%201C/double_or_noting.py) [Python](./Round%201C/double_or_noting2.py) [Python](./Round%201C/double_or_noting3.py) | _O(\|E\| + \|S\| )_ | _O(\|E\| + \|S\|)_ | Hard | | Math, Bit Manipulation, KMP Algorithm |
+|C| [Double or NOTing](https://codingcompetitions.withgoogle.com/codejam/round/00000000004362d7/00000000007c1139)| [Python](./Round%201C/double_or_noting.py) [Python](./Round%201C/double_or_noting2.py) [Python](./Round%201C/double_or_noting3.py) | _O(\|E\| + \|S\|)_ | _O(\|E\| + \|S\|)_ | Hard | | Math, Bit Manipulation, KMP Algorithm |
+
+## Round 2
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
+|A| [Minimum Sort](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc51c)| [Python](./Round%202/minimum_sort.py) | _O(N^2)_ | _O(1)_ | Easy | | Selection Sort |
+|B| [Matrygons](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dbf06)| [Python](./Round%202/matrygons.py) | precompute: _O(NlogN)_<br>runtime: _O(1)_ | _O(N)_ | Medium | | Precompute, DP |
+|C| [Hidden Pancakes](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc20c)| [Python](./Round%202/hidden_pancakes.py) [Python](./Round%202/hidden_pancakes2.py) | _O(N)_ | _O(N)_ | Medium | | Math, Binomial Coeffecients, DP |
+|D| [Retiling](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc2de)| [Python](./Round%202/retiling.py) | _O((R * C)^3)_ | _O((R * C)^2)_ | Hard | | Hungarian Algorithm |
