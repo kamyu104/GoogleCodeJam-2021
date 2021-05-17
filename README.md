@@ -44,5 +44,5 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Minimum Sort](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc51c)| [Python](./Round%202/minimum_sort.py) | _O(ClogN)_ | _O(1)_ | Easy | | Selection Sort |
 |B| [Matrygons](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dbf06)| [Python](./Round%202/matrygons.py) | precompute: _O(NlogN)_<br>runtime: _O(1)_ | _O(N)_ | Medium | | Precompute, DP |
-|C| [Hidden Pancakes](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc20c)| [Python](./Round%202/hidden_pancakes.py) [Python](./Round%202/hidden_pancakes2.py) | _O(N)_ | _O(N)_ | Medium | | Math, Binomial Coeffecients, DP |
+|C| [Hidden Pancakes](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc20c)| [Python](./Round%202/hidden_pancakes.py) [Python](./Round%202/hidden_pancakes2.py) | _O(N)_ | _O(N)_ | Medium | | Math, Binomial Coefficients, DP |
 |D| [Retiling](https://codingcompetitions.withgoogle.com/codejam/round/0000000000435915/00000000007dc2de)| [Python](./Round%202/retiling.py) | _O((R * C)^3)_ | _O((R * C)^2)_ | Hard | | Hungarian Algorithm |
