@@ -51,7 +51,7 @@ def hungarian(a):
 
 def retiling():
     R, C, F, S = map(int, raw_input().strip().split())
-    src, dst = [[list(raw_input().strip()) for _ in xrange(R)] for _ in xrange(2)]
+    src, dst = [[raw_input().strip() for _ in xrange(R)] for _ in xrange(2)]
     pos0 = [(i, j) for i in xrange(R) for j in xrange(C) if src[i][j] == 'M']
     pos1 = [(i, j) for i in xrange(R) for j in xrange(C) if dst[i][j] == 'M']
     cost = [[0]*(len(pos0)+len(pos1)) for _ in xrange(len(pos0)+len(pos1))]
