@@ -52,14 +52,14 @@ def hungarian(a):
 def retiling():
     R, C, F, S = map(int, raw_input().strip().split())
     src, dst = [[list(raw_input().strip()) for _ in xrange(R)] for _ in xrange(2)]
-    loc0 = [(i, j) for i in xrange(R) for j in xrange(C) if src[i][j] == 'M']
-    loc1 = [(i, j) for i in xrange(R) for j in xrange(C) if dst[i][j] == 'M']
-    cost = [[0]*(len(loc0)+len(loc1)) for _ in xrange(len(loc0)+len(loc1))]
+    pos0 = [(i, j) for i in xrange(R) for j in xrange(C) if src[i][j] == 'M']
+    pos1 = [(i, j) for i in xrange(R) for j in xrange(C) if dst[i][j] == 'M']
+    cost = [[0]*(len(pos0)+len(pos1)) for _ in xrange(len(pos0)+len(pos1))]
     for i in xrange(len(cost)):
         for j in xrange(len(cost[0])):
-            if i < len(loc0) and j < len(loc1):
-                cost[i][j] = S * (abs(loc0[i][0]-loc1[j][0])+abs(loc0[i][1]-loc1[j][1]))
-            elif i < len(loc0) or j < len(loc1):
+            if i < len(pos0) and j < len(pos1):
+                cost[i][j] = S * (abs(pos0[i][0]-pos1[j][0])+abs(pos0[i][1]-pos1[j][1]))
+            elif i < len(pos0) or j < len(pos1):
                 cost[i][j] = F
     return hungarian(cost)[0]
 
