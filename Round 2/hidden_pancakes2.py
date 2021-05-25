@@ -21,13 +21,19 @@ def hidden_pancakes():
     N = input()
     V = map(int, raw_input().strip().split())
     V.append(1)
-    result = factorial(N)
-    stk = []
+    result = factorial(N)  # max number of permutations
+    stk = []  # keep the size of each subtrees satisfying v
     for v in V:
-        if not (v <= len(stk)+1):
+        if not (v <= len(stk)+1):  # v - the number of subtrees should be less than or equal to 1
             return 0
         cnt = 0
-        while v < len(stk)+1:
+        while v < len(stk)+1:  # pop groups until v == len(stk)+1
+            # reresent a permutation as a tree,
+            # use the largest pancake of the group as root,
+            # and the size of left subtree is stk[-1]-1, the size of right subtree is cnt.
+            # since the total size of the current tree is cnt, for each valid permutation, it will produce cnt permutations.
+            # we could inversely get the true number of valid permutations from max number of permutations.
+            # so the number of permutations is as below:
             cnt += stk.pop()
             result = (result * inverse(cnt)) % MOD
         stk.append(cnt+1)
