@@ -25,7 +25,7 @@ def hidden_pancakes():
             return 0
         cnt = 0
         while v < len(stk)+1:  # pop subtree size and form a new tree until v == len(stk)+1
-            # reresent a permutation as a tree,
+            # represent a permutation as a tree,
             # use the largest pancake of the subtree as root,
             # and the size of left subtree is stk[-1]-1, the size of right subtree is cnt.
             # so the number of permutations is as follow:
