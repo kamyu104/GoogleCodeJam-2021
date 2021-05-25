@@ -28,8 +28,8 @@ def hidden_pancakes():
             # a tree structure is constructed by v, count the valid permutations:
             # the largest pancake size of each subtee on stack keeps monotonically decreasing.
             # to merge the subtree on the top of stack, use its largest pancake as root of a new tree,
-            # the rest part of the subtree is as a subtree with size stk[-1]-1,
-            # and the previously merged subtree is as a subtree with size cnt.
+            # the rest part of the subtree is as a left subtree with size stk[-1]-1,
+            # and the previously merged subtree is as a right subtree with size cnt.
             # so the number of valid permutations is as follows:
             result = result * nCr(cnt+(stk[-1]-1), (stk[-1]-1)) % MOD
             cnt += stk.pop()
