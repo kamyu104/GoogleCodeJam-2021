@@ -19,14 +19,14 @@ def hidden_pancakes():
     V = map(int, raw_input().strip().split())
     V.append(1)
     result = 1
-    stk = []  # keep the size of each group satisfying v
+    stk = []  # keep the size of each subtree satisfying v
     for v in V:
         if not (v <= len(stk)+1):  # v - the number of subtrees should be less than or equal to 1
             return 0
         cnt = 0
-        while v < len(stk)+1:  # pop group size and form subtrees until v == len(stk)+1
+        while v < len(stk)+1:  # pop subtree size and form a new subtree until v == len(stk)+1
             # reresent a permutation as a tree,
-            # use the largest pancake of the group as root,
+            # use the largest pancake of the subtree as root,
             # and the size of left subtree is stk[-1]-1, the size of right subtree is cnt.
             # so the number of permutations is as follow:
             result = result * nCr(cnt+(stk[-1]-1), (stk[-1]-1)) % MOD
