@@ -34,7 +34,7 @@ def hidden_pancakes():
             # so the number of permutations is as follow:
             cnt += stk.pop()
             result = (result * inverse(cnt)) % MOD
-        stk.append(cnt+1)
+        stk.append(cnt+1)  # len(stk) == v
     return result
 
 MOD = 10**9+7
