@@ -27,7 +27,7 @@ def hidden_pancakes():
         if not (v <= len(stk)+1):  # v - the number of subtrees should be less than or equal to 1
             return 0
         cnt = 0
-        while v < len(stk)+1:  # pop subtree size and form a new subtree until v == len(stk)+1
+        while v < len(stk)+1:  # pop subtree size and form a new tree until v == len(stk)+1
             # reresent a permutation as a tree.
             # since the total size of the current tree is cnt, for each valid permutation, it will produce cnt permutations.
             # we could inversely get the true number of valid permutations from max number of permutations.
