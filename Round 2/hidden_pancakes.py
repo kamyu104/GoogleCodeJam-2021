@@ -21,7 +21,7 @@ def hidden_pancakes():
     result = 1
     stk = []  # keep the size of each subtree satisfying v
     for v in V:
-        if not (v <= len(stk)+1):  # v - the number of subtrees should be less than or equal to 1
+        if not (v <= len(stk)+1):  # v minus the number of subtrees should be less than or equal to 1
             return 0
         cnt = 0
         while v < len(stk)+1:  # pop subtree size and form a new tree until v == len(stk)+1
