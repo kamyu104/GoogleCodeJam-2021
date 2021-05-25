@@ -28,7 +28,7 @@ def hidden_pancakes():
             # reresent a permutation as a tree,
             # use the largest pancake of the group as root,
             # and the size of left subtree is stk[-1]-1, the size of right subtree is cnt.
-            # so the number of permutations is as below:
+            # so the number of permutations is as follow:
             result = result * nCr(cnt+(stk[-1]-1), (stk[-1]-1)) % MOD
             cnt += stk.pop()
         stk.append(cnt+1)  # len(stk) == v
