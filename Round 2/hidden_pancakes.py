@@ -17,7 +17,7 @@ def nCr(n, k):
 def hidden_pancakes():
     N = input()
     V = map(int, raw_input().strip().split())
-    V.append(1)
+    V.append(1)  # add virtual value to count the permutation of remaining subtrees
     result = 1
     stk = []  # keep the size of each subtree satisfying v
     for v in V:
