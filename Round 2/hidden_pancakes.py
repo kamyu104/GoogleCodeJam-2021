@@ -25,10 +25,10 @@ def hidden_pancakes():
             return 0
         cnt = 0
         while v < len(stk)+1:  # pop subtree size and form a new tree until v == len(stk)+1
-            # represent a permutation as a tree,
+            # represent the visible number as a tree structure, count the valid permutations.
             # use the largest pancake of the subtree as root,
             # and the size of left subtree is stk[-1]-1, the size of right subtree is cnt.
-            # so the number of permutations is as follows:
+            # so the number of valid permutations is as follows:
             result = result * nCr(cnt+(stk[-1]-1), (stk[-1]-1)) % MOD
             cnt += stk.pop()
         stk.append(cnt+1)  # len(stk) == v
