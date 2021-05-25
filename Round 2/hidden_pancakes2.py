@@ -29,7 +29,7 @@ def hidden_pancakes():
         cnt = 0
         while v < len(stk)+1:  # pop subtree size and form a new tree until the number of subtrees on stack is v
             # a tree structure is formed by v, count the valid permutations.
-            # since the total size of the current tree is cnt,
+            # since the total size of the current merged tree is cnt,
             # for each step of a valid permutation, it will produce cnt permutations, only one of these permutations is valid.
             # thus we could inversely get the true number of valid permutations from max number of permutations.
             # so the number of valid permutations is as follows:
