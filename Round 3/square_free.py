@@ -1,7 +1,7 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
 # Google Code Jam 2021 Round 3 - Problem B. Square Free
-# https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813aa8
+# https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1a
 #
 # Time:  O(R^2 * C^2)
 # Space: O(R + C)
