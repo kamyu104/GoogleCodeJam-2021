@@ -20,7 +20,7 @@ def greedy(n, l, count, dir):  # Time: O(N)
             n = 10*n + i
     return n
 
-def odd_case(N, count):
+def odd_case(N, count):  # Time: O(N)
     d = next(d for d in xrange(1, len(count)) if count[d])
     count[d] -= 1
     A = greedy(d, N//2, count, lambda x: x)
@@ -36,7 +36,7 @@ def mask_to_count(count, choice, mask):
         new_count[k] = count[k]-cnt*2
     return new_count
 
-def even_case(count):
+def even_case(count):  # Time: O((N/(2b) + 1)^b * b^2 * N)
     choice = [0]*BASE
     for k, v in enumerate(count):
         choice[k] = v//2+1
