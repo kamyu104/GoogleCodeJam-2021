@@ -7,7 +7,7 @@
 # Space: O(R + C)
 #
 
-def inplace_counting_sort(nums, reverse=False):  # Time: O(len(nums)), Space: O(max(nums))
+def inplace_counting_sort(nums, reverse=False):  # Time: O(len(nums)+max(nums)), Space: O(max(nums))
     count = [0]*(max(nums)+1)
     for num in nums:
         count[num] += 1
@@ -27,16 +27,16 @@ def inplace_counting_sort(nums, reverse=False):  # Time: O(len(nums)), Space: O(
         nums.reverse()
 
 def possible(R, C, S, D):  # Time: O(R * C), Space: O(R + C)
-    inplace_counting_sort(S, reverse=True)
-    inplace_counting_sort(D, reverse=True)
+    inplace_counting_sort(S, reverse=True)  # Time: O(R + C), Space: O(C)
+    inplace_counting_sort(D, reverse=True)  # Time: O(R + C), Space: O(R)
     S_prefix = [0]
-    for i in xrange(len(S)):
+    for i in xrange(len(S)):  # Time: O(R), Space: O(R)
         S_prefix.append(S_prefix[-1] + S[i])
     D_suffix = [0]
-    for i in reversed(xrange(len(D))):
+    for i in reversed(xrange(len(D))):  # Time: O(C), Space: O(C)
         D_suffix.append(D_suffix[-1] + D[i])
     D_suffix.reverse()
-    return all(S_prefix[(i-1)+1]-D_suffix[j] <= i*j for i in xrange(R) for j in xrange(C))
+    return all(S_prefix[(i-1)+1]-D_suffix[j] <= i*j for i in xrange(R) for j in xrange(C))  # Time: O(R * C)
 
 def square_free():
     R, C = map(int, raw_input().strip().split())
