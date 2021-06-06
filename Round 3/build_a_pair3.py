@@ -38,21 +38,15 @@ def mask_to_count(count, choice, mask):  # Time: O(b)
 
 def even_case(count):  # Time: O(b^2 * N)
     result = float("inf")
-    for d in xrange(-1, len(count)):  # keep one digit 1 pair, or no digit with pair, O(b) times
+    for d in xrange(-1, len(count)):  # keep no digit with any pair, or a digit with 1 pair, or digit 0 with all pairs, O(b) times
         if d != -1 and count[d] < 2:
             continue
-        choice = [1]*BASE
-        for k, v in enumerate(count):
-            if k == d:
-                continue
-            choice[k] = min(v//2+1, 2 if k == 0 else 1)  # digit 0 may keep all pairs, others keep no pairs
-        total = reduce(mul, (v for v in choice if v))
-        for mask in xrange(total):  # enumerate all possible prefixes, loops O(1) times
+        new_count = [count[i]%2 if i != d else 2+count[d]%2 for i in xrange(len(count))]
+        for i in xrange(2 if d == 0 else 1):
+            if i:  # digit 0 may keep all pairs
+                new_count[d] = count[d]
             has_prefix = True
-            new_count = mask_to_count(count, choice, mask)
-            if d != -1:
-                new_count[d] = 2+count[d]%2
-            if all(new_count[k] == count[k] for k in xrange(1, len(count))):  # no digit other than 0 is chosen
+            if all(new_count[k] == count[k] for k in xrange(1, len(count))):  # no digit other than 0 is chosen, O(b) times
                 if new_count[0] != count[0]:  # invalid
                     continue
                 has_prefix = False
