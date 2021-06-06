@@ -48,7 +48,7 @@ def even_case(count):
         # mask loops at most O((N/(2b) + 1)^b) times
         has_prefix = True
         if count[0] and mask//count[0] == 0:  # no digit other than 0 is chosen
-            if mask%count[0]:
+            if mask%count[0]:  # invalid
                 continue
             has_prefix = False
         new_count = mask_to_count(count, choice, mask)
