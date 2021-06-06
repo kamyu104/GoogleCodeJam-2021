@@ -59,7 +59,7 @@ def even_case(count):  # Time: O(3^b * b * N)
         min_diff = min(candidates[i]-candidates[i-1] for i in xrange(1, len(candidates)))
         for i in xrange(1, len(candidates)):  # O(b) times
             a, b = candidates[i], candidates[i-1]
-            if new_count[b] == 0 or a-b != min_diff:  # for each a, b s.t. a-b > min_diff, which A-B won't be the result
+            if new_count[b] == 0 or a-b != min_diff:  # for each a, b s.t. a-b > min_diff, where any A-B won't be the result
                 continue
             tmp_count = new_count[:]
             tmp_count[a] -= 1
