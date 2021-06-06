@@ -1,4 +1,4 @@
-# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-19%20%2F%2022-ff69b4.svg)
+# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-20%20%2F%2022-ff69b4.svg)
 
 Python solutions of Google Code Jam 2021. Solution begins with `*` means it will get TLE in the largest data set (total computation amount > `10^8`, which is not friendly for Python to solve in 5 ~ 15 seconds). A problem was marked as `Very Hard` means that it was an unsolved one during the contest and may not be that difficult.
 
@@ -52,6 +52,6 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Build-A-Pair](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813aa8)| [PyPy](./Round%203/build_a_pair.py) [PyPy](./Round%203/build_a_pair2.py) [Python](./Round%203/build_a_pair3.py)  | _O(N)_ | _O(1)_ | Easy | | Enumeration, Greedy |
-|B| [Square Free](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1a)| | | | Medium | | |
+|B| [Square Free](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1a)| [Python](./Round%203/square_free.py) | _O(R * C)_ | _O(R + C)_ | Medium | | |
 |C| [Fence Design](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813bc7)| | | | Hard | | |
 |D| [Binary Search Game](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1b)| | | | Hard | | |
