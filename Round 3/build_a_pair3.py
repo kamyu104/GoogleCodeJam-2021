@@ -29,13 +29,6 @@ def odd_case(N, count):  # Time: O(N)
     B = greedy(0, N//2, count, reversed)
     return A-B
 
-def mask_to_count(count, choice, mask):  # Time: O(b)
-    new_count = [0]*BASE
-    for k, v in enumerate(choice):
-        mask, cnt = divmod(mask, v)
-        new_count[k] = count[k]%2 if cnt != 1 else count[k]
-    return new_count
-
 def even_case(count):  # Time: O(b^2 * N)
     result = float("inf")
     for d in xrange(-1, len(count)):  # keep no digit with any pair, or a digit with 1 pair, or digit 0 with all pairs, O(b) times
