@@ -34,10 +34,8 @@ def even_case(count):  # Time: O(b^2 * N)
     for d in xrange(-1, len(count)):  # keep no digit with any pair, or a digit with 1 pair, or digit 0 with all pairs, O(b) times
         if d != -1 and count[d] < 2:
             continue
-        new_count = [count[i]%2 if i != d else 2+count[d]%2 for i in xrange(len(count))]
-        for i in xrange(2 if d == 0 else 1):
-            if i:  # digit 0 may keep all pairs
-                new_count[d] = count[d]
+        new_counts = [[count[j]%2 if j != d else (2+count[d]%2 if i != 1 else count[d]) for j in xrange(len(count))] for i in xrange(2 if d == 0 else 1)]
+        for new_count in new_counts:  # at most O(2) times
             has_prefix = True
             if all(new_count[k] == count[k] for k in xrange(1, len(count))):  # no digit other than 0 is chosen, O(b) times
                 if new_count[0] != count[0]:  # invalid
