@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 3 - Problem A. Build-A-Pair
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813aa8
 #
-# Time:  O((N/(2b) + 1)^b * b^2 * N), b = 10, pass in PyPy2 but Python2
+# Time:  O(3^b * b * N), b = 10, pass in PyPy2 but Python2
 # Space: O(b)
 #
 
@@ -27,43 +27,43 @@ def odd_case(N, count):  # Time: O(N)
     B = greedy(0, N//2, count, reversed)
     return A-B
 
-def mask_to_count(count, choice, mask):
+def mask_to_count(count, choice, mask):  # Time: O(b)
     new_count = [0]*BASE
     for k, v in enumerate(choice):
-        if not v:
-            continue
         mask, cnt = divmod(mask, v)
-        new_count[k] = count[k]-cnt*2
+        new_count[k] = cnt*2+count[k]%2 if cnt != CHOICE else count[k]  # if cnt = 0, keep no pair, if cnt = 1, keep 1 pair, if cnt = CHOICE, keep all pairs
     return new_count
 
-def even_case(count):  # Time: O((N/(2b) + 1)^b * b^2 * N)
+def even_case(count):  # Time: O(3^b * b * N)
     choice = [0]*BASE
     for k, v in enumerate(count):
-        choice[k] = v//2+1
+        choice[k] = min(v//2, CHOICE)+1
     total = reduce(mul, (v for v in choice if v))
     result = float("inf")
-    for mask in reversed(xrange(total)):  # enumerate all possible prefixes
-        # N/2 + b >= (c0+1) + (c1+1) + ... + (c(b-1)+1) >= b * ((c0+1)*(c1+1)*...*(c(b-1)+1))^(1/b)
-        # (c0+1)*(c1+1)*...*(c(b-1)+1) <= (N/(2b) + 1)^b
-        # mask loops at most O((N/(2b) + 1)^b) times
+    for mask in xrange(total):  # enumerate all possible prefixes, loops O(3^b) times
         has_prefix = True
-        if count[0] and mask//count[0] == 0:  # no digit other than 0 is chosen
-            if mask%count[0]:  # invalid
+        new_count = mask_to_count(count, choice, mask)
+        if all(new_count[k] == count[k] for k in xrange(1, len(count))):  # no digit other than 0 is chosen
+            if new_count[0] != count[0]:  # invalid
                 continue
             has_prefix = False
-        new_count = mask_to_count(count, choice, mask)
         candidates = [k for k, v in enumerate(new_count) if v and (k or has_prefix)]
         if not candidates:
             return 0
+        if len(candidates) == 1:
+            continue
         remain = sum(new_count)
-        for i in xrange(1, len(candidates)):  # O(b^2) times
-            for j in xrange(i):
-                tmp_count = list(new_count)
-                tmp_count[candidates[i]] -= 1
-                tmp_count[candidates[j]] -= 1
-                A = greedy(candidates[i], remain//2-1, tmp_count, lambda x: x)  # Time: O(N)
-                B = greedy(candidates[j], remain//2-1, tmp_count, reversed)  # Time: O(N)
-                result = min(result, A-B)
+        min_diff = min(candidates[i]-candidates[i-1] for i in xrange(1, len(candidates)))
+        for i in xrange(1, len(candidates)):  # O(b) times
+            a, b = candidates[i], candidates[i-1]
+            if new_count[b] == 0 or a-b != min_diff:
+                continue
+            tmp_count = list(new_count)
+            tmp_count[a] -= 1
+            tmp_count[b] -= 1
+            A = greedy(a, remain//2-1, tmp_count, lambda x: x)  # Time: O(N)
+            B = greedy(b, remain//2-1, tmp_count, reversed)  # Time: O(N)
+            result = min(result, A-B)
     return result
 
 def build_a_pair():
@@ -77,6 +77,7 @@ def build_a_pair():
         return odd_case(total, count)
     return even_case(count)
 
+CHOICE = 2
 BASE = 10
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, build_a_pair())
