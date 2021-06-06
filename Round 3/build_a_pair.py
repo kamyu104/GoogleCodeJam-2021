@@ -28,7 +28,7 @@ def odd_case(count):  # Time: O(N)
     B = greedy(0, remain//2, count, reversed)
     return A-B
 
-def mask_to_count(count, choice, mask):
+def mask_to_count(count, choice, mask):  # Time: O(b)
     new_count = [0]*BASE
     for k, v in enumerate(choice):
         if not v:
