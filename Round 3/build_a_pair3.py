@@ -9,8 +9,6 @@
 # optimized from build_a_pair2.py
 #
 
-from operator import mul
-
 def greedy(n, l, count, dir):  # Time: O(N)
     for i in dir(xrange(len(count))):
         if count[i] == 0:
