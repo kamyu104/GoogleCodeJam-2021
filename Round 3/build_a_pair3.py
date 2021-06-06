@@ -20,11 +20,12 @@ def greedy(n, l, count, dir):  # Time: O(N)
             n = 10*n + i
     return n
 
-def odd_case(N, count):  # Time: O(N)
+def odd_case(count):  # Time: O(N)
     d = next(d for d in xrange(1, len(count)) if count[d])
     count[d] -= 1
-    A = greedy(d, N//2, count, lambda x: x)
-    B = greedy(0, N//2, count, reversed)
+    remain = sum(count)
+    A = greedy(d, remain//2, count, lambda x: x)
+    B = greedy(0, remain//2, count, reversed)
     return A-B
 
 def even_case(count):  # Time: O(b^2 * N)
@@ -66,7 +67,7 @@ def build_a_pair():
         count[int(c)] += 1
     total = sum(count)
     if total%2 == 1:
-        return odd_case(total, count)
+        return odd_case(count)
     return even_case(count)
 
 BASE = 10
