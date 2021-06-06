@@ -56,6 +56,8 @@ def even_case(count):  # Time: O((N/(2b) + 1)^b * b^2 * N)
         candidates = [k for k, v in enumerate(new_count) if v and (k or has_prefix)]
         if not candidates:
             return 0
+        if len(candidates) == 1:
+            continue
         remain = sum(new_count)
         for i in xrange(1, len(candidates)):  # O(b^2) times
             for j in xrange(i):
