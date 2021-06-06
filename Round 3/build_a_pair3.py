@@ -45,9 +45,9 @@ def even_case(count):  # Time: O((b * 2^b) * b * N)
         for k, v in enumerate(count):
             if k == d:
                 continue
-            choice[k] = min(v//2+1, 2)  # keep 0 or all pairs
+            choice[k] = min(v//2+1, 2)
         total = reduce(mul, (v for v in choice if v))
-        for mask in xrange(total):  # enumerate all possible prefixes, loops O(3^b) times
+        for mask in xrange(total):  # enumerate all possible prefixes, loops O(2^b) times
             has_prefix = True
             new_count = mask_to_count(count, choice, mask)
             if d != -1:
