@@ -47,11 +47,11 @@ def even_case(count):  # Time: O((N/(2b) + 1)^b * b^2 * N)
         # (c0+1)*(c1+1)*...*(c(b-1)+1) <= (N/(2b) + 1)^b
         # mask loops at most O((N/(2b) + 1)^b) times
         has_prefix = True
-        if count[0] and mask//count[0] == 0:  # no digit other than 0 is chosen
-            if mask%count[0]:  # invalid
+        new_count = mask_to_count(count, choice, mask)
+        if all(new_count[k] == count[k] for k in xrange(1, len(count))):  # no digit other than 0 is chosen
+            if new_count[0] != count[0]:  # invalid
                 continue
             has_prefix = False
-        new_count = mask_to_count(count, choice, mask)
         candidates = [k for k, v in enumerate(new_count) if v and (k or has_prefix)]
         if not candidates:
             return 0
