@@ -42,7 +42,7 @@ def even_case(count):
         choice[k] = v//2+1
     total = reduce(mul, (v for v in choice if v))
     result = float("inf")
-    for mask in xrange(total):  # enumerate all possible prefixes
+    for mask in reversed(xrange(total)):  # enumerate all possible prefixes
         # N/2 + b >= (c0+1) + (c1+1) + ... + (c(b-1)+1) >= b * ((c0+1)*(c1+1)*...*(c(b-1)+1))^(1/b)
         # (c0+1)*(c1+1)*...*(c(b-1)+1) <= (N/(2b) + 1)^b
         # mask loops at most O((N/(2b) + 1)^b) times
