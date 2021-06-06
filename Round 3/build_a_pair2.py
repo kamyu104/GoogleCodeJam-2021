@@ -79,7 +79,7 @@ def build_a_pair():
         return odd_case(total, count)
     return even_case(count)
 
-CHOICE = 3  # since keeping 1 pair may happen in some cases, for each digit, we have 3 choices to keep: 0 pair, 1 pair, all pairs
+CHOICE = 3  # other than the shared prefix, since keeping 1 pair may happen in some cases, for each digit, we have 3 choices to keep: 0 pair, 1 pair, all pairs
 BASE = 10
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, build_a_pair())
