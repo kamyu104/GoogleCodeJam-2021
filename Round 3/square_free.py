@@ -7,7 +7,7 @@
 # Space: O(R + C)
 #
 
-def inplace_counting_sort(nums, reverse=False):  # Time: O(max(nums))
+def inplace_counting_sort(nums, reverse=False):  # Time: O(len(nums)), Space: O(max(nums))
     count = [0]*(max(nums)+1)
     for num in nums:
         count[num] += 1
