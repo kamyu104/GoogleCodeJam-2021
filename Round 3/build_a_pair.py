@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 3 - Problem A. Build-A-Pair
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813aa8
 #
-# Time:  O((N/(2b) + 1)^b * b^2 * N), b = 10, pass in PyPy2 but Python2
+# Time:  O((N/(2b) + 1)^b * b * N), b = 10, pass in PyPy2 but Python2
 # Space: O(b)
 #
 
@@ -55,15 +55,20 @@ def even_case(count):  # Time: O((N/(2b) + 1)^b * b^2 * N)
         candidates = [k for k, v in enumerate(new_count) if v and (k or has_prefix)]
         if not candidates:
             return 0
+        if len(candidates) == 1:
+            continue
         remain = sum(new_count)
-        for i in xrange(1, len(candidates)):  # O(b^2) times
-            for j in xrange(i):
-                tmp_count = list(new_count)
-                tmp_count[candidates[i]] -= 1
-                tmp_count[candidates[j]] -= 1
-                A = greedy(candidates[i], remain//2-1, tmp_count, lambda x: x)  # Time: O(N)
-                B = greedy(candidates[j], remain//2-1, tmp_count, reversed)  # Time: O(N)
-                result = min(result, A-B)
+        diff = min(candidates[i]-candidates[i-1] for i in xrange(1, len(candidates)))
+        for i in xrange(1, len(candidates)):  # O(b) times
+            a, b = candidates[i], candidates[i-1]
+            if new_count[b] == 0 or a-b != diff:
+                continue
+            tmp_count = list(new_count)
+            tmp_count[a] -= 1
+            tmp_count[b] -= 1
+            A = greedy(a, remain//2-1, tmp_count, lambda x: x)  # Time: O(N)
+            B = greedy(b, remain//2-1, tmp_count, reversed)  # Time: O(N)
+            result = min(result, A-B)
     return result
 
 def build_a_pair():
