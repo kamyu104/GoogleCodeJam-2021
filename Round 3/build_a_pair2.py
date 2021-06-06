@@ -31,13 +31,13 @@ def mask_to_count(count, choice, mask):  # Time: O(b)
     new_count = [0]*BASE
     for k, v in enumerate(choice):
         mask, cnt = divmod(mask, v)
-        new_count[k] = cnt*2+count[k]%2 if cnt != CHOICE else count[k]  # if cnt = 0, keep no pair, if cnt = 1, keep 1 pair, if cnt = CHOICE, keep all pairs
+        new_count[k] = cnt*2+count[k]%2 if cnt != CHOICE-1 else count[k]  # if cnt = 0, keep no pair, if cnt = 1, keep 1 pair, if cnt = CHOICE-1, keep all pairs
     return new_count
 
 def even_case(count):  # Time: O(3^b * b * N)
     choice = [0]*BASE
     for k, v in enumerate(count):
-        choice[k] = min(v//2, CHOICE)+1
+        choice[k] = min(v//2+1, CHOICE)
     total = reduce(mul, (v for v in choice if v))
     result = float("inf")
     for mask in xrange(total):  # enumerate all possible prefixes, loops O(3^b) times
@@ -77,7 +77,7 @@ def build_a_pair():
         return odd_case(total, count)
     return even_case(count)
 
-CHOICE = 2
+CHOICE = 3
 BASE = 10
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, build_a_pair())
