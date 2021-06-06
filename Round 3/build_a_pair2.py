@@ -75,10 +75,7 @@ def build_a_pair():
     count = [0]*BASE
     for c in D:
         count[int(c)] += 1
-    total = sum(count)
-    if total%2 == 1:
-        return odd_case(count)
-    return even_case(count)
+    return odd_case(count) if sum(count)%2 == 1 else even_case(count)
 
 CHOICE = 3  # other than the shared prefix, since keeping 1 pair may happen in some cases, for each digit, we have 3 choices to keep: 0 pair, 1 pair, all pairs
 BASE = 10
