@@ -21,7 +21,7 @@ def greedy(n, l, count, dir):  # Time: O(N)
     return n
 
 def odd_case(N, count):
-    d = next(d for d in xrange(1, 10) if count[d])
+    d = next(d for d in xrange(1, len(count)) if count[d])
     count[d] -= 1
     A = greedy(d, N//2, count, lambda x: x)
     B = greedy(0, N//2, count, reversed)
