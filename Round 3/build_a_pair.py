@@ -58,7 +58,7 @@ def even_case(count):  # Time: O((N/(2b) + 1)^b * b^2 * N)
         remain = sum(new_count)
         for i in xrange(1, len(candidates)):  # O(b^2) times
             for j in xrange(i):
-                tmp_count = list(new_count)
+                tmp_count = new_count[:]
                 tmp_count[candidates[i]] -= 1
                 tmp_count[candidates[j]] -= 1
                 A = greedy(candidates[i], remain//2-1, tmp_count, lambda x: x)  # Time: O(N)
