@@ -31,8 +31,6 @@ def odd_case(count):  # Time: O(N)
 def mask_to_count(count, choice, mask):  # Time: O(b)
     new_count = [0]*BASE
     for k, v in enumerate(choice):
-        if not v:
-            continue
         mask, cnt = divmod(mask, v)
         new_count[k] = cnt*2+count[k]%2
     return new_count
