@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 3 - Problem A. Build-A-Pair
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813aa8
 #
-# Time:  O(2^b * b^2 * N), b = 10, pass in PyPy2 but Python2
+# Time:  O(b^2 * N), b = 10
 # Space: O(b)
 #
 # optimized from build_a_pair2.py
@@ -36,18 +36,18 @@ def mask_to_count(count, choice, mask):  # Time: O(b)
         new_count[k] = count[k]%2 if cnt != 1 else count[k]
     return new_count
 
-def even_case(count):  # Time: O((b * 2^b) * b * N)
+def even_case(count):  # Time: O(b^2 * N)
     result = float("inf")
-    for d in xrange(-1, len(count)):  # keep 0 or 1 pair
+    for d in xrange(-1, len(count)):  # keep one digit 1 pair, or no digit with pair, O(b) times
         if d != -1 and count[d] < 2:
             continue
         choice = [1]*BASE
         for k, v in enumerate(count):
             if k == d:
                 continue
-            choice[k] = min(v//2+1, 2)
+            choice[k] = min(v//2+1, 2 if k == 0 else 1)  # digit 0 may keep all pairs, others keep no pairs
         total = reduce(mul, (v for v in choice if v))
-        for mask in xrange(total):  # enumerate all possible prefixes, loops O(2^b) times
+        for mask in xrange(total):  # enumerate all possible prefixes, loops O(1) times
             has_prefix = True
             new_count = mask_to_count(count, choice, mask)
             if d != -1:
