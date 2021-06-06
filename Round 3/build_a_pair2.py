@@ -31,7 +31,7 @@ def mask_to_count(count, choice, mask):  # Time: O(b)
     new_count = [0]*BASE
     for k, v in enumerate(choice):
         mask, cnt = divmod(mask, v)
-        new_count[k] = cnt*2+count[k]%2 if cnt != CHOICE-1 else count[k]  # if cnt = 0, keep no pair, if cnt = 1, keep 1 pair, if cnt = CHOICE-1, keep all pairs
+        new_count[k] = cnt*2+count[k]%2 if cnt != CHOICE-1 else count[k]
     return new_count
 
 def even_case(count):  # Time: O(3^b * b * N)
@@ -56,7 +56,7 @@ def even_case(count):  # Time: O(3^b * b * N)
         min_diff = min(candidates[i]-candidates[i-1] for i in xrange(1, len(candidates)))
         for i in xrange(1, len(candidates)):  # O(b) times
             a, b = candidates[i], candidates[i-1]
-            if new_count[b] == 0 or a-b != min_diff:
+            if new_count[b] == 0 or a-b != min_diff:  # for each a, b s.t. a-b > min_diff, which A-B won't be the result
                 continue
             tmp_count = list(new_count)
             tmp_count[a] -= 1
@@ -77,7 +77,7 @@ def build_a_pair():
         return odd_case(total, count)
     return even_case(count)
 
-CHOICE = 3
+CHOICE = 3  # since keeping 1 pair may happen in some cases, for each digit, we have 3 choices to keep: 0 pair, 1 pair, all pairs
 BASE = 10
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, build_a_pair())
