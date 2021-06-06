@@ -46,12 +46,12 @@ def even_case(count):
         # N/2 + b >= (c0+1) + (c1+1) + ... + (c(b-1)+1) >= b * ((c0+1)*(c1+1)*...*(c(b-1)+1))^(1/b)
         # (c0+1)*(c1+1)*...*(c(b-1)+1) <= (N/(2b) + 1)^b
         # mask loops at most O((N/(2b) + 1)^b) times
-        new_count = mask_to_count(count, choice, mask)
         has_no_prefix = False
         if count[0] and mask//count[0] == 0:  # no digit other than 0 is chosen
             if mask%count[0]:
                 continue
             has_no_prefix = True
+        new_count = mask_to_count(count, choice, mask)
         candidates = [k for k, v in enumerate(new_count) if v and (k or not has_no_prefix)]
         if not candidates:
             return 0
