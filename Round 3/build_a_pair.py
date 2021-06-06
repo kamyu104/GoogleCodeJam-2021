@@ -35,7 +35,7 @@ def mask_to_count(count, choice, mask):
         mask, cnt = divmod(mask, v)
         new_count[k] = count[k]-cnt*2
     return new_count
-    
+
 def even_case(count):
     choice = [0]*BASE
     for k, v in enumerate(count):
