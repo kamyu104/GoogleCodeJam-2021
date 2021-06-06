@@ -6,6 +6,8 @@
 # Time:  O(3^b * b * N), b = 10, pass in PyPy2 but Python2
 # Space: O(b)
 #
+# optimized from build_a_pair.py
+#
 
 from operator import mul
 
