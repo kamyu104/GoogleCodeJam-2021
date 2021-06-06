@@ -31,7 +31,7 @@ def odd_case(N, count):  # Time: O(N)
 
 def even_case(count):  # Time: O(b^2 * N)
     result = float("inf")
-    for d in xrange(-1, len(count)):  # keep no digit with any pair, or a digit with 1 pair, or digit 0 with all pairs, O(b) times
+    for d in xrange(-1, len(count)):  # other than prefix, there is no digit with any pair, or a digit with 1 pair, or digit 0 with all pairs, O(b) times
         if d != -1 and count[d] < 2:
             continue
         new_counts = [[count[j]%2 if j != d else (2+count[d]%2 if i != 1 else count[d]) for j in xrange(len(count))] for i in xrange(2 if d == 0 else 1)]
