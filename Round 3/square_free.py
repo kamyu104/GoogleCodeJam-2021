@@ -45,7 +45,7 @@ def square_free():
 
     if sum(S) != sum(D) or not possible(R, C, S[:], D[:]):
         return "IMPOSSIBLE"
-    result = [['/' for _ in xrange(C)] for _ in xrange(R)]
+    result = [['/']*C for _ in xrange(R)]
     for i in xrange(R):
         for j in xrange(C):
             if not (S[i] >= 1 and D[j] >= 1 and possible(R, C, [S[k]-int(k == i) for k in xrange(len(S))], [D[k]-int(k == j) for k in xrange(len(D))])):
