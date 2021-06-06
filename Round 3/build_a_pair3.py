@@ -31,7 +31,7 @@ def mask_to_count(count, choice, mask):  # Time: O(b)
     new_count = [0]*BASE
     for k, v in enumerate(choice):
         mask, cnt = divmod(mask, v)
-        new_count[k] = count[k]%2 if not cnt else count[k]
+        new_count[k] = count[k]%2 if cnt != 1 else count[k]
     return new_count
 
 def even_case(count):  # Time: O((b * 2^b) * b * N)
