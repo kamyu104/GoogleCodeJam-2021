@@ -37,13 +37,15 @@ def possible(S, D):  # Time: O(R * C), Space: O(R + C)
         D_suffix.append(D_suffix[-1] + D[i])
     D_suffix.reverse()
     # consider a graph running max flow algorithm where edge from source to each Sx is with weight S[x], edge from each Sx to each Dy is with weight 1, edge from each Dy to sink is with weight D[y],
-    # we firstly check if sum(S) = sum(D), then we want all nodes with full capacity,
-    # so  it is possible if only if sum(S[x] for x in X)-sum(D[y] for y in Y) <= |X|*(C-|Y|) for all 0 <= |X| <= R and 0 <= |Y| <= C
-    # <=> it is possible if only if sum(S[x] for x in X')-sum(D[y] for y in Y') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
-    #     and X' is the biggist |X| of S and Y' is the smallest C-|Y| of D
-    # <=> it is possible if only if -(sum(S)-sum(S[x] for x in X'))+(sum(D)-sum(D[y]) for y in Y') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
+    # if sum(S) != sum(D), it is impossible,
+    # otherwise, we want all nodes with full capacity,
+    # it is possible
+    # <=> sum(S[x] for x in X)-sum(D[y] for y in Y) <= |X|*(C-|Y|) for all 0 <= |X| <= R and 0 <= |Y| <= C
+    # <=> sum(S[x] for x in X')-sum(D[y] for y in Y') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
     #     and X'  is the biggist |X| of S and Y'  is the smallest C-|Y| of D
-    # <=> it is possible if only if sum(D[y] for y in Y'')-sum(S[x] for x in X'') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
+    # <=> -(sum(S)-sum(S[x] for x in X'))+(sum(D)-sum(D[y]) for y in Y') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
+    #     and X'  is the biggist |X| of S and Y'  is the smallest C-|Y| of D
+    # <=> sum(D[y] for y in Y'')-sum(S[x] for x in X'') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
     #     and Y'' is the biggest |Y| of D and X'' is the smallest R-|X| of S
     return S_prefix[-1] == D_suffix[0] and \
            all(S_prefix[i]-D_suffix[j] <= i*j for i in xrange(len(S_prefix)) for j in xrange(len(D_suffix)))  # Time: O(R * C)
