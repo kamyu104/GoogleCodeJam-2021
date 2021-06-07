@@ -52,17 +52,17 @@ def possible(S, D):  # Time: O(R * C), Space: O(R + C)
 
 def square_free():
     R, C = map(int, raw_input().strip().split())
-    S = map(lambda x: C-int(x), raw_input().strip().split())
-    D = map(lambda x: R-int(x), raw_input().strip().split())
+    S = map(int, raw_input().strip().split())
+    D = map(int, raw_input().strip().split())
 
     if not possible(S[:], D[:]):
         return "IMPOSSIBLE"
-    result = [['/']*C for _ in xrange(R)]
-    for i in xrange(R):
-        for j in xrange(C):
+    result = [['\\']*C for _ in xrange(R)]
+    for i in reversed(xrange(R)):
+        for j in (xrange(C)):
             if not (S[i] >= 1 and D[j] >= 1 and possible([S[k]-int(k == i) for k in xrange(len(S))], [D[k]-int(k == j) for k in xrange(len(D))])):
                 continue
-            result[i][j] = '\\'
+            result[i][j] = '/'
             S[i], D[j] = S[i]-1, D[j]-1
     return "POSSIBLE\n"+"\n".join("".join(row) for row in result)
 
