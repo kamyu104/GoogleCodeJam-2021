@@ -59,7 +59,7 @@ def square_free():
         return "IMPOSSIBLE"
     result = [['\\']*C for _ in xrange(R)]
     for i in reversed(xrange(R)):
-        for j in (xrange(C)):
+        for j in xrange(C):
             if not (S[i] >= 1 and D[j] >= 1 and possible([S[k]-int(k == i) for k in xrange(len(S))], [D[k]-int(k == j) for k in xrange(len(D))])):
                 continue
             result[i][j] = '/'
