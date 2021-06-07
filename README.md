@@ -52,6 +52,6 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Build-A-Pair](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813aa8)| [PyPy](./Round%203/build_a_pair.py) [PyPy](./Round%203/build_a_pair2.py) [Python](./Round%203/build_a_pair3.py)  | _O(N)_ | _O(1)_ | Easy | | Enumeration, Greedy |
-|B| [Square Free](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1a)| [Python](./Round%203/square_free.py) | _O(R * C)_ | _O(R + C)_ | Medium | | Max Flow, Greedy |
+|B| [Square Free](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1a)| [Python](./Round%203/square_free.py) | _O(R^2 * C^2)_ | _O(R + C)_ | Medium | | Max Flow, Greedy |
 |C| [Fence Design](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813bc7)| | | | Hard | | |
 |D| [Binary Search Game](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1b)| | | | Hard | | |
