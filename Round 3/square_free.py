@@ -36,7 +36,7 @@ def possible(R, C, S, D):  # Time: O(R * C), Space: O(R + C)
     for i in reversed(xrange(len(D))):  # Time: O(C), Space: O(C)
         D_suffix.append(D_suffix[-1] + D[i])
     D_suffix.reverse()
-    return all(S_prefix[(i-1)+1]-D_suffix[j] <= i*j for i in xrange(len(S_prefix)) for j in xrange(len(D_suffix)))  # Time: O(R * C)
+    return all(S_prefix[i]-D_suffix[j] <= i*j for i in xrange(len(S_prefix)) for j in xrange(len(D_suffix)))  # Time: O(R * C)
 
 def square_free():
     R, C = map(int, raw_input().strip().split())
