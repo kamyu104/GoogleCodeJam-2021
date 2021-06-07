@@ -36,6 +36,9 @@ def possible(S, D):  # Time: O(R * C), Space: O(R + C)
     for i in reversed(xrange(len(D))):  # Time: O(C), Space: O(C)
         D_suffix.append(D_suffix[-1] + D[i])
     D_suffix.reverse()
+    # it is possible if only if sum(S[x] for x in X)-sum(D[y] for y in Y) <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
+    # <=> it is possible if only if sum(S[x] for x in X)-sum(D[y] for y in Y) <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
+    #     and X is the biggist |X| of S and Y is the smallest |Y| of D
     return all(S_prefix[i]-D_suffix[j] <= i*j for i in xrange(len(S_prefix)) for j in xrange(len(D_suffix)))  # Time: O(R * C)
 
 def square_free():
