@@ -39,8 +39,8 @@ def possible(S, D):  # Time: O(R * C), Space: O(R + C)
     # consider a graph of max flow where edges from source to each Sx with weight S[x], edges from each Sx to each Dy with weight 1, edges from each Dy to sink with weight D[y],
     # we have pre-checked sum(S) = sum(D), and we want all nodes with full capacity,
     # so it is possible if only if sum(S[x] for x in X)-sum(D[y] for y in Y) <= |X|*(C-|Y|) for all 0 <= |X| <= R and 0 <= |Y| <= C
-    # <=> it is possible if only if sum(S[x] for x in X)-sum(D[y] for y in Y') <= |X|*|Y'| for all 0 <= |X| <= R and 0 <= |Y| <= C
-    #     and X is the biggist |X| of S and Y' is the smallest C-|Y| of D
+    # <=> it is possible if only if sum(S[x] for x in X')-sum(D[y] for y in Y') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
+    #     and X' is the biggist |X| of S and Y' is the smallest C-|Y| of D
     return all(S_prefix[i]-D_suffix[j] <= i*j for i in xrange(len(S_prefix)) for j in xrange(len(D_suffix)))  # Time: O(R * C)
 
 def square_free():
