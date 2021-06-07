@@ -36,7 +36,7 @@ def possible(S, D):  # Time: O(R * C), Space: O(R + C)
     for i in reversed(xrange(len(D))):  # Time: O(C), Space: O(C)
         D_suffix.append(D_suffix[-1] + D[i])
     D_suffix.reverse()
-    # consider a graph running max flow where edges from source to each Sx with weight S[x], edges from each Sx to each Dy with weight 1, edges from each Dy to sink with weight D[y],
+    # consider a graph running max flow algorithm where edge from source to each Sx is with weight S[x], edge from each Sx to each Dy is with weight 1, edge from each Dy to sink is with weight D[y],
     # we have pre-checked sum(S) = sum(D), and we want all nodes with full capacity,
     # so it is possible if only if sum(S[x] for x in X)-sum(D[y] for y in Y) <= |X|*(C-|Y|) for all 0 <= |X| <= R and 0 <= |Y| <= C
     # <=> it is possible if only if sum(S[x] for x in X')-sum(D[y] for y in Y') <= |X|*|Y| for all 0 <= |X| <= R and 0 <= |Y| <= C
