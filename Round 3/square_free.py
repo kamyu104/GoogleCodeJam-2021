@@ -26,7 +26,7 @@ def inplace_counting_sort(nums, reverse=False):  # Time: O(len(nums)+max(nums)),
     if reverse:  # unstable sort
         nums.reverse()
 
-def possible(R, C, S, D):  # Time: O(R * C), Space: O(R + C)
+def possible(S, D):  # Time: O(R * C), Space: O(R + C)
     inplace_counting_sort(S, reverse=True)  # Time: O(R + C), Space: O(C)
     inplace_counting_sort(D, reverse=True)  # Time: O(R + C), Space: O(R)
     S_prefix = [0]
@@ -43,12 +43,12 @@ def square_free():
     S = map(lambda x: C-int(x), raw_input().strip().split())
     D = map(lambda x: R-int(x), raw_input().strip().split())
 
-    if sum(S) != sum(D) or not possible(R, C, S[:], D[:]):
+    if sum(S) != sum(D) or not possible(S[:], D[:]):
         return "IMPOSSIBLE"
     result = [['/']*C for _ in xrange(R)]
     for i in xrange(R):
         for j in xrange(C):
-            if not (S[i] >= 1 and D[j] >= 1 and possible(R, C, [S[k]-int(k == i) for k in xrange(len(S))], [D[k]-int(k == j) for k in xrange(len(D))])):
+            if not (S[i] >= 1 and D[j] >= 1 and possible([S[k]-int(k == i) for k in xrange(len(S))], [D[k]-int(k == j) for k in xrange(len(D))])):
                 continue
             result[i][j] = '\\'
             S[i], D[j] = S[i]-1, D[j]-1
