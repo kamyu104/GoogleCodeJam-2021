@@ -62,7 +62,7 @@ def square_free():
         for j in xrange(C):
             if not (S[i] >= 1 and D[j] >= 1 and possible([S[k]-int(k == i) for k in xrange(len(S))], [D[k]-int(k == j) for k in xrange(len(D))])):
                 continue
-            result[i][j] = '\\'
+            result[i][j] = '\\'  # lexicographically smallest, assumed '\\' < '/'
             S[i], D[j] = S[i]-1, D[j]-1
     return "POSSIBLE\n"+"\n".join("".join(row) for row in result)
 
