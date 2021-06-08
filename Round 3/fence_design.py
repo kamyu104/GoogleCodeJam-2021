@@ -31,13 +31,13 @@ def add_triangle(P, left_ccw, right_cw, result, lookup):
     p, q = 0, 1
     while True:
         p1 = (p+1)%len(left_ccw)
-        if ccw(P[left_ccw[p1]], P[left_ccw[p]], P[right_cw[q]]) > 0:
+        if ccw(P[left_ccw[p1]], P[left_ccw[p]], P[right_cw[q]]) == CCW:
             add_result(result, [left_ccw[p1], right_cw[q]])
             lookup.add(left_ccw[p])  # inside the convex hull
             p = p1
             continue
         q1 = (q+1)%len(right_cw)
-        if ccw(P[left_ccw[p]], P[right_cw[q]], P[right_cw[q1]]) > 0:
+        if ccw(P[left_ccw[p]], P[right_cw[q]], P[right_cw[q1]]) == CCW:
             add_result(result, [right_cw[q1], left_ccw[p]])
             lookup.add(right_cw[q])  # inside the convex hull
             q = q1
@@ -67,7 +67,7 @@ def divide(P, f, curr, split, result):  # depth at most O(logN) on average => Ti
         p = next(p for p in curr if p not in split)
         for x in split:
             add_result(result, [p, x])
-        return [p, split[0], split[1]] if ccw(P[p], P[split[0]], P[split[1]]) > 0 else [p, split[1], split[0]]
+        return [p, split[0], split[1]] if ccw(P[p], P[split[0]], P[split[1]]) == CCW else [p, split[1], split[0]]
     if f:  # prefer to use pre-placed fence
         new_split = f.pop()
     else:
@@ -82,8 +82,8 @@ def divide(P, f, curr, split, result):  # depth at most O(logN) on average => Ti
                 break
         new_split = (p, q)
     add_result(result, new_split)
-    left = [x for x in curr if ccw(P[new_split[0]], P[new_split[1]], P[x]) >= 0]
-    right = [x for x in curr if ccw(P[new_split[0]], P[new_split[1]], P[x]) <= 0]
+    left = [x for x in curr if ccw(P[new_split[0]], P[new_split[1]], P[x]) != CCW]
+    right = [x for x in curr if ccw(P[new_split[0]], P[new_split[1]], P[x]) != CW]
     return conquer(P,
                    divide(P, f if f and f[-1][0] in left and f[-1][1] in left else [], left, new_split, result),
                    divide(P, f if f and f[-1][0] in right and f[-1][1] in right else [], right, new_split, result),
@@ -100,7 +100,7 @@ def fence_design():
         # f[1] may be intersected by the other f, it should be splitted first, and it doesn't intersect f[0] while splitting
         f[0], f[1] = f[1], f[0]
     result = set()
-    hull = divide(P, f[:], range(len(P)), [], result)
+    hull = divide(P, f, range(len(P)), [], result)
     assert(len(result) == 3*N-3-len(hull))
     return "%s\n"%(len(result)-2)+"\n".join("%s %s"%(x[0]+1, x[1]+1) for x in [x for x in result if x not in f])
 
