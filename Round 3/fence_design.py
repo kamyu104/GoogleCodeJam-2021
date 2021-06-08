@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Round 3 - Problem C. Fence Design
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813bc7
 #
-# Time:  O(NlogN) on average
+# Time:  O(NlogN) on average, pass in PyPy2 but Python2
 # Space: O(N)
 #
 
