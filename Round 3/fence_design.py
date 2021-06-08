@@ -54,11 +54,8 @@ def conquer(P, left, right, split, result):  # Time: O(N)
     add_triangle(P, left_ccw, right_cw, result, lookup)
     right_ccw, left_cw = rotate(right, split), rotate(left[::-1], split)
     add_triangle(P, right_ccw, left_cw, result, lookup)
-    hull = [x for x in left_ccw if x not in lookup] + \
+    return [x for x in left_ccw if x not in lookup] + \
            [x for x in right_ccw[1:-1] if x not in lookup]
-    points = set(x for x in left_ccw).union(set(x for x in right_ccw))
-    points = [P[x] for x in points]
-    return hull
 
 def divide(P, f, curr, split, result):  # depth at most O(logN) on average => Time: O(NlogN)
     if len(curr) == 2:
