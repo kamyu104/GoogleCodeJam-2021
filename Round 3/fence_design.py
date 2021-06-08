@@ -7,7 +7,6 @@
 # Space: O(N)
 #
 
-from itertools import chain
 from random import seed, randint
 
 # Compute the cross product of vectors AB and AC
