@@ -60,7 +60,7 @@ def conquer(P, left, right, split, result):  # Time: O(N)
 def divide(P, f, curr, split, result):  # depth at most O(logN) on average => Time: O(NlogN)
     if len(curr) == 2:
         return curr
-    if len(curr) == 3:  # special case since random pick may fail to split
+    if len(curr) == 3:  # terminal case
         p = next(p for p in curr if p not in split)
         for x in split:
             add_result(result, [p, x])
