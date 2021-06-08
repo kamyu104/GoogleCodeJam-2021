@@ -92,9 +92,8 @@ def fence_design():
     f = [map(lambda x:int(x)-1, raw_input().strip().split()) for _ in xrange(2)]
     f = [tuple(sorted(x)) for x in f]
 
-    if same_side(P[f[1][0]], P[f[1][1]], P[f[0][0]], P[f[0][1]]):
-        # f[0] won't be intersected by the other, it should be splitted later,
-        # f[1] may be intersected by the other f, it should be splitted first, and it doesn't intersect f[0] while splitting
+    if not same_side(P[f[0][0]], P[f[0][1]], P[f[1][0]], P[f[1][1]]):
+        # make sure f[0] will be on the same side of f[1]
         f[0], f[1] = f[1], f[0]
     result = set()
     hull = divide(P, f[:], range(len(P)), [], result)
