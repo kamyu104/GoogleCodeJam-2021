@@ -100,7 +100,8 @@ def fence_design():
         # f[1] may be intersected by the other f, it should be splitted first, and it doesn't intersect f[0] while splitting
         f[0], f[1] = f[1], f[0]
     result = set()
-    divide(P, f[:], range(len(P)), [], result)
+    hull = divide(P, f[:], range(len(P)), [], result)
+    assert(len(result) == 3*N-3-len(hull))
     return "%s\n"%(len(result)-2)+"\n".join("%s %s"%(x[0]+1, x[1]+1) for x in [x for x in result if x not in f])
 
 seed(0)
