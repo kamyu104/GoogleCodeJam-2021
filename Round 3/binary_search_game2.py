@@ -69,10 +69,9 @@ def count(N, M, L, A, U, C, k):
                              mulmod(dp[2*i][0], dp[2*i+1][1])),
                mulmod(dp[2*i][0], dp[2*i+1][0])]
               for i in xrange(len(dp)//2)]
-    # since pow(x, N, MOD) is O(logN), and N <= 32, we treat it as O(1)
     return mulmod(mulmod(dp[0][0],
                          pow(g, len(C), MOD)),
-                         pow(l, N-len(U)-len(C), MOD))
+                         pow(l, N-len(U)-len(C), MOD))  # since pow(x, N, MOD) is O(logN), and N <= 32, we treat it as O(1)
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
