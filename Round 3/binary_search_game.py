@@ -60,7 +60,7 @@ def mask_to_set(R, mask): # Time: O(N)
         mask >>= 1
     return result
 
-def count(N, M, L, A, U, k, C):  # Time: O(2^L), given chosen subset C from R where card values are all >= k, count the number of ways to get final score >= k by considering the card values of U
+def count(N, M, L, A, U, C, k):  # Time: O(2^L), given chosen subset C from R where card values are all >= k, count the number of ways to get final score >= k by considering the card values of U
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
     # last decision done by whom would affect initial dp
@@ -93,9 +93,11 @@ def binary_search_game():
     R = list(R)
     assert(len(R) <= len(A)//2)
     f = [0]*(N+2)  # f(x) is a polynomial of x with at most N-degree, thus accumulated f(x) is a polynomial of x with at most (N+1)-degree by Faulhaber's formula, which could be determinated by N+2 values of f(x)
-    for k in xrange(1, min(len(f), M+1)):  # O(N) times, we can also early break if M < N+1
-        for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
-            f[k] = addmod(f[k], count(N, M, L, A, U, k, mask_to_set(R, mask)))  # Time: O(2^L)
+    for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
+        C = mask_to_set(R, mask)
+        for k in xrange(1, min(len(f), M+1)):  # O(N) times, we can also early break if M < N+1
+            f[k] = addmod(f[k], count(N, M, L, A, U, C, k))  # Time: O(2^L)
+    for k in xrange(1, min(len(f), M+1)): 
         f[k] += f[k-1]  # accumulate f
     return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
