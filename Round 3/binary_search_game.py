@@ -63,6 +63,8 @@ def decode_mask(R, mask):
 def count(N, M, L, A, U, C, k):
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
+    if not power(g, len(C)) or not power(l, N-len(U)-len(C)):  # no such combination
+        return 0
     dp = [[g, l][::-1 if L%2 else 1] if i in U else
           ([1, 0][::-1 if L%2 else 1] if i in C else
            [0, 1][::-1 if L%2 else 1]) for i in A]
