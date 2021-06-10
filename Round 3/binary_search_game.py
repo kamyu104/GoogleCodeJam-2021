@@ -31,9 +31,11 @@ def power(x, y):
     return POW[x][y]
 
 # f(x) = c(n+1)*x^(n+1) + c(n)*x^n + ... + c(0)*x^0
-# given f(0), f(1), ... f(N+1),
-# compute f(M)
-def lagranges_interpolation(f, x):  # Time: O(N)
+# given f(0), f(1), ... f(N+1), compute f(M)
+# traditionally, this should be done in O(N^2) time,
+# since x0, x1, ..., x(n-1) are consecutive integers,
+# we can compute in O(N) time,
+def lagrange_interpolation(f, x):  # Time: O(N)
     n = len(f)
     prefix = [1]*n
     for i in xrange(1, len(f)):  # (x-x0)*(x-x1)* ... * (x-x(n-1))
@@ -96,7 +98,7 @@ def binary_search_game():
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
             f[k] = addmod(f[k], count(N, M, L, A, U, R, k, mask))  # Time: O(2^L)
         f[k] += f[k-1]  # accumulate f
-    return mulmod(lagranges_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
+    return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
 MOD = 10**9+7
 inv = [0, 1]
