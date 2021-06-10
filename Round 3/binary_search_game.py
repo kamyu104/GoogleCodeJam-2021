@@ -63,10 +63,9 @@ def decode_mask(R, mask):
 def count(N, M, L, A, U, C, k):
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
-    d = -1 if L%2 else 1  # last decision done by alice should be reversed
-    dp = [[g, l][::d] if i in U else
-          [1, 0][::d] if i in C else
-          [0, 1][::d] for i in A]
+    # last decision done by whom would affect initial dp
+    dp = [[l, g] if i in U else [0, 1] if i in C else [1, 0] for i in A] if L%2 else \
+         [[g, l] if i in U else [1, 0] if i in C else [0, 1] for i in A]
     while len(dp) != 1:
         dp = [[addmod(addmod(mulmod(dp[2*i][1], dp[2*i+1][1]),
                              mulmod(dp[2*i][1], dp[2*i+1][0])),
