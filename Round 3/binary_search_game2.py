@@ -9,7 +9,7 @@
 # optimized from binary_search_game.py
 #
 
-from collections import defaultdict, Counter
+from collections import Counter
 
 def addmod(a, b):
     return (a+b)%MOD
