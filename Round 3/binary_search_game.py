@@ -32,7 +32,7 @@ def power(x, y):  # compute and cache, at most O(N^2) time and O(N^2) space in e
 
 # f(x) = c(n+1)*x^(n+1) + c(n)*x^n + ... + c(0)*x^0
 # given f(0), f(1), ... f(N+1), compute f(M)
-# traditionally, this should be done in O(N^2) time,
+# usually, this should be done in O(N^2) time,
 # since x0, x1, ..., x(n-1) are consecutive integers,
 # we can compute in O(N) time
 def lagrange_interpolation(f, x):  # Time: O(N)
