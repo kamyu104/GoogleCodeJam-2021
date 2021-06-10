@@ -88,9 +88,9 @@ def binary_search_game():
     N -= len(Z)
     R = list(R)
     assert(len(R) <= len(A)//2)
-    # f(x) is a polynomial of x with at most N-degree,
-    # thus accumulated f(x) is a polynomial of x with at most (N+1)-degree by Faulhaber's formula,
-    # which could be determinated by N+2 values of f(x)
+    # f(x) which is the number of ways where the final scores is >= x, is a polynomial of x with at most N-degree
+    # accumulated f(x) which is the sum of final scores with x^N different games, is a polynomial of x with at most (N+1)-degree by Faulhaber's formula,
+    # and could be determinated by N+2 values of accumulated f(x)
     f = [0]*(min(N+1, M)+1)  # if M < N+1, we can also just loop until f[M] is computed
     for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
         C = mask_to_set(R, mask)
