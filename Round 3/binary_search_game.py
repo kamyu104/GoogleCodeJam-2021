@@ -34,7 +34,7 @@ def power(x, y):
 # given f(0), f(1), ... f(N+1), compute f(M)
 # traditionally, this should be done in O(N^2) time,
 # since x0, x1, ..., x(n-1) are consecutive integers,
-# we can compute in O(N) time,
+# we can compute in O(N) time
 def lagrange_interpolation(f, x):  # Time: O(N)
     n = len(f)
     prefix = [1]*n
