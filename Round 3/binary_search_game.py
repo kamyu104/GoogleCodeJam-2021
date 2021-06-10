@@ -46,7 +46,7 @@ def lagrange_interpolation(f, x):  # Time: O(N)
     result = 0
     for i in xrange(len(f)):
         a = mulmod(prefix[i], suffix[i])  # (x-x0)*(x-x1)* ... * (x-x(n-1)) / (x-xi)
-        b = mulmod(inverse_factorial(i), mulmod((-1)**((n-1-i)%2), inverse_factorial(n-1-i)))  # 1 / i! * ((-1)^((n-1-i)%2) / (n-1-i)!)
+        b = mulmod(inverse_factorial(i), mulmod((-1)**((n-1-i)%2), inverse_factorial(n-1-i)))  # (1 / i!) * ((-1)^((n-1-i)%2) / (n-1-i)!)
         result = addmod(result, mulmod(f[i], mulmod(a, b)))
     return result
 
