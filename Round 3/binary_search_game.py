@@ -30,7 +30,7 @@ def power(x, y):  # compute and cache, at most O(N^2) time and O(N^2) space in e
         POW[0][x].append(mulmod(POW[0][x][-1], x))
     return POW[0][x][y]
 
-# f(x) = c(n+1)*x^(n+1) + c(n)*x^n + ... + c(0)*x^0
+# f(x) = c(N+1)*x^(N+1) + c(N)*x^n + ... + c(0)*x^0
 # given f(0), f(1), ... f(N+1), compute f(M)
 # usually, this should be done in O(N^2) time,
 # since x0, x1, ..., x(n-1) are consecutive integers,
@@ -97,7 +97,7 @@ def binary_search_game():
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
             f[k] = addmod(f[k], count(N, M, L, A, U, decode_mask(R, mask), k))  # Time: O(2^L)
         f[k] += f[k-1]  # f(x) is a polynomial of x with at most N-degree, thus accumulated f(x) is a polynomial of x with at most (N+1)-degree by Faulhaber's formula
-    return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # we can determinate accumulated f(x) by N+2 values of f(x) and compute accumulated f[M]
+    return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # we can determinate accumulated f(x) by N+2 values of f(x) and compute accumulated f(M)
 
 MOD = 10**9+7
 inv = [0, 1]
