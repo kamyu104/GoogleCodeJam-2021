@@ -97,7 +97,7 @@ def binary_search_game():
         C = mask_to_set(R, mask)
         for k in xrange(1, min(len(f), M+1)):  # O(N) times, we can also early break if M < N+1
             f[k] = addmod(f[k], count(N, M, L, A, U, C, k))  # Time: O(2^L)
-    for k in xrange(1, min(len(f), M+1)): 
+    for k in xrange(1, min(len(f), M+1)):
         f[k] += f[k-1]  # accumulate f
     return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
