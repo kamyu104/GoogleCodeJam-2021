@@ -7,7 +7,7 @@
 # Space: O(N^2 + 2^L)
 #
 
-from collections import Counter, defaultdict
+from collections import defaultdict, Counter
 
 def addmod(a, b):
     return (a+b)%MOD
