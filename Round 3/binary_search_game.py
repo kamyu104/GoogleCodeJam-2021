@@ -93,7 +93,7 @@ def binary_search_game():
     R = list(R)
     assert(len(R) <= len(A)//2)
     f = [0]*(N+2)  # f(x) is a polynomial of x with at most N-degree, thus accumulated f(x) is a polynomial of x with at most (N+1)-degree by Faulhaber's formula, which could be determinated by N+2 values of f(x)
-    for k in xrange(1, len(f)):  # O(N) times
+    for k in xrange(1, min(len(f), M+1)):  # O(N) times, we can also early break if M < N+1
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
             f[k] = addmod(f[k], count(N, M, L, A, U, decode_mask(R, mask), k))  # Time: O(2^L)
         f[k] += f[k-1]  # accumulate f
