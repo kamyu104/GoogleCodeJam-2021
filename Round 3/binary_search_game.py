@@ -30,7 +30,7 @@ def power(x, y):  # compute and cache, at most O(N^2) time and O(N^2) space in e
         POW[0][x].append(mulmod(POW[0][x][-1], x))
     return POW[0][x][y]
 
-# f(x) = c(N+1)*x^(N+1) + c(N)*x^n + ... + c(0)*x^0
+# f(x) = c(N+1)*x^(N+1) + c(N)*x^N + ... + c(0)*x^0
 # given f(0), f(1), ... f(N+1), compute f(M)
 # usually, this should be done in O(N^2) time,
 # since x0, x1, ..., x(n-1) are consecutive integers,
