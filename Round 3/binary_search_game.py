@@ -60,11 +60,10 @@ def decode_mask(R, mask):
         mask >>= 1
     return result
 
-def count(N, M, L, A, U, R, k, mask):
-    C = decode_mask(R, mask)  # chosen set
-    a = max(min(M-k+1, M), 0)
-    b = max(k-1, 0)
-    dp = [[a, b][::-1 if L%2 else 1] if i in U else
+def count(N, M, L, A, U, C, k):
+    g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
+    l = max(min(k-1, M), 0)  # number of choices less than k
+    dp = [[g, l][::-1 if L%2 else 1] if i in U else
           ([1, 0][::-1 if L%2 else 1] if i in C else
            [0, 1][::-1 if L%2 else 1]) for i in A]
     while len(dp) != 1:
@@ -74,8 +73,8 @@ def count(N, M, L, A, U, R, k, mask):
                mulmod(dp[2*i][0], dp[2*i+1][0])]
               for i in xrange(len(dp)//2)]
     return mulmod(mulmod(dp[0][0],
-                         power(a, len(C))),
-                         power(b, N-len(U)-len(C)))
+                         power(g, len(C))),
+                         power(l, N-len(U)-len(C)))
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
@@ -96,7 +95,7 @@ def binary_search_game():
     f = [0]*(N+2)
     for k in xrange(1, len(f)):  # O(N) times
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
-            f[k] = addmod(f[k], count(N, M, L, A, U, R, k, mask))  # Time: O(2^L)
+            f[k] = addmod(f[k], count(N, M, L, A, U, decode_mask(R, mask), k))  # Time: O(2^L)
         f[k] += f[k-1]  # accumulate f
     return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
