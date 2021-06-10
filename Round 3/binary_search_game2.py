@@ -94,7 +94,7 @@ def binary_search_game():
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
             f[k] = addmod(f[k], count(N, M, L, A, U, decode_mask(R, mask), k))  # Time: O(2^L)
         f[k] += f[k-1]  # accumulate f
-    return mulmod(lagrange_interpolation(f, M), pow(M, len(Z), MOD))  # Time: O(N), # since pow(x, N, MOD) is O(logN), and N <= 32, we treat it as O(1)
+    return mulmod(lagrange_interpolation(f, M), pow(M, len(Z), MOD))  # Time: O(N), since pow(x, N, MOD) is O(logN), and N <= 32, we treat it as O(1)
 
 MOD = 10**9+7
 inv = [0, 1]
