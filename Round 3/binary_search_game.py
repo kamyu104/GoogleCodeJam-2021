@@ -73,10 +73,9 @@ def count(N, M, L, A, U, R, k, mask):
                              mulmod(dp[2*i][0], dp[2*i+1][1])),
                mulmod(dp[2*i][0], dp[2*i+1][0])]
               for i in xrange(len(dp)//2)]
-    result = dp[0][0]
-    result = mulmod(result, power(a, len(C)))
-    result = mulmod(result, power(b, N-len(U)-len(C)))
-    return result
+    return mulmod(mulmod(dp[0][0],
+                         power(a, len(C))),
+                         power(b, N-len(U)-len(C)))
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
