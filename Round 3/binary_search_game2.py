@@ -47,7 +47,7 @@ def lagrange_interpolation(f, x):  # Time: O(N)
         result = addmod(result, mulmod(f[i], mulmod(a, b)))
     return result
 
-def mask_to_set(R, mask):
+def mask_to_set(R, mask): # Time: O(N)
     result = set()
     i = 0
     while mask:
@@ -57,7 +57,7 @@ def mask_to_set(R, mask):
         mask >>= 1
     return result
 
-def count(N, M, L, A, U, C, k):
+def count(N, M, L, A, U, C, k):  # Time: O(2^L), given chosen subset C from R where card values are all >= k, count the number of ways to get final score >= k by considering the card values of U
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
     # last decision done by whom would affect initial dp
