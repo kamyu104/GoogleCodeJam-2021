@@ -64,8 +64,8 @@ def count(N, M, L, A, U, C, k):
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
     dp = [[g, l][::-1 if L%2 else 1] if i in U else
-          ([1, 0][::-1 if L%2 else 1] if i in C else
-           [0, 1][::-1 if L%2 else 1]) for i in A]
+          [1, 0][::-1 if L%2 else 1] if i in C else
+          [0, 1][::-1 if L%2 else 1] for i in A]
     while len(dp) != 1:
         dp = [[addmod(addmod(mulmod(dp[2*i][1], dp[2*i+1][1]),
                              mulmod(dp[2*i][1], dp[2*i+1][0])),
