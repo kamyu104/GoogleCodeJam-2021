@@ -95,8 +95,7 @@ def binary_search_game():
     for k in xrange(1, len(f)):  # O(N) times
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
             f[k] = addmod(f[k], count(N, M, L, A, U, R, k, mask))  # Time: O(2^L)
-    for i in xrange(1, len(f)):  # accumulate f, Time: O(N)
-        f[i] += f[i-1]
+        f[k] += f[k-1]  # accumulate f
     return mulmod(lagranges_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
 MOD = 10**9+7
