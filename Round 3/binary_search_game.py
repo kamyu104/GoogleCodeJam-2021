@@ -92,12 +92,12 @@ def binary_search_game():
     N -= len(Z)
     R = list(R)
     assert(len(R) <= len(A)//2)
-    f = [0]*(N+2)
+    f = [0]*(N+2)  # f(x) is a polynomial of x with at most N-degree, thus accumulated f(x) is a polynomial of x with at most (N+1)-degree by Faulhaber's formula, which could be determinated by N+2 values of f(x)
     for k in xrange(1, len(f)):  # O(N) times
         for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
             f[k] = addmod(f[k], count(N, M, L, A, U, decode_mask(R, mask), k))  # Time: O(2^L)
-        f[k] += f[k-1]  # f(x) is a polynomial of x with at most N-degree, thus accumulated f(x) is a polynomial of x with at most (N+1)-degree by Faulhaber's formula
-    return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # we can determinate accumulated f(x) by N+2 values of f(x) and compute accumulated f(M)
+        f[k] += f[k-1]  # accumulate f
+    return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
 MOD = 10**9+7
 inv = [0, 1]
