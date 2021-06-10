@@ -3,8 +3,8 @@
 # Google Code Jam 2021 Round 3 - Problem D. Binary Search Game
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1b
 #
-# Time:  O(N * 2^(2^(L-1)) * 2^L), pass in PyPy2 but Python2
-# Space: O(N + 2^L)
+# Time:  O(N^2 + N * 2^(2^(L-1)) * 2^L), pass in PyPy2 but Python2
+# Space: O(N^2 + 2^L)
 #
 
 from collections import Counter, defaultdict
@@ -15,20 +15,20 @@ def addmod(a, b):
 def mulmod(a, b):
     return (a*b)%MOD
 
-def inverse(n):
+def inverse(n):  # compute and cache, at most O(N) time and O(N) space in all test cases
     while len(inv) <= n:  # lazy initialization
         inv.append(inv[MOD%len(inv)]*(MOD-MOD//len(inv)) % MOD)  # https://cp-algorithms.com/algebra/module-inverse.html
     return inv[n]
 
-def inverse_factorial(n):  # lazy initialization
+def inverse_factorial(n):  # compute and cache, at most O(N) time and O(N) space in all test cases
     while len(inv_fact) <= n:  # lazy initialization
         inv_fact.append(inv_fact[-1]*inverse(len(inv_fact)) % MOD)
     return inv_fact[n]
 
-def power(x, y):
-    while len(POW[x]) < y+1:
-        POW[x].append(mulmod(POW[x][-1], x))
-    return POW[x][y]
+def power(x, y):  # compute and cache, at most O(N^2) time and O(N^2) space in each test case
+    while len(POW[0][x]) < y+1:
+        POW[0][x].append(mulmod(POW[0][x][-1], x))
+    return POW[0][x][y]
 
 # f(x) = c(n+1)*x^(n+1) + c(n)*x^n + ... + c(0)*x^0
 # given f(0), f(1), ... f(N+1), compute f(M)
@@ -61,11 +61,11 @@ def decode_mask(R, mask):
     return result
 
 def count(N, M, L, A, U, R, k, mask):
-    selected = decode_mask(R, mask)
+    C = decode_mask(R, mask)  # chosen set
     a = max(min(M-k+1, M), 0)
     b = max(k-1, 0)
     dp = [[a, b][::-1 if L%2 else 1] if i in U else \
-          ([1, 0][::-1 if L%2 else 1] if i in selected else \
+          ([1, 0][::-1 if L%2 else 1] if i in C else \
            [0, 1][::-1 if L%2 else 1]) for i in A]
     while len(dp) != 1:
         dp = [[addmod(addmod(mulmod(dp[2*i][1], dp[2*i+1][1]),
@@ -74,22 +74,23 @@ def count(N, M, L, A, U, R, k, mask):
                mulmod(dp[2*i][0], dp[2*i+1][0])]
               for i in xrange(len(dp)//2)]
     result = dp[0][0]
-    result = mulmod(result, power(a, len(selected)))
-    result = mulmod(result, power(b, N-len(U)-len(selected)))
+    result = mulmod(result, power(a, len(C)))
+    result = mulmod(result, power(b, N-len(U)-len(C)))
     return result
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
     A = map(lambda x : int(x)-1, raw_input().strip().split())
 
+    POW[0] = defaultdict(lambda:[1])  # cleanup global used cache to save space
     cnt = Counter(A)
-    U, R = set(), set()
+    U, R = set(), set()  # unique set and repeated set
     for i in A:
         if cnt[i] == 1:
             U.add(i)
         else:
             R.add(i)
-    Z = set(i for i in xrange(N) if i not in U and i not in R)
+    Z = set(i for i in xrange(N) if i not in U and i not in R)  # unused set
     N -= len(Z)
     R = list(R)
     assert(len(R) <= len(A)//2)
@@ -103,6 +104,6 @@ def binary_search_game():
 MOD = 10**9+7
 inv = [0, 1]
 inv_fact = [1, 1]
-POW = defaultdict(lambda:[1])
+POW = [None]
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, binary_search_game())
