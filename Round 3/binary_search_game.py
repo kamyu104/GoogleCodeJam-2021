@@ -26,7 +26,7 @@ def inverse_factorial(n):  # compute and cache, at most O(N) time and O(N) space
     return inv_fact[n]
 
 def power(x, y):  # compute and cache, at most O(N^2) time and O(N^2) space in each test case
-    while len(POW[0][x]) < y+1:
+    while len(POW[0][x]) <= y:  # lazy initialization
         POW[0][x].append(mulmod(POW[0][x][-1], x))
     return POW[0][x][y]
 
