@@ -64,8 +64,8 @@ def count(N, M, L, A, U, R, k, mask):
     C = decode_mask(R, mask)  # chosen set
     a = max(min(M-k+1, M), 0)
     b = max(k-1, 0)
-    dp = [[a, b][::-1 if L%2 else 1] if i in U else \
-          ([1, 0][::-1 if L%2 else 1] if i in C else \
+    dp = [[a, b][::-1 if L%2 else 1] if i in U else
+          ([1, 0][::-1 if L%2 else 1] if i in C else
            [0, 1][::-1 if L%2 else 1]) for i in A]
     while len(dp) != 1:
         dp = [[addmod(addmod(mulmod(dp[2*i][1], dp[2*i+1][1]),
