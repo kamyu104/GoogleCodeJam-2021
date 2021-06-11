@@ -94,12 +94,12 @@ def binary_search_game():
         both_C = mask_to_set(both, mask_both)
         for i in both:
             values[i] = chosen_state if i in both_C else default_state
-        for mask_left in xrange(2**len(left)):  # mask_left and mask_right are independent of states, loops O(2^(len(both)+len(left))) <= O(2^(2^L/2)) times
+        for mask_left in xrange(2**len(left)):  # mask_left and mask_right are independent of states, loop O(2^(len(both)+len(left))) <= O(2^(2^L/2)) times
             left_C = mask_to_set(left, mask_left)
             for i in left:
                 values[i] = chosen_state if i in left_C else default_state
             left_cnt[len(left_C)] += check(A, values, 0, (len(A)-1)//2)[0]  # count if alice loses, Time: O(2^L)
-        for mask_right in xrange(2**len(right)):  # mask_left and mask_right are independent of states, loops O(2^(len(both)+len(right))) <= O(2^(2^L/2)) times
+        for mask_right in xrange(2**len(right)):  # mask_left and mask_right are independent of states, loop O(2^(len(both)+len(right))) <= O(2^(2^L/2)) times
             right_C = mask_to_set(right, mask_right)
             for i in right:
                 values[i] = chosen_state if i in right_C else default_state
