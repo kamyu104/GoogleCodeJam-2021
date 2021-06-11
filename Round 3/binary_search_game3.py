@@ -96,20 +96,20 @@ def binary_search_game():
         both_C = mask_to_set(both, mask_both)
         for i in both:
             values[i] = chosen_state if i in both_C else default_state
-        for mask_left in xrange(2**len(left)):  # mask_left and mask_right are independent of states
+        for mask_left in xrange(2**len(left)):  # mask_left and mask_right are independent of states, loops O(2^(len(both)+len(left))) <= O(2^(2^L/2)) times
             left_C = mask_to_set(left, mask_left)
             for i in left:
                 values[i] = chosen_state if i in left_C else default_state
-            if check(A, values, 0, (len(A)-1)//2)[0]:  # alice lose
+            if check(A, values, 0, (len(A)-1)//2)[0]:  # alice lose, Time: O(2^L)
                 left_cnt[len(left_C)] += 1
-        for mask_right in xrange(2**len(right)):  # mask_left and mask_right are independent of states
+        for mask_right in xrange(2**len(right)):  # mask_left and mask_right are independent of states, loops O(2^(len(both)+len(right))) <= O(2^(2^L/2)) times
             right_C = mask_to_set(right, mask_right)
             for i in right:
                 values[i] = chosen_state if i in right_C else default_state
-            if check(A, values, (len(A)-1)//2+1, len(A)-1)[0]:  # alice lose
+            if check(A, values, (len(A)-1)//2+1, len(A)-1)[0]:  # alice lose, Time: O(2^L)
                 right_cnt[len(right_C)] += 1
         result = addmod(result, g(N, M, lookup, len(both_C), len(both)-len(both_C)))  # add win count
-        for i in xrange(len(left)+1):
+        for i in xrange(len(left)+1):  # O(N^2) times
             for j in xrange(len(right)+1):
                 cnt = g(N, M, lookup, len(both_C)+i+j, len(both)+len(left)+len(right)-(len(both_C)+i+j))
                 result = submod(result, mulmod(mulmod(left_cnt[i], right_cnt[j]), cnt))  # sub lose count
