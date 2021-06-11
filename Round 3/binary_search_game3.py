@@ -106,7 +106,7 @@ def binary_search_game():
                 values[i] = chosen_state if i in right_C else default_state
             if check(A, values, (len(A)-1)//2+1, len(A)-1)[0]:  # alice lose, Time: O(2^L)
                 right_cnt[len(right_C)] += 1
-        result = addmod(result, g(N, M, len(both_C), len(both)-len(both_C), lookup))  # add all possible count of both_C
+        result = addmod(result, g(N, M, len(both_C), len(both)-len(both_C), lookup))  # add all count of both_C
         for i in xrange(len(left)+1):  # O(N^2) times
             for j in xrange(len(right)+1):
                 cnt = g(N, M, len(both_C)+i+j, (len(both)-len(both_C))+(len(left)-i)+(len(right)-j), lookup)
