@@ -70,7 +70,7 @@ def check(A, values, left, right):  # Time: O(2^L), Space: O(L)
 # given a cards >= k, b cards < k, a+b <= N, compute accumulated f(M)
 def g(N, M, lookup, a, b):
     if (a, b) not in lookup:  # lazy initialization
-        f = [mulmod(mulmod(pow(M-(k-1), a, MOD), pow(k-1, b, MOD)), pow(M, N-a-b, MOD)) if k else 0 for k in xrange(min(a+b+1, M+1)+1)]
+        f = [mulmod(mulmod(pow(M-(k-1), a, MOD), pow(k-1, b, MOD)), pow(M, N-a-b, MOD)) if k else 0 for k in xrange(min(a+b+1, M)+1)]
         for k in xrange(1, len(f)):
             f[k] = addmod(f[k], f[k-1])  # accumulate f
         lookup[(a, b)] = lagrange_interpolation(f, M)
