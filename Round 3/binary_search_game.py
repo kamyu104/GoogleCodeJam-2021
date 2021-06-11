@@ -52,11 +52,9 @@ def lagrange_interpolation(f, x):  # Time: O(N)
 
 def mask_to_set(R, mask): # Time: O(N)
     result = set()
-    i = 0
-    while mask:
+    for i in R:
         if mask&1:
-            result.add(R[i])
-        i += 1
+            result.add(i)
         mask >>= 1
     return result
 
@@ -92,7 +90,6 @@ def binary_search_game():
             R.add(i)
     Z = set(i for i in xrange(N) if i not in U and i not in R)  # unused set
     N -= len(Z)
-    R = list(R)
     assert(len(R) <= len(A)//2)
     # f(x) which means the number of ways where the final scores is >= x, is a polynomial of x with at most N-degree
     # accumulated f(x) which means the sum of final scores with x^N different games, is a polynomial of x with at most (N+1)-degree by Faulhaber's formula,
