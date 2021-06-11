@@ -100,7 +100,7 @@ def binary_search_game():
         for k in xrange(1, len(f)):  # O(N) times
             f[k] = addmod(f[k], count(N, M, L, A, U, C, k))  # Time: O(2^L)
     for k in xrange(1, len(f)):
-        f[k] += f[k-1]  # accumulate f
+        f[k] = addmod(f[k], f[k-1])  # accumulate f
     return mulmod(lagrange_interpolation(f, M), power(M, len(Z)))  # Time: O(N)
 
 MOD = 10**9+7
