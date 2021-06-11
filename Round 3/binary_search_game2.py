@@ -63,10 +63,10 @@ def check(A, values, left, right):  # Time: O(2^L), Space: O(L)
     mid = left + (right-left)//2
     win1, lose1 = check(A, values, left, mid)
     win2, lose2 = check(A, values, mid+1, right)
-    return  [addmod(addmod(mulmod(lose1, lose2),
-                           mulmod(lose1, win2)),
-                           mulmod(win1, lose2)),
-             mulmod(win1, win2)]
+    return [addmod(addmod(mulmod(lose1, lose2),
+                          mulmod(lose1, win2)),
+                          mulmod(win1, lose2)),
+            mulmod(win1, win2)]
 
 # given chosen subset C from R where card values are all >= k,
 # count the number of ways to get final score >= k by considering the card values of U
