@@ -60,7 +60,7 @@ def mask_to_set(R, mask): # Time: O(N)
 
 # given chosen subset C from R where card values are all >= k,
 # count the number of ways to get final score >= k by considering the card values of U
-def count(N, M, L, A, U, C, k):  # Time: O(2^L)
+def count(N, M, L, A, U, C, k):  # Time: O(2^L), Space: O(2^L)
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
     # last decision done by whom would affect initial dp

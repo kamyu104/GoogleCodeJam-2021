@@ -4,9 +4,9 @@
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1b
 #
 # Time:  O(N * 2^(2^(L-1)) * 2^L), pass in PyPy2 but Python2
-# Space: O(N + 2^L)
+# Space: O(N + L)
 #
-# optimized from binary_search_game.py
+# optimized from binary_search_game.py, less space but slower
 #
 
 from collections import Counter
@@ -55,21 +55,26 @@ def mask_to_set(R, mask): # Time: O(N)
         mask >>= 1
     return result
 
+def check(A, values, left, right):  # Time: O(2^L), Space: O(L)
+    if left == right:
+        return values[A[left]]
+    mid = left + (right-left)//2
+    win1, lose1 = check(A, values, left, mid)
+    win2, lose2 = check(A, values, mid+1, right)
+    return  [addmod(addmod(mulmod(lose1, lose2),
+                           mulmod(lose1, win2)),
+                           mulmod(win1, lose2)),
+             mulmod(win1, win2)]
+
 # given chosen subset C from R where card values are all >= k,
 # count the number of ways to get final score >= k by considering the card values of U
-def count(N, M, L, A, U, C, k):  # Time: O(2^L)
+def count(N, M, L, A, U, R, C, k):  # Time: O(2^L), Space: O(N + L)
     g = max(min(M-(k-1), M), 0)  # number of choices greater or equal to k
     l = max(min(k-1, M), 0)  # number of choices less than k
     # last decision done by whom would affect initial dp
-    dp = [[l, g] if i in U else [0, 1] if i in C else [1, 0] for i in A] if L%2 else \
-         [[g, l] if i in U else [1, 0] if i in C else [0, 1] for i in A]
-    while len(dp) != 1:
-        dp = [[addmod(addmod(mulmod(dp[2*i][1], dp[2*i+1][1]),
-                             mulmod(dp[2*i][1], dp[2*i+1][0])),
-                             mulmod(dp[2*i][0], dp[2*i+1][1])),
-               mulmod(dp[2*i][0], dp[2*i+1][0])]
-              for i in xrange(len(dp)//2)]
-    return mulmod(mulmod(dp[0][0],
+    values = {i:[l, g] if i in U else [0, 1] if i in C else [1, 0] for i in set.union(U, R)} if L%2 else \
+             {i:[g, l] if i in U else [1, 0] if i in C else [0, 1] for i in set.union(U, R)}
+    return mulmod(mulmod(check(A, values, 0, len(A)-1)[0],
                          pow(g, len(C), MOD)),
                          pow(l, N-len(U)-len(C), MOD))  # since pow(x, N, MOD) is O(logN), and N <= 32, we treat it as O(1)
 
@@ -94,7 +99,7 @@ def binary_search_game():
     for mask in xrange(2**len(R)):  # O(2^(2^(L-1))) times
         C = mask_to_set(R, mask)
         for k in xrange(1, len(f)):  # O(N) times
-            f[k] = addmod(f[k], count(N, M, L, A, U, C, k))  # Time: O(2^L)
+            f[k] = addmod(f[k], count(N, M, L, A, U, R, C, k))  # Time: O(2^L)
     for k in xrange(1, len(f)):
         f[k] += f[k-1]  # accumulate f
     return mulmod(lagrange_interpolation(f, M), pow(M, len(Z), MOD))  # Time: O(N), since pow(x, N, MOD) is O(logN), and N <= 32, we treat it as O(1)
