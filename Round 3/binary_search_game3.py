@@ -69,7 +69,7 @@ def check(A, values, left, right):  # Time: O(2^L), Space: O(L)
 
 # given f(x) = (M-(x-1))^a*(x-1)^b*M^(N-a-b), f(0) = 0
 # compute accumulated f(M) by Lagrange interpolation
-def g(N, M, lookup, a, b):  # compute and cache, at most O(N^3) time and O(N^2) space in each test case
+def g(N, M, a, b, lookup):  # compute and cache, at most O(N^3) time and O(N^2) space in each test case
     if (a, b) not in lookup:  # lazy initialization
         f = [mulmod(mulmod(pow(M-(k-1), a, MOD), pow(k-1, b, MOD)), pow(M, N-a-b, MOD)) if k else 0 for k in xrange(min(a+b+1, M)+1)]
         for k in xrange(1, len(f)):
@@ -88,9 +88,7 @@ def binary_search_game():
     right = {i for i in right if i not in both}
     default_state = [1, 0] if L%2 else [0, 1]
     chosen_state = default_state[::-1]
-    lookup = {}
-    result = 0
-    values = [default_state for _ in xrange(N)]
+    result, values, lookup = 0, [default_state for _ in xrange(N)], {}
     for mask_both in xrange(2**len(both)):
         left_cnt, right_cnt = Counter(), Counter()
         both_C = mask_to_set(both, mask_both)
@@ -108,10 +106,10 @@ def binary_search_game():
                 values[i] = chosen_state if i in right_C else default_state
             if check(A, values, (len(A)-1)//2+1, len(A)-1)[0]:  # alice lose, Time: O(2^L)
                 right_cnt[len(right_C)] += 1
-        result = addmod(result, g(N, M, lookup, len(both_C), len(both)-len(both_C)))  # add win count
+        result = addmod(result, g(N, M, len(both_C), len(both)-len(both_C), lookup))  # add win count
         for i in xrange(len(left)+1):  # O(N^2) times
             for j in xrange(len(right)+1):
-                cnt = g(N, M, lookup, len(both_C)+i+j, len(both)+len(left)+len(right)-(len(both_C)+i+j))
+                cnt = g(N, M, len(both_C)+i+j, len(both)+len(left)+len(right)-(len(both_C)+i+j), lookup)
                 result = submod(result, mulmod(mulmod(left_cnt[i], right_cnt[j]), cnt))  # sub lose count
     return result
 
