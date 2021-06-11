@@ -6,8 +6,9 @@
 # Time:  O(N * 2^(2^(L-1)) * 2^L), pass in PyPy2 but Python2
 # Space: O(N + L)
 #
-# optimized from binary_search_game.py,
-# less space and faster in power, but slower in check function compared to dp
+# optimized from binary_search_game.py, less time and space complexity, faster in power,
+# but slower in recursive check function (iterative one is even slower since 2^L is small) compared to dp,
+# so overall runtime is slower
 #
 
 from collections import Counter
