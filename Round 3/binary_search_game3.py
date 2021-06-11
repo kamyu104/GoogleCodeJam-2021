@@ -67,8 +67,9 @@ def check(A, values, left, right):  # Time: O(2^L), Space: O(L)
                           mulmod(win1, lose2)),
             mulmod(win1, win2)]
 
-# given a cards >= k, b cards < k, a+b <= N, compute accumulated f(M)
-def g(N, M, lookup, a, b):
+# given f(x) = (M-(x-1))^a*(x-1)^b*M^(N-a-b), f(0) = 0
+# compute accumulated f(M) by Lagrange interpolation
+def g(N, M, lookup, a, b):  # compute and cache, at most O(N^3) time and O(N^2) space in each test case
     if (a, b) not in lookup:  # lazy initialization
         f = [mulmod(mulmod(pow(M-(k-1), a, MOD), pow(k-1, b, MOD)), pow(M, N-a-b, MOD)) if k else 0 for k in xrange(min(a+b+1, M)+1)]
         for k in xrange(1, len(f)):
@@ -89,27 +90,29 @@ def binary_search_game():
     chosen_state = default_state[::-1]
     lookup = {}
     result = 0
+    values = [default_state for _ in xrange(N)]
     for mask_both in xrange(2**len(both)):
         left_cnt, right_cnt = Counter(), Counter()
         both_C = mask_to_set(both, mask_both)
-        values = [chosen_state if i in both_C else default_state for i in xrange(N)]
-        for mask_left in xrange(2**len(left)):
+        for i in both:
+            values[i] = chosen_state if i in both_C else default_state
+        for mask_left in xrange(2**len(left)):  # mask_left and mask_right are independent of states
             left_C = mask_to_set(left, mask_left)
             for i in left:
                 values[i] = chosen_state if i in left_C else default_state
-            if check(A, values, 0, (len(A)-1)//2)[0]:  # lose
+            if check(A, values, 0, (len(A)-1)//2)[0]:  # alice lose
                 left_cnt[len(left_C)] += 1
-        for mask_right in xrange(2**len(right)):
+        for mask_right in xrange(2**len(right)):  # mask_left and mask_right are independent of states
             right_C = mask_to_set(right, mask_right)
             for i in right:
                 values[i] = chosen_state if i in right_C else default_state
-            if check(A, values, (len(A)-1)//2+1, len(A)-1)[0]:  # lose
+            if check(A, values, (len(A)-1)//2+1, len(A)-1)[0]:  # alice lose
                 right_cnt[len(right_C)] += 1
-        result = addmod(result, g(N, M, lookup, len(both_C), len(both)-len(both_C)))
+        result = addmod(result, g(N, M, lookup, len(both_C), len(both)-len(both_C)))  # add win count
         for i in xrange(len(left)+1):
             for j in xrange(len(right)+1):
                 cnt = g(N, M, lookup, len(both_C)+i+j, len(both)+len(left)+len(right)-(len(both_C)+i+j))
-                result = submod(result, mulmod(mulmod(left_cnt[i], right_cnt[j]), cnt))
+                result = submod(result, mulmod(mulmod(left_cnt[i], right_cnt[j]), cnt))  # sub lose count
     return result
 
 MOD = 10**9+7
