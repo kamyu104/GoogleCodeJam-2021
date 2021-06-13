@@ -89,7 +89,7 @@ def divide(P, f, curr, split, result):  # depth at most O(logN) on average => Ti
 def fence_design():
     N = input()
     P = [map(int, raw_input().strip().split()) for _ in xrange(N)]
-    f = [map(lambda x:int(x)-1, raw_input().strip().split()) for _ in xrange(2)]
+    f = [map(lambda x: int(x)-1, raw_input().strip().split()) for _ in xrange(2)]
     f = [tuple(sorted(x)) for x in f]
 
     if not same_side(P[f[0][0]], P[f[0][1]], P[f[1][0]], P[f[1][1]]):
