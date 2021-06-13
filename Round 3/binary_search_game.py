@@ -78,7 +78,7 @@ def count(N, M, L, A, U, C, k):  # Time: O(2^L), Space: O(2^L)
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
-    A = map(lambda x : int(x)-1, raw_input().strip().split())
+    A = map(lambda x: int(x)-1, raw_input().strip().split())
 
     POW[0] = defaultdict(lambda:[1])  # cleanup global used cache to save space
     cnt = Counter(A)

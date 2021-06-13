@@ -82,7 +82,7 @@ def count(N, M, L, A, U, R, C, k):  # Time: O(2^L), Space: O(N + L)
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
-    A = map(lambda x : int(x)-1, raw_input().strip().split())
+    A = map(lambda x: int(x)-1, raw_input().strip().split())
 
     cnt = Counter(A)
     U, R = set(), set()  # unique set and repeated set

@@ -79,7 +79,7 @@ def g(N, M, a, b, lookup):  # compute and cache, at most O(N^3) time and O(N^2) 
 
 def binary_search_game():
     N, M, L = map(int, raw_input().strip().split())
-    A = map(lambda x : int(x)-1, raw_input().strip().split())
+    A = map(lambda x: int(x)-1, raw_input().strip().split())
 
     left = {A[i] for i in xrange(len(A)//2)}  # left half of board set
     right = {A[i] for i in xrange(len(A)//2, len(A))}  # right half of board set
