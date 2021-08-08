@@ -1,4 +1,4 @@
-# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-22%20%2F%2022-ff69b4.svg) ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=kamyu104.googlecodejam.2021)
+# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-22%20%2F%2027-ff69b4.svg) ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=kamyu104.googlecodejam.2021)
 
 Python solutions of Google Code Jam 2021. Solution begins with `*` means it will get TLE in the largest data set (total computation amount > `10^8`, which is not friendly for Python to solve in 5 ~ 15 seconds). A problem was marked as `Very Hard` means that it was an unsolved one during the contest and may not be that difficult.
 
@@ -8,7 +8,8 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 * [Round 1B](https://github.com/kamyu104/GoogleCodeJam-2021#round-1b)
 * [Round 1C](https://github.com/kamyu104/GoogleCodeJam-2021#round-1c)
 * [Round 2](https://github.com/kamyu104/GoogleCodeJam-2021#round-2)
-* [Round 3](https://github.com/kamyu104/GoogleCodeJam-2021#round-2)
+* [Round 3](https://github.com/kamyu104/GoogleCodeJam-2021#round-3)
+* [Virtual Final Round](https://github.com/kamyu104/GoogleCodeJam-2021#virtual-wolrd-finals)
 
 ## Qualification Round
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
@@ -55,3 +56,14 @@ Python solutions of Google Code Jam 2021. Solution begins with `*` means it will
 |B| [Square Free](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1a)| [Python](./Round%203/square_free.py) | _O(R^2 * C^2)_ | _O(R + C)_ | Medium | | Max Flow, Greedy |
 |C| [Fence Design](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813bc7)| [PyPy](./Round%203/fence_design.py) | _O(NlogN)_ on average | _O(N)_ | Hard | | Geometry, Convex Hull, Divide and Conquer, Random |
 |D| [Binary Search Game](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436142/0000000000813e1b)| [PyPy](./Round%203/binary_search_game.py) [PyPy](./Round%203/binary_search_game2.py) [Python](./Round%203/binary_search_game3.py) | _O(2^(2^(L-1)) * (2^L + N^2) + N^3)_ | _O(N^2 + L)_ | Hard | | Combination, Counting, DP, Greedy, Polynomial, Faulhaber's Formula, Lagrange Interpolation |
+
+## Virtual World Finals
+You can relive the magic of the 2021 Code Jam Virtual World Finals by watching the [Live Stream Recording](https://codingcompetitionsonair.withgoogle.com/events/cj-2021/watch?talk=cj-2021-livestream) of the competition, problem explanations, and announcement of winners.
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
+|A| [Cutting Cake](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fba1)|||| Medium ||
+|B| [Slide Circuits](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084f7b2)|||| Medium ||
+|C| [Ropes](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fad0)|||| Hard ||
+|D| [Divisible Divisions](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fb3a)|||| Medium ||
+|E| [Infinitree](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fc01)|||| Very Hard ||
