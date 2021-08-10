@@ -30,7 +30,7 @@ def slide_circuits():
     B, S, N = map(int, raw_input().strip().split())
     ids_set = set()
     in_ids = [i for i in random_id_gen(B, ids_set)]
-    out_ids = [i for i in random_id_gen(B,ids_set)]
+    out_ids = [i for i in random_id_gen(B, ids_set)]
     total_hash = add(reduce(add, in_ids), reduce(add, out_ids))
     slide_hashes = [0]*S
     lookup = {}
