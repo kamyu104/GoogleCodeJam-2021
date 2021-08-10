@@ -13,7 +13,7 @@ from random import seed, randint
 from operator import add, sub
 
 def random_id_gen(B, ids_set):
-    MAX_RAND_ID = (2**64-1)//(B*2)
+    MAX_RAND_ID = MAX_UINT64//(B*2)
     for _ in xrange(B):
         x = randint(1, MAX_RAND_ID)
         while True:
@@ -54,6 +54,7 @@ def slide_circuits():
     return " ".join(map(lambda x: str(x) if x else "X", result))
 
 seed(0)
+MAX_UINT64 = 2**64-1
 TOTAL_OP = {'E':add, 'D':sub}
 HASH_OP = {'E':add, 'D':sub}
 for case in xrange(input()):
