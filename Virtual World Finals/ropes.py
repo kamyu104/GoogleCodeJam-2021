@@ -1,6 +1,6 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Virtual World Finals- Problem C. ropes
+# Google Code Jam 2021 Virtual World Finals- Problem C. Ropes
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fad0
 #
 # Time:  O(N^3), pass in PyPy2 but Python2
