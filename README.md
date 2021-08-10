@@ -1,4 +1,4 @@
-# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-23%20%2F%2027-ff69b4.svg) ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=kamyu104.googlecodejam.2021)
+# [GoogleCodeJam 2021](https://codingcompetitions.withgoogle.com/codejam) ![Language](https://img.shields.io/badge/language-Python-orange.svg) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) ![Progress](https://img.shields.io/badge/progress-24%20%2F%2027-ff69b4.svg) ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=kamyu104.googlecodejam.2021)
 
 Python solutions of Google Code Jam 2021. Solution begins with `*` means it will get TLE in the largest data set (total computation amount > `10^8`, which is not friendly for Python to solve in 5 ~ 15 seconds). A problem was marked as `Very Hard` means that it was an unsolved one during the contest and may not be that difficult.
 
@@ -63,7 +63,7 @@ You can relive the magic of the 2021 Code Jam Virtual World Finals by watching t
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Cutting Cake](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fba1)| [Python](./Virtual%20World%20Finals/cutting_cake.py) | _O(NlogN)_ | _O(N)_ | Medium || Math, Line Sweep
-|B| [Slide Circuits](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084f7b2)|||| Medium ||
+|B| [Slide Circuits](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084f7b2)| [Python](./Virtual%20World%20Finals/slide_circuits.py) [Python](./Virtual%20World%20Finals/slide_circuits2.py) [Python](./Virtual%20World%20Finals/slide_circuits3.py) | _O(B + N + SlogS)_ | _O(SlogS)_ | Medium || Hash
 |C| [Ropes](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fad0)|||| Hard ||
 |D| [Divisible Divisions](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fb3a)|||| Medium ||
 |E| [Infinitree](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fc01)|||| Very Hard ||
