@@ -34,16 +34,16 @@ def greedy(score_matrix):
     for i in xrange(2*N):
         for j in xrange(2*N):
             if score_matrix[i][j] == best_score and (result is None or (sum(result) > i+j)):  # we choose as far west as possible if there is a tie
-               result = (i, j)
+                result = (i, j)
     return result
 
 def update(i, j, score_matrix):
-  for r in xrange(2*N):
-      for c in xrange(2*N):
-          if r == i or c == j:
-              score_matrix[r][c] = NEG_INF
-          elif (r-i)*(c-j) < 0:
-              score_matrix[r][c] += 1
+    for r in xrange(2*N):
+        for c in xrange(2*N):
+            if r == i or c == j:
+                score_matrix[r][c] = NEG_INF
+            elif (r-i)*(c-j) < 0:
+                score_matrix[r][c] += 1
 
 def ropes():
     score_matrix = [[0 for _ in xrange(2*N)] for _ in xrange(2*N)]
