@@ -58,7 +58,7 @@ def ropes():
     check_result(A_score, B_score)
 
 NEG_INF = float("-inf")
-Z = 10  # tuned by experiments that top 4 win rates are with Z = [9, 10, 11, 14], and the top 1 is with Z = [10]
+Z = 10  # tuned by experiments that top 4 win rates are with Z = [10, 14, 9, 11]
 T, N, W = map(int, raw_input().strip().split())
 for case in xrange(T):
     ropes()
