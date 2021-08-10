@@ -40,8 +40,9 @@ def slide_circuits():
         L, R, M = int(L), int(R), int(M)
         total = TOTAL_OP[A](total, R//M-(L-1)//M)
         curr_hash = HASH_OP[A](curr_hash, get_sum(prefix, L, R, M))
-        result[i] = str(lookup[curr_hash]+1) if total == B-1 and curr_hash in lookup else "X"
-    return " ".join(result)
+        if total == B-1 and curr_hash in lookup:
+            result[i] = lookup[curr_hash]+1
+    return " ".join(map(lambda x: str(x) if x else "X", result))
 
 MOD, p = 2**64-59, 113  # MOD is max 64-bit prime
 add = lambda a, b: (a+b)%MOD
