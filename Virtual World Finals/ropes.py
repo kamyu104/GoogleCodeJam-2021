@@ -33,7 +33,7 @@ def greedy(score_matrix):
     best_score = max(imap(max, score_matrix))
     for i in xrange(2*N):
         for j in xrange(2*N):
-            if score_matrix[i][j] == best_score and (result is None or (sum(result) > i+j)):
+            if score_matrix[i][j] == best_score and (result is None or (sum(result) > i+j)):  # we choose as far west as possible if there is a tie
                result = (i, j)
     return result
 
