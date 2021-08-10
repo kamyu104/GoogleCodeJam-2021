@@ -8,28 +8,30 @@
 #
 # Usage: python interactive_runner.py python3 testing_tool.py 2 -- python ropes.py
 #
+# push it east solution, 92.0% on average
+#
 
-from sys import stdout, stderr
+from sys import stdout
+from itertools import imap
 
 def play(i, j):
-    print i+1, j+1
+    print i+1, j+1  # 0-indexed
     stdout.flush()
-    return map(lambda x: int(x)-1, raw_input().strip().split())
+    return map(lambda x: int(x)-1, raw_input().strip().split())  # 0-indexed
 
 def check_result(A_score, B_score):
     assert(input() == int(A_score > B_score))
 
-def greedy(score_matrix, N):
+def greedy(score_matrix):
     result = None
-    best_score = max(map(max, score_matrix))
+    best_score = max(imap(max, score_matrix))
     for i in xrange(2*N):
         for j in xrange(2*N):
-            if score_matrix[i][j] == best_score and \
-               (result is None or (sum(result) > i+j)):
+            if score_matrix[i][j] == best_score and (result is None or (sum(result) > i+j)):
                result = (i, j)
     return result
 
-def update(score_matrix, i, j, n):
+def update(i, j, score_matrix):
   for r in xrange(2*N):
       for c in xrange(2*N):
           if r == i or c == j:
@@ -41,12 +43,12 @@ def ropes():
     score_matrix = [[0 for _ in xrange(2*N)] for _ in xrange(2*N)]
     A_score = B_score = 0
     for k in xrange(N):
-        i, j = greedy(score_matrix, N) if k else (Z-1, Z-1)
+        i, j = greedy(score_matrix) if k else (Z-1, Z-1)
         A_score += score_matrix[i][j]
-        update(score_matrix, i, j, N)
+        update(i, j, score_matrix)
         i, j = play(i, j)
         B_score += score_matrix[i][j]
-        update(score_matrix, i, j, N)
+        update(i, j, score_matrix)
     check_result(A_score, B_score)
 
 NEG_INF = float("-inf")
