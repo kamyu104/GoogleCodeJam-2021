@@ -63,7 +63,7 @@ You can relive the magic of the 2021 Code Jam Virtual World Finals by watching t
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
 |A| [Cutting Cake](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fba1)| [Python](./Virtual%20World%20Finals/cutting_cake.py) | _O(NlogN)_ | _O(N)_ | Medium || Math, Line Sweep
-|B| [Slide Circuits](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084f7b2)| [Python](./Virtual%20World%20Finals/slide_circuits.py) [Python](./Virtual%20World%20Finals/slide_circuits2.py) [Python](./Virtual%20World%20Finals/slide_circuits3.py) | _O(B + N + SlogS)_ | _O(SlogS)_ | Medium || Hash, Prefix Sum
+|B| [Slide Circuits](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084f7b2)| [Python](./Virtual%20World%20Finals/slide_circuits.py) [Python](./Virtual%20World%20Finals/slide_circuits2.py) [Python](./Virtual%20World%20Finals/slide_circuits3.py) | _O(B + N + SlogS)_ | _O(SlogS)_ | Medium || Graph, Hash, Prefix Sum
 |C| [Ropes](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fad0)|||| Hard ||
 |D| [Divisible Divisions](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fb3a)|||| Medium ||
 |E| [Infinitree](https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fc01)|||| Very Hard ||
