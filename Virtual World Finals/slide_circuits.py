@@ -39,7 +39,7 @@ def slide_circuits():
         slide_hashes[i] = add(out_ids[X-1], in_ids[Y-1])
         lookup[sub(total_hash, slide_hashes[i])] = i  # 0-indexed
     prefix = [[0] for _ in xrange(S+1)]
-    for m in xrange(1, S+1):
+    for m in xrange(1, S+1):  # sum of harmonic series: O(S/1 + S/2 + ... + S/S) = O(S * (1 + 1/2 + ... + 1/S)) = O(SlogS)
         for i in xrange(m, S+1, m):
             prefix[m].append(add(prefix[m][-1], slide_hashes[i-1]))
     result = [0]*N
