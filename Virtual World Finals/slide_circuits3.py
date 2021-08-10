@@ -34,20 +34,18 @@ def slide_circuits():
         for i in xrange(m, S+1, m):
             prefix[m].append(add(prefix[m][-1], slide_hashes[i-1]))
     result = [0]*N
-    total = curr_hash = 0
+    curr_hash = 0
     for i in xrange(N):
         A, L, R, M = raw_input().strip().split()
         L, R, M = int(L), int(R), int(M)
-        total = TOTAL_OP[A](total, R//M-(L-1)//M)
         curr_hash = HASH_OP[A](curr_hash, get_sum(prefix, L, R, M))
-        if total == B-1 and curr_hash in lookup:
+        if curr_hash in lookup:
             result[i] = lookup[curr_hash]+1
     return " ".join(map(lambda x: str(x) if x else "X", result))
 
 MOD, p = 2**64-59, 113  # MOD is max 64-bit prime
 add = lambda a, b: (a+b)%MOD
 sub = lambda a, b: (a-b)%MOD
-TOTAL_OP = {'E':lambda a,b: a+b, 'D':lambda a, b:a-b}
 HASH_OP = {'E':add, 'D':sub}
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, slide_circuits())

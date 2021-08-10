@@ -49,7 +49,7 @@ def slide_circuits():
         L, R, M = int(L), int(R), int(M)
         total = TOTAL_OP[A](total, R//M-(L-1)//M)
         curr_hash = HASH_OP[A](curr_hash, get_sum(prefix, L, R, M))
-        if total == B-1 and curr_hash in lookup:
+        if total == B-1 and curr_hash in lookup:  # check total to avoid hash collision
             result[i] = lookup[curr_hash]+1
     return " ".join(map(lambda x: str(x) if x else "X", result))
 
