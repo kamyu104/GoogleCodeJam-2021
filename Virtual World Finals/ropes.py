@@ -27,7 +27,7 @@ def check_result(A_score, B_score):
 def greedy(score_matrix):
     # given that opposing team choose the play that yields the maximum possible score for this turn.
     # if there is a tie:
-    #   - they will choose one at random as problem description
+    #   - they will choose one at random as problem description claims
     #   - they will not choose by a counter-greedy strategy (choose as far east as possible), since we can never win by this greedy strategy if they can do that
     result = None
     best_score = max(imap(max, score_matrix))
