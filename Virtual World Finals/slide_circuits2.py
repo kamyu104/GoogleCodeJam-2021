@@ -43,7 +43,7 @@ def slide_circuits():
         for i in xrange(m, S+1, m):
             prefix[m].append(add(prefix[m][-1], slide_hashes[i-1]))
     result = [0]*N
-    curr_hash = total = 0
+    total = curr_hash = 0
     for i in xrange(N):
         A, L, R, M = raw_input().strip().split()
         L, R, M = int(L), int(R), int(M)
