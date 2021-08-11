@@ -3,7 +3,7 @@
 # Google Code Jam 2021 Virtual World Finals- Problem D. Divisible Divisions
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fb3a
 #
-# Time:  O(|S|logD)
+# Time:  O(|S|logD + D)
 # Space: O(|S| + D)
 #
 

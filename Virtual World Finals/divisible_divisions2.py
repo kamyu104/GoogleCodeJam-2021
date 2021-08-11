@@ -4,9 +4,9 @@
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fb3a
 #
 # Time:  O(|S|logD)
-# Space: O(D)
+# Space: O(min(|S|logD, D))
 #
-# space optimized from divisible_divisions.py
+# time and space optimized from divisible_divisions.py
 #
 
 from collections import Counter
@@ -54,7 +54,7 @@ def divisible_divisions():
     dp1, dp2, suffix = [[0]*w for _ in xrange(3)]
     dp1[0] = 1
     suffix[0] = curr1
-    prefix_total, prefix_dp1 = [[0]*d_remain for _ in xrange(2)]
+    prefix_total, prefix_dp1 = [Counter() for _ in xrange(2)]
     accu_dp1, d_2_5 = 1, D//d_remain
     inv_10_mod_d_remain = linear_congruence(10, d_remain, 1)%d_remain
     for i in xrange(1, len(S)+1):
