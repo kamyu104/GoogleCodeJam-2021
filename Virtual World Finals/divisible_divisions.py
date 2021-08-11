@@ -33,12 +33,13 @@ def divisible_divisions():
         suffix[i] = (suffix[i+1] + S[i]*basis) % d_remain
         basis = basis*10 % d_remain
 
-    dp1, dp2 = [[0]*(l+1) for _ in xrange(2)]
+    w = l+1
+    dp1, dp2 = [[0]*w for _ in xrange(2)]
     dp1[0] = 1
     prefix_total, prefix_dp1 = [[0]*d_remain for _ in xrange(2)]
     accu_dp1, d_2_5 = 1, D//d_remain
     for i in xrange(1, len(S)+1):
-        dp1[i%(l+1)], dp2[i%(l+1)] = 0, accu_dp1
+        dp1[i%w], dp2[i%w] = 0, accu_dp1
         curr, basis = 0, 1
         for k in xrange(1, l+1):  # O(logD) times
             if i-k < 0:
@@ -46,18 +47,18 @@ def divisible_divisions():
             j = i-k
             curr = (curr + S[j]*basis) % d_2_5
             if k == l:
-                prefix_total[suffix[j]] = addmod(prefix_total[suffix[j]], addmod(dp1[j%(l+1)], dp2[j%(l+1)]))
-                prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j%(l+1)])
+                prefix_total[suffix[j]] = addmod(prefix_total[suffix[j]], addmod(dp1[j%w], dp2[j%w]))
+                prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j%w])
                 if curr % d_2_5 == 0:
-                    dp1[i%(l+1)] = addmod(dp1[i%(l+1)], prefix_total[suffix[i]])
-                    dp2[i%(l+1)] = submod(dp2[i%(l+1)], prefix_dp1[suffix[i]])
+                    dp1[i%w] = addmod(dp1[i%w], prefix_total[suffix[i]])
+                    dp2[i%w] = submod(dp2[i%w], prefix_dp1[suffix[i]])
                 break
             if curr == 0 and suffix[j] == suffix[i]:
-                dp1[i%(l+1)] = addmod(dp1[i%(l+1)], addmod(dp1[j%(l+1)], dp2[j%(l+1)]))
-                dp2[i%(l+1)] = submod(dp2[i%(l+1)], dp1[j%(l+1)])
+                dp1[i%w] = addmod(dp1[i%w], addmod(dp1[j%w], dp2[j%w]))
+                dp2[i%w] = submod(dp2[i%w], dp1[j%w])
             basis = basis*10 % d_2_5
-        accu_dp1 = addmod(accu_dp1, dp1[i%(l+1)])
-    return addmod(dp1[len(S)%(l+1)], dp2[len(S)%(l+1)])
+        accu_dp1 = addmod(accu_dp1, dp1[i%w])
+    return addmod(dp1[len(S)%w], dp2[len(S)%w])
 
 MOD = 10**9+7
 for case in xrange(input()):
