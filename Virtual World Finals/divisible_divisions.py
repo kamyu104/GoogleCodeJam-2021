@@ -20,13 +20,13 @@ def divisible_divisions():
     d_remain, d_2_5, cnt_2 = D, 1, 0
     while d_remain%2 == 0:
         d_remain //= 2
-        cnt_2 += 1
         d_2_5 *= 2
+        cnt_2 += 1
     cnt_5 = 0
     while d_remain%5 == 0:
         d_remain //= 5
-        cnt_5 += 1
         d_2_5 *= 5
+        cnt_5 += 1
     l = max(1, cnt_2, cnt_5)  # l = O(logD)
 
     suffix = [0]*(len(S)+1)
