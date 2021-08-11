@@ -50,6 +50,8 @@ def divisible_divisions():
         curr1 = (curr1 + S[i]*basis1) % d_remain
         basis1 = basis1*10 % d_remain
 
+    # dp1[i]: count of divisible divisions of this prefix whose last division is divisible by D ends at S[i-1]
+    # dp2[i]: count of divisible divisions of this prefix whose last division is not divisible by D ends at S[i-1]
     w = l+1
     dp1, dp2, suffix = [[0]*w for _ in xrange(3)]
     dp1[0], suffix[0] = 1, curr1
