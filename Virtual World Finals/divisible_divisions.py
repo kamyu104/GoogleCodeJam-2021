@@ -6,7 +6,6 @@
 # Time:  O(|S|logD)
 # Space: O(|S| + D)
 #
-#
 
 from collections import Counter
 
