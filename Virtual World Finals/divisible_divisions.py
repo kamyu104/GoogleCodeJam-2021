@@ -18,8 +18,8 @@ def mulmod(a, b):
 
 def divisible_divisions():
     S, D = raw_input().strip().split()
-    s = S
     S, D = map(int, list(S)), int(D)
+
     d_remain, d_2_5, cnt_2 = D, 1, 0
     while d_remain%2 == 0:
         d_remain //= 2
@@ -31,11 +31,13 @@ def divisible_divisions():
         cnt_5 += 1
         d_2_5 *= 5
     l = max(1, cnt_2, cnt_5)
+
     suffix = [0]*(len(S)+1)
     basis = 1
     for i in reversed(xrange(len(S))):
         suffix[i] = (suffix[i+1] + S[i]*basis) % d_remain
         basis = basis*10 % d_remain
+
     dp1, dp2 = [[0]*(l+1) for _ in xrange(2)]
     dp1[0] = 1
     prefix_total, prefix_dp1 = [[0]*d_remain for _ in xrange(2)]
