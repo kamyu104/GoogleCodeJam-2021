@@ -4,7 +4,8 @@
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fb3a
 #
 # Time:  O(|S|logD)
-# Space: O(D)
+# Space: O(|S| + D)
+#
 #
 
 from collections import Counter
@@ -30,13 +31,12 @@ def divisible_divisions():
         suffix[i] = (suffix[i+1] + S[i]*basis) % d_remain
         basis = basis*10 % d_remain
 
-    w = l+1
-    dp1, dp2 = [[0]*w for _ in xrange(2)]
+    dp1, dp2 = [[0]*(len(S)+1) for _ in xrange(2)]
     dp1[0] = 1
     prefix_total, prefix_dp1 = [[0]*d_remain for _ in xrange(2)]
     accu_dp1, d_2_5 = 1, D//d_remain
     for i in xrange(1, len(S)+1):
-        dp1[i%w], dp2[i%w] = 0, accu_dp1
+        dp2[i] = accu_dp1
         curr, basis = 0, 1
         for k in xrange(1, l+1):  # O(logD) times
             if i-k < 0:
@@ -44,18 +44,18 @@ def divisible_divisions():
             j = i-k
             curr = (curr + S[j]*basis) % d_2_5
             if k == l:
-                prefix_total[suffix[j]] = addmod(prefix_total[suffix[j]], addmod(dp1[j%w], dp2[j%w]))
-                prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j%w])
+                prefix_total[suffix[j]] = addmod(prefix_total[suffix[j]], addmod(dp1[j], dp2[j]))
+                prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j])
                 if curr % d_2_5 == 0:
-                    dp1[i%w] = addmod(dp1[i%w], prefix_total[suffix[i]])
-                    dp2[i%w] = addmod(dp2[i%w], -prefix_dp1[suffix[i]])
+                    dp1[i] = addmod(dp1[i], prefix_total[suffix[i]])
+                    dp2[i] = addmod(dp2[i], -prefix_dp1[suffix[i]])
                 break
             if curr == 0 and suffix[j] == suffix[i]:
-                dp1[i%w] = addmod(dp1[i%w], addmod(dp1[j%w], dp2[j%w]))
-                dp2[i%w] = addmod(dp2[i%w], -dp1[j%w])
+                dp1[i] = addmod(dp1[i], addmod(dp1[j], dp2[j]))
+                dp2[i] = addmod(dp2[i], -dp1[j])
             basis = basis*10 % d_2_5
-        accu_dp1 = addmod(accu_dp1, dp1[i%w])
-    return addmod(dp1[len(S)%w], dp2[len(S)%w])
+        accu_dp1 = addmod(accu_dp1, dp1[i])
+    return addmod(dp1[len(S)], dp2[len(S)])
 
 MOD = 10**9+7
 for case in xrange(input()):
