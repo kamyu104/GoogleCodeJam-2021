@@ -13,9 +13,6 @@ def addmod(a, b):
 def submod(a, b):
     return (a-b)%MOD
 
-def mulmod(a, b):
-    return (a*b)%MOD
-
 def divisible_divisions():
     S, D = raw_input().strip().split()
     S, D = map(int, list(S)), int(D)
