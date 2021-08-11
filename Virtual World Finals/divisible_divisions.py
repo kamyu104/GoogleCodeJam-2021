@@ -45,7 +45,7 @@ def divisible_divisions():
             if k == l:
                 prefix_total[suffix[j]] = addmod(prefix_total[suffix[j]], addmod(dp1[j], dp2[j]))
                 prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j])
-                if curr % d_2_5 == 0:
+                if curr == 0:
                     dp1[i] = addmod(dp1[i], prefix_total[suffix[i]])
                     dp2[i] = addmod(dp2[i], -prefix_dp1[suffix[i]])
                 break
