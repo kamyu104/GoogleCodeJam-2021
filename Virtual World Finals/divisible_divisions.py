@@ -12,9 +12,6 @@ from collections import Counter
 def addmod(a, b):
     return (a+b)%MOD
 
-def submod(a, b):
-    return (a-b)%MOD
-
 def divisible_divisions():
     S, D = raw_input().strip().split()
     S, D = map(int, list(S)), int(D)
@@ -51,11 +48,11 @@ def divisible_divisions():
                 prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j%w])
                 if curr % d_2_5 == 0:
                     dp1[i%w] = addmod(dp1[i%w], prefix_total[suffix[i]])
-                    dp2[i%w] = submod(dp2[i%w], prefix_dp1[suffix[i]])
+                    dp2[i%w] = addmod(dp2[i%w], -prefix_dp1[suffix[i]])
                 break
             if curr == 0 and suffix[j] == suffix[i]:
                 dp1[i%w] = addmod(dp1[i%w], addmod(dp1[j%w], dp2[j%w]))
-                dp2[i%w] = submod(dp2[i%w], dp1[j%w])
+                dp2[i%w] = addmod(dp2[i%w], -dp1[j%w])
             basis = basis*10 % d_2_5
         accu_dp1 = addmod(accu_dp1, dp1[i%w])
     return addmod(dp1[len(S)%w], dp2[len(S)%w])
