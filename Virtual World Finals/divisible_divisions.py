@@ -7,6 +7,8 @@
 # Space: O(D)
 #
 
+from collections import Counter
+
 def addmod(a, b):
     return (a+b)%MOD
 
@@ -17,17 +19,13 @@ def divisible_divisions():
     S, D = raw_input().strip().split()
     S, D = map(int, list(S)), int(D)
 
-    d_remain, d_2_5, cnt_2 = D, 1, 0
-    while d_remain%2 == 0:
-        d_remain //= 2
-        d_2_5 *= 2
-        cnt_2 += 1
-    cnt_5 = 0
-    while d_remain%5 == 0:
-        d_remain //= 5
-        d_2_5 *= 5
-        cnt_5 += 1
-    l = max(1, cnt_2, cnt_5)  # l = O(logD)
+    cnts = Counter([1])
+    d_remain = D
+    for p in [2, 5]:
+        while d_remain%p == 0:
+            d_remain //= p
+            cnts[p] += 1
+    l = max(cnts.itervalues())  # l = O(logD)
 
     suffix = [0]*(len(S)+1)
     basis = 1
@@ -38,7 +36,7 @@ def divisible_divisions():
     dp1, dp2 = [[0]*(l+1) for _ in xrange(2)]
     dp1[0] = 1
     prefix_total, prefix_dp1 = [[0]*d_remain for _ in xrange(2)]
-    accu_dp1 = 1
+    accu_dp1, d_2_5 = 1, D//d_remain
     for i in xrange(1, len(S)+1):
         dp1[i%(l+1)], dp2[i%(l+1)] = 0, accu_dp1
         curr, basis = 0, 1
