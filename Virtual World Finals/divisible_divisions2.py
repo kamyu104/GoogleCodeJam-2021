@@ -70,8 +70,10 @@ def divisible_divisions():
                 prefix_total[suffix[j%w]] = addmod(prefix_total[suffix[j%w]], addmod(dp1[j%w], dp2[j%w]))
                 prefix_dp1[suffix[j%w]] = addmod(prefix_dp1[suffix[j%w]], dp1[j%w])
                 if curr2 == 0:
-                    dp1[i%w] = addmod(dp1[i%w], prefix_total[suffix[i%w]])  # add sum(dp1[j]+dp2[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
-                    dp2[i%w] = addmod(dp2[i%w], -prefix_dp1[suffix[i%w]])   # sub sum(dp1[j]        for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
+                    # since all(S[j:i]%d_2_5 == 0 for j in xrange(i-l+1)) is true,
+                    # find sum(cnt[j] for j in xrange(i-l+1) if S[j:i]%D == 0) <=> find sum(cnt[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])
+                    dp1[i%w] = addmod(dp1[i%w], prefix_total[suffix[i%w]])  # prefix_total[suffix[i]] = sum(dp1[j]+dp2[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
+                    dp2[i%w] = addmod(dp2[i%w], -prefix_dp1[suffix[i%w]])   # prefix_dp1[suffix[i]]   = sum(dp1[j]        for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
                 break
             if curr2 == 0 and suffix[j%w] == suffix[i%w]:  # (S[j:i]%d_2_5 == 0) and (suffix[j]-suffix[i] == 0 <=> S[j:i]%d_remain == 0) <=> S[j:i]%D == 0
                 dp1[i%w] = addmod(dp1[i%w], addmod(dp1[j%w], dp2[j%w]))

@@ -46,8 +46,10 @@ def divisible_divisions():
                 prefix_total[suffix[j]] = addmod(prefix_total[suffix[j]], addmod(dp1[j], dp2[j]))
                 prefix_dp1[suffix[j]] = addmod(prefix_dp1[suffix[j]], dp1[j])
                 if curr == 0:
-                    dp1[i] = addmod(dp1[i], prefix_total[suffix[i]])  # add sum(dp1[j]+dp2[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
-                    dp2[i] = addmod(dp2[i], -prefix_dp1[suffix[i]])   # sub sum(dp1[j]        for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
+                    # since all(S[j:i]%d_2_5 == 0 for j in xrange(i-l+1)) is true,
+                    # find sum(cnt[j] for j in xrange(i-l+1) if S[j:i]%D == 0) <=> find sum(cnt[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])
+                    dp1[i] = addmod(dp1[i], prefix_total[suffix[i]])  # prefix_total[suffix[i]] = sum(dp1[j]+dp2[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
+                    dp2[i] = addmod(dp2[i], -prefix_dp1[suffix[i]])   # prefix_dp1[suffix[i]]   = sum(dp1[j]        for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
                 break
             if curr == 0 and suffix[j] == suffix[i]:  # (S[j:i]%d_2_5 == 0) and (suffix[j]-suffix[i] == 0 <=> S[j:i]%d_remain == 0) <=> S[j:i]%D == 0
                 dp1[i] = addmod(dp1[i], addmod(dp1[j], dp2[j]))
