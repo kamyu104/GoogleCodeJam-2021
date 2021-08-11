@@ -50,6 +50,7 @@ def divisible_divisions():
                     dp2[i] = addmod(dp2[i], -prefix_dp1[suffix[i]])
                 break
             if curr == 0 and suffix[j] == suffix[i]:
+                # S[j:i] % d_2_5 = S[j:i] % d_remain = 0 <=> S[j:i] % D = 0
                 dp1[i] = addmod(dp1[i], addmod(dp1[j], dp2[j]))
                 dp2[i] = addmod(dp2[i], -dp1[j])
             basis = basis*10 % d_2_5
