@@ -27,7 +27,7 @@ def divisible_divisions():
         d_remain //= 5
         cnt_5 += 1
         d_2_5 *= 5
-    l = max(1, cnt_2, cnt_5)
+    l = max(1, cnt_2, cnt_5)  # l = O(logD)
 
     suffix = [0]*(len(S)+1)
     basis = 1
@@ -42,7 +42,7 @@ def divisible_divisions():
     for i in xrange(1, len(S)+1):
         dp1[i%(l+1)], dp2[i%(l+1)] = 0, accu_dp1
         curr, basis = 0, 1
-        for k in xrange(1, l+1):  # Time:  O(logD)
+        for k in xrange(1, l+1):  # O(logD) times
             if i-k < 0:
                 break
             j = i-k
