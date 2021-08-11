@@ -56,7 +56,7 @@ def divisible_divisions():
     suffix[0] = curr1
     prefix_total, prefix_dp1 = [Counter() for _ in xrange(2)]
     accu_dp1, d_2_5 = 1, D//d_remain
-    inv_10_mod_d_remain = linear_congruence(10, d_remain, 1)%d_remain
+    inv_10_mod_d_remain = linear_congruence(10, d_remain, 1)%d_remain  # Time: O(logD)
     for i in xrange(1, len(S)+1):
         basis1 = basis1*inv_10_mod_d_remain % d_remain
         curr1 = (curr1 - S[i-1]*basis1) % d_remain
