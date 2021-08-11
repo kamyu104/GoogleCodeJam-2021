@@ -6,7 +6,7 @@
 # Time:  O(|S|logD)
 # Space: O(min(|S|logD, D))
 #
-# time and space optimized from divisible_divisions.py
+# Time and Space optimized from divisible_divisions.py
 #
 
 from collections import Counter
