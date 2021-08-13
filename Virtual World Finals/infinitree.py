@@ -267,7 +267,7 @@ def infinitree():
             x2 = new_x2
             h1 -= p*h
             h2 -= p*h
-        p = 1  
+        p = 1
     return h1+h2
 
 LEFT, RIGHT = range(2)
