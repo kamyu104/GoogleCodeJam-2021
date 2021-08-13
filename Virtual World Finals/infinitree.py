@@ -7,13 +7,6 @@
 # Space: O(N^2.5 * logN + N^2 * logB)
 #
 
-# speedy part (jump multiple steps):
-# for each cycle with len h (worst case)
-#     each time (h * N^2 * logh) for init vector
-#     fallback jumping log(logB) times
-#         each time N^2
-# => Time: O(N^3 * logN + N^3 * log(logB)) which is less than above and could be ignored
-
 from itertools import izip
 
 # Template:
@@ -95,34 +88,34 @@ def e(i, N):
     return [int(j == i) for j in xrange(N)]
 
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
-def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logB)
-    u = [0]*N
-    basis = 1 << (len(M_powers)-1)
+def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logx)
     x += 1
-    for i in reversed(xrange(len(M_powers))):  # O(N^2*len(M_powers))
+    u = [0]*N
+    basis, i = 1, 0
+    while basis <= x:
         if x&basis:
             # new_Pr = Pi + Pr*Mi
             # new_u = ec * new_Pr = ec * (Pi + Pr*Mi) = ec*Pi + u*Mi
             v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
             v2 = vector_mult(ec, prefix_M_powers[i], INF)  # ec*Pi
             u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
-        basis >>= 1
+        i += 1
+        basis <<= 1
     return u
 
 # ei * M^x by vector-matrix exponentiation
-def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*len(M_powers))
+def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*logx)
     u = ec
-    basis = 1 << (len(M_powers)-1)
-    for i in reversed(xrange(len(M_powers))):  # O(N^2*logB)
+    basis, i = 1, 0
+    while basis <= x:
         if x&basis:
-            # new_Mr = Mr*Mi
-            # new_u = e1 * new_Mr = ei * (Mr*Mi) = u*Mi
             u = vector_mult(u, M_powers[i], INF)  # u*M^i
-        basis >>= 1
+        i += 1
+        basis <<= 1
     return u
 
 # M^x by matrix exponentiation
-def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logN)
+def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logx)
     matrix = identity_matrix(N)
     basis, i = 1, 0
     while basis <= x:
@@ -149,22 +142,22 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2*logB)
         basis >>= 1
     return result
 
-def get_step_position(N, M_powers, INF, ec, h, x):
+def get_step_position(N, M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     if h == 0:
         return (LEFT, 0)
     cnt = sum(get_ei_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < cnt else (RIGHT, x-cnt)
 
-def get_multiple_steps_position(N, M_powers, M_H_powers, prefix_M_H_powers, INF, p, vector, delta_h, ec, x):
+def get_multiple_steps_position(N, M_powers, M_H_powers, prefix_M_H_powers, INF, p, vector, delta_h, ec, x):  # Time: O(N^2 * log(logB))
     M_hi_m_ph = get_M_power_x(N, M_powers, delta_h, INF)
     left_cnt = sum(vector_mult(get_ei_sum_M_power_x(N, M_H_powers, prefix_M_H_powers, INF, vector, p-1), M_hi_m_ph, INF))
     mid_cnt = sum(get_ei_M_power_x(M_powers, INF, ec, delta_h))
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
 
-def identity_matrix(n):
+def identity_matrix(n):  # Time: O(N)
     return [[int(i == j) for j in xrange(n)] for i in xrange(n)]
 
-def find_cycles(graph):
+def find_cycles(graph):  # Time: O(N)
     scc_id = 0
     adj, cycle_length = {}, {}
     for scc in strongly_connected_components(graph):
@@ -183,7 +176,7 @@ def find_cycles(graph):
             node = adj[node][0]
     return adj, cycle_length
 
-def build_powers_and_prefix_powers(N, M, p, INF):
+def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
     I = identity_matrix(N)
     # M_powers[i] for i in xrange(1+p):
     # 0: M
@@ -227,26 +220,25 @@ def infinitree():
     x2 = B-sum(get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while True:
-        if c not in adj or p == 1:
+        if c not in adj or p == 1:  # Time: O(N^2 * logB) => Total Time: O(N^3 * logB)
             side1, new_x1 = get_step_position(N, M_powers, INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_step_position(N, M_powers, INF, e(L[c-1], N), h2, x2)
             if side1 != side2 or (h1, x1) == (0, 0):  # found lca
                 break
             prev_c = c
             c = L[c-1] if side1 == LEFT else R[c-1]
-            if p == 1 and (c not in adj or adj[c][2] != adj[prev_c][2]):  # leave prev cycle (may enter another)
+            if p == 1 and (c not in adj or adj[c][2] != adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
                 p = 0
             h1, x1 = h1-1, new_x1
             h2, x2 = h2-1, new_x2
             continue
         prev_c = c
         h = cycle_length[c]
-        if h not in M_H_powers:
-            # when single step, enter a new cycle (lazy init, otherwise may over compute):  # Time: O(N^3 * log(logB) + sqrt(N) * N^3 * logN)
+        if h not in M_H_powers:  # Total Time: O(sqrt(N) * (N^3 * logN + N^3 * log(logB))) = O(N^3.5 * logN) assumed O(logN) = O(log(logB))
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
         vector = [0]*N
         node = c
-        for x in reversed(xrange(h)):
+        for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if adj[node][1] and adj[node][0] == R[node-1]:
                 vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[node-1], N), x), INF)
                 node = R[node-1]
@@ -255,7 +247,7 @@ def infinitree():
         p = 1
         while p*h < min(h1, h2):
             p *= 2
-        while p > 2:
+        while p > 2:  # log(p) times => Total Time: O(N^2 * log(p)) = O(N^2 * log(logB))
             p //= 2
             if min(h1, h2) - p*h <= 0:
                 continue
