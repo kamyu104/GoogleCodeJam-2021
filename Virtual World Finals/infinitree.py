@@ -263,10 +263,8 @@ def infinitree():
             ok2, new_x2 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
                 continue
-            x1 = new_x1
-            x2 = new_x2
-            h1 -= p*h
-            h2 -= p*h
+            h1, x1 = h1-p*h, new_x1
+            h2, x2 = h2-p*h, new_x2
         p = 1
     return h1+h2
 
