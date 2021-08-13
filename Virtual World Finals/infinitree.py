@@ -3,8 +3,8 @@
 # Google Code Jam 2021 Virtual World Finals- Problem E. Infinitree
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fc01
 #
-# Time:  O(N^3.5 * logN + N^3 * logB), pass in PyPy2 but Python2
-# Space: O(N^2.5 * logN + N^2 * logB)
+# Time:  O(N^3.5 * logB), pass in PyPy2 but Python2
+# Space: O(N^2.5 * logB)
 #
 
 from itertools import izip
@@ -234,7 +234,7 @@ def infinitree():
             continue
         prev_c = c
         h = cycle_length[c]
-        if h not in M_H_powers:  # Total Time: O(sqrt(N) * (N^3 * logN + N^3 * log(logB))) = O(N^3.5 * logN) assumed O(logN) = O(log(logB))
+        if h not in M_H_powers:  # at most sqrt(N) distinct h, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + N^3.5 * logB) = O(N^3.5 * logB)
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
         vector = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
@@ -246,7 +246,7 @@ def infinitree():
         p = 1
         while (p*2)*h < min(h1, h2):
             p *= 2
-        while p > 1:  # log(p) times => Total Time: O(N^2 * log(p)) = O(N^2 * log(logB))
+        while p > 1:  # log(p) times => Total Time: O(N^2 * log(p)) = O(N^2 * logB)
             if min(h1, h2) - p*h <= 0:
                 p //= 2
                 continue
