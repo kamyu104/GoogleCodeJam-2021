@@ -230,7 +230,7 @@ def infinitree():
         if c not in adj or p == 1:
             side1, new_x1 = get_step_position(N, M_powers, INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_step_position(N, M_powers, INF, e(L[c-1], N), h2, x2)
-            if side1 != side2 or (h1, x1) == (0, 0) or (h2, x2) == (0, 0):
+            if side1 != side2 or (h1, x1) == (0, 0):  # found lca
                 break
             prev_c = c
             c = L[c-1] if side1 == LEFT else R[c-1]
