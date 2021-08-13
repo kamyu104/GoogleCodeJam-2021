@@ -181,7 +181,6 @@ def find_cycles(graph):
             adj[node] = [(x, i, scc_id) for i, x in enumerate(graph[node]) if x in scc][0]
             cycle_length[node] = len(scc)
             node = adj[node][0]
-        assert(node == next(iter(scc)))
     return adj, cycle_length
 
 def build_powers_and_prefix_powers(N, M, p, INF):
