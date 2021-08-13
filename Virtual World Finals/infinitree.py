@@ -65,12 +65,12 @@ def vector_mult(A, B, INF):  # Time: O(N^2), A is a N-d vector, B is a N x N mat
 def matrix_mult(A, B, INF):  # Time: O(N^3), A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in xrange(len(A))]
     B_T = zip(*B)
-    for i, (result_i, A_i) in enumerate(izip(result, A)):
-        for i, B_T_i in enumerate(B_T):
-            for _, (A_i_j, B_T_i_j) in enumerate(izip(A_i, B_T_i)):
-                result_i[i] += A_i_j*B_T_i_j
-                if result_i[i] > INF:
-                    result_i[i] = INF
+    for result_i, A_i in izip(result, A):
+        for j, B_T_i in enumerate(B_T):
+            for A_i_j, B_T_i_j in izip(A_i, B_T_i):
+                result_i[j] += A_i_j*B_T_i_j
+                if result_i[j] > INF:
+                    result_i[j] = INF
                     break
     return result
 
