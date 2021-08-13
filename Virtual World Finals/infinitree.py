@@ -245,8 +245,8 @@ def infinitree():
             if h not in M_H_powers:
                 # when single step, enter a new cycle (lazy init, otherwise may over compute):  # Time: O(N^3 * log(logB) + sqrt(N) * N^3 * logN)
                 M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
-            node = c
             vector = [0]*N
+            node = c
             for x in reversed(xrange(h)):
                 if adj[node][1] and adj[node][0] == R[node-1]:
                     vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[node-1], N), x), INF)
