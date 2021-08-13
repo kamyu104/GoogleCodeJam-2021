@@ -7,7 +7,7 @@
 # Space: O(N^2.5 * logN + N^2 * logB)
 #
 
-# speedy part:
+# speedy part (jump multiple steps):
 # for each cycle with len h (worst case)
 #     each time (h * N^2 * logh) for init vector
 #     fallback jumping log(logB) times
