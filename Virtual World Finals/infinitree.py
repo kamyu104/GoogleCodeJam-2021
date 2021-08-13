@@ -119,12 +119,12 @@ def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
     M_powers = [M]
     for _ in xrange(p):  # Time: O(N^3 * p)
         M_powers.append(matrix_mult(M_powers[-1], M_powers[-1], INF))
-    # prefix_M_powers[i] for i in xrange(1+p):
+    # prefix_M_powers[i] for i in xrange(1+(1+p)):
     # 0: I
     # 1: (I + M) * I = I + M
     # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
     # ...
-    # p: (I + M^(2^(p-1))) * (I + M + ... + M^(2^(p-1)-1))= I + M + ... M^(2^p-1)
+    # p+1: (I + M^(2^p)) * (I + M + ... + M^(2^p-1))= I + M + ... M^(2^(p+1)-1)
     prefix_M_powers = [I]
     for M_power in M_powers:  # Time: O(N^3 * p)
         matrix = matrix_add(I, M_power, INF)
@@ -237,27 +237,27 @@ def infinitree():
         if h not in M_H_powers:  # Total Time: O(sqrt(N) * (N^3 * logN + N^3 * log(logB))) = O(N^3.5 * logN) assumed O(logN) = O(log(logB))
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
         vector = [0]*N
-        node = c
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
-            if adj[node][1] and adj[node][0] == R[node-1]:
-                vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[node-1], N), x), INF)
-                node = R[node-1]
+            if adj[c][1] and adj[c][0] == R[c-1]:
+                vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
+                c = R[c-1]
             else:
-                node = L[node-1]
+                c = L[c-1]
         p = 1
-        while p*h < min(h1, h2):
+        while (p*2)*h < min(h1, h2):
             p *= 2
-        while p > 2:  # log(p) times => Total Time: O(N^2 * log(p)) = O(N^2 * log(logB))
-            p //= 2
+        while p > 1:  # log(p) times => Total Time: O(N^2 * log(p)) = O(N^2 * log(logB))
             if min(h1, h2) - p*h <= 0:
+                p //= 2
                 continue
             ok1, new_x1 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h1-p*h, e(c, N), x1)
             ok2, new_x2 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
+                p //= 2
                 continue
             h1, x1 = h1-p*h, new_x1
             h2, x2 = h2-p*h, new_x2
-        p = 1
+            p //= 2
     return h1+h2
 
 LEFT, RIGHT = range(2)
