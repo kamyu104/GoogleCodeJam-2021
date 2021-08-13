@@ -41,8 +41,33 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
             strongconnect(v, index_counter, index, lowlinks, stack, stack_set, result)
     return result
 
+def find_cycles(graph):  # Time: O(N), Space: O(N)
+    scc_id = 0
+    adj, cycle_length = {}, {}
+    for scc in strongly_connected_components(graph):
+        if next(iter(scc)) == 0:
+            continue
+        if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
+            continue
+        scc_id += 1
+        node = next(iter(scc))
+        for node in scc:
+            cycle_length[node] = len(scc)
+        node = next(iter(scc))
+        for _ in xrange(len(scc)):
+            adj[node] = [(x, i, scc_id) for i, x in enumerate(graph[node]) if x in scc][0]
+            cycle_length[node] = len(scc)
+            node = adj[node][0]
+    return adj, cycle_length
+
 def ceil_log2_x(x):
     return (x-1).bit_length()
+
+def identity_matrix(N):  # Time: O(N)
+    return [[int(i == j) for j in xrange(N)] for i in xrange(N)]
+
+def e(i, N):
+    return [int(j == i) for j in xrange(N)]
 
 def vector_mult(A, B, INF):  # Time: O(N^2), A is a N-d vector, B is a N x N matrix
     result = [0]*len(B[0])
@@ -84,8 +109,49 @@ def matrix_add(A, B, INF):  # Time: O(N^2)
                 result_i[j] = INF
     return result
 
-def e(i, N):
-    return [int(j == i) for j in xrange(N)]
+def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
+    I = identity_matrix(N)
+    # M_powers[i] for i in xrange(1+p):
+    # 0: M
+    # 1: M^2
+    # ...
+    # p: M^(2^p)
+    M_powers = [M]
+    for _ in xrange(p):  # Time: O(N^3 * p)
+        M_powers.append(matrix_mult(M_powers[-1], M_powers[-1], INF))
+    # prefix_M_powers[i] for i in xrange(1+p):
+    # 0: I
+    # 1: (I + M) * I = I + M
+    # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
+    # ...
+    # p: (I + M^(2^(p-1))) * (I + M + ... + M^(2^(p-1)-1))= I + M + ... M^(2^p-1)
+    prefix_M_powers = [I]
+    for M_power in M_powers:  # Time: O(N^3 * p)
+        matrix = matrix_add(I, M_power, INF)
+        prefix_M_powers.append(matrix_mult(matrix, prefix_M_powers[-1], INF))
+    return M_powers, prefix_M_powers
+
+# M^x by matrix exponentiation
+def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logx)
+    matrix = identity_matrix(N)
+    basis, i = 1, 0
+    while basis <= x:
+        if x&basis:
+            matrix = matrix_mult(matrix, M_powers[i], INF)
+        i += 1
+        basis <<= 1
+    return matrix
+
+# ei * M^x by vector-matrix exponentiation
+def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*logx)
+    u = ec
+    basis, i = 1, 0
+    while basis <= x:
+        if x&basis:
+            u = vector_mult(u, M_powers[i], INF)  # u*M^i
+        i += 1
+        basis <<= 1
+    return u
 
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
 def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logx)
@@ -102,28 +168,6 @@ def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N
         i += 1
         basis <<= 1
     return u
-
-# ei * M^x by vector-matrix exponentiation
-def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*logx)
-    u = ec
-    basis, i = 1, 0
-    while basis <= x:
-        if x&basis:
-            u = vector_mult(u, M_powers[i], INF)  # u*M^i
-        i += 1
-        basis <<= 1
-    return u
-
-# M^x by matrix exponentiation
-def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logx)
-    matrix = identity_matrix(N)
-    basis, i = 1, 0
-    while basis <= x:
-        if x&basis:
-            matrix = matrix_mult(matrix, M_powers[i], INF)
-        i += 1
-        basis <<= 1
-    return matrix
 
 def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2*logB)
     result = 0
@@ -153,50 +197,6 @@ def get_multiple_steps_position(N, M_powers, M_H_powers, prefix_M_H_powers, INF,
     left_cnt = sum(vector_mult(get_ei_sum_M_power_x(N, M_H_powers, prefix_M_H_powers, INF, vector, p-1), M_hi_m_ph, INF))
     mid_cnt = sum(get_ei_M_power_x(M_powers, INF, ec, delta_h))
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
-
-def identity_matrix(n):  # Time: O(N)
-    return [[int(i == j) for j in xrange(n)] for i in xrange(n)]
-
-def find_cycles(graph):  # Time: O(N)
-    scc_id = 0
-    adj, cycle_length = {}, {}
-    for scc in strongly_connected_components(graph):
-        if next(iter(scc)) == 0:
-            continue
-        if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
-            continue
-        scc_id += 1
-        node = next(iter(scc))
-        for node in scc:
-            cycle_length[node] = len(scc)
-        node = next(iter(scc))
-        for _ in xrange(len(scc)):
-            adj[node] = [(x, i, scc_id) for i, x in enumerate(graph[node]) if x in scc][0]
-            cycle_length[node] = len(scc)
-            node = adj[node][0]
-    return adj, cycle_length
-
-def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
-    I = identity_matrix(N)
-    # M_powers[i] for i in xrange(1+p):
-    # 0: M
-    # 1: M^2
-    # ...
-    # p: M^(2^p)
-    M_powers = [M]
-    for _ in xrange(p):  # Time: O(N^3 * p)
-        M_powers.append(matrix_mult(M_powers[-1], M_powers[-1], INF))
-    # prefix_M_powers[i] for i in xrange(1+p):
-    # 0: I
-    # 1: (I + M) * I = I + M
-    # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
-    # ...
-    # p: (I + M^(2^(p-1))) * (I + M + ... + M^(2^(p-1)-1))= I + M + ... M^(2^p-1)
-    prefix_M_powers = [I]
-    for M_power in M_powers:  # Time: O(N^3 * p)
-        matrix = matrix_add(I, M_power, INF)
-        prefix_M_powers.append(matrix_mult(matrix, prefix_M_powers[-1], INF))
-    return M_powers, prefix_M_powers
 
 def infinitree():
     N, A, B = map(int, raw_input().strip().split())
