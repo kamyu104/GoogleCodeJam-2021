@@ -238,36 +238,36 @@ def infinitree():
                 p = 0
             h1, x1 = h1-1, new_x1
             h2, x2 = h2-1, new_x2
-        else:
-            prev_c = c
-            h = cycle_length[c]
-            if h not in M_H_powers:
-                # when single step, enter a new cycle (lazy init, otherwise may over compute):  # Time: O(N^3 * log(logB) + sqrt(N) * N^3 * logN)
-                M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
-            vector = [0]*N
-            node = c
-            for x in reversed(xrange(h)):
-                if adj[node][1] and adj[node][0] == R[node-1]:
-                    vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[node-1], N), x), INF)
-                    node = R[node-1]
-                else:
-                    node = L[node-1]
-            p = 1
-            while p*h < min(h1, h2):
-                p *= 2
-            while p > 2:
-                p //= 2
-                if min(h1, h2) - p*h <= 0:
-                    continue
-                ok1, new_x1 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h1-p*h, e(c, N), x1)
-                ok2, new_x2 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h2-p*h, e(c, N), x2)
-                if not ok1 or not ok2:
-                    continue
-                x1 = new_x1
-                x2 = new_x2
-                h1 -= p*h
-                h2 -= p*h
-            p = 1  
+            continue
+        prev_c = c
+        h = cycle_length[c]
+        if h not in M_H_powers:
+            # when single step, enter a new cycle (lazy init, otherwise may over compute):  # Time: O(N^3 * log(logB) + sqrt(N) * N^3 * logN)
+            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
+        vector = [0]*N
+        node = c
+        for x in reversed(xrange(h)):
+            if adj[node][1] and adj[node][0] == R[node-1]:
+                vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[node-1], N), x), INF)
+                node = R[node-1]
+            else:
+                node = L[node-1]
+        p = 1
+        while p*h < min(h1, h2):
+            p *= 2
+        while p > 2:
+            p //= 2
+            if min(h1, h2) - p*h <= 0:
+                continue
+            ok1, new_x1 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h1-p*h, e(c, N), x1)
+            ok2, new_x2 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h2-p*h, e(c, N), x2)
+            if not ok1 or not ok2:
+                continue
+            x1 = new_x1
+            x2 = new_x2
+            h1 -= p*h
+            h2 -= p*h
+        p = 1  
     return h1+h2
 
 LEFT, RIGHT = range(2)
