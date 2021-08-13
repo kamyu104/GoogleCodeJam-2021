@@ -97,17 +97,16 @@ def e(i, N):
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
 def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logB)
     u = [0]*N
-    basis = 1 << len(M_powers)
+    basis = 1 << (len(M_powers)-1)
     x += 1
     for i in reversed(xrange(len(M_powers))):  # O(N^2*len(M_powers))
+        if x&basis:
+            # new_Pr = Pi + Pr*Mi
+            # new_u = ec * new_Pr = ec * (Pi + Pr*Mi) = ec*Pi + u*Mi
+            v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
+            v2 = vector_mult(ec, prefix_M_powers[i], INF)  # ec*Pi
+            u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
         basis >>= 1
-        if not x&basis:
-            continue
-        # new_Pr = Pi + Pr*Mi
-        # new_u = ec * new_Pr = ec * (Pi + Pr*Mi) = ec*Pi + u*Mi
-        v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
-        v2 = vector_mult(ec, prefix_M_powers[i], INF)  # ec*Pi
-        u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
     return u
 
 # ei * M^x by vector-matrix exponentiation
