@@ -217,7 +217,7 @@ def infinitree():
         M[i][L[i-1]] += 1
         M[i][R[i-1]] += 1
         graph[i] = [L[i-1], R[i-1]]
-    M_powers, prefix_M_powers = build_powers_and_prefix_powers(N, M, ceil_log2_x(max(N, B)), INF)
+    M_powers, prefix_M_powers = build_powers_and_prefix_powers(N, M, ceil_log2_x(B), INF)
     h1 = get_depth(N, M_powers, prefix_M_powers, INF, A)
     h2 = get_depth(N, M_powers, prefix_M_powers, INF, B)
 
