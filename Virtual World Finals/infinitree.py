@@ -4,7 +4,7 @@
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fc01
 #
 # Time:  O(N^3.5 * logB) at worst, pass in PyPy2 but Python2
-# Space: O(N^2.5 * logB)
+# Space: O(N^2.5 * logB) at worst
 #
 
 from itertools import izip
