@@ -93,6 +93,7 @@ def matrix_add(A, B, INF):  # Time: O(N^2)
 def e(i, N):
     return [int(j == i) for j in xrange(N)]
 
+# ei * (I + M+2 + ... + M^x) by vector-matrix exponentiation
 def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logB)
     u = [0]*N
     basis = 1 << len(M_powers)
@@ -108,6 +109,7 @@ def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N
         u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
     return u
 
+# ei * M^x by vector-matrix exponentiation
 def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*len(M_powers))
     u = ec
     basis = 1 << (len(M_powers)-1)
@@ -119,6 +121,7 @@ def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*len(M_powers))
         basis >>= 1
     return u
 
+# M^x by matrix exponentiation
 def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logN)
     matrix = identity_matrix(N)
     basis, i = 1, 0
