@@ -246,23 +246,23 @@ def infinitree():
                 c = L[c-1]
         p, log_p = 1, 0
         while (p*2)*h < min(h1, h2):
-            log_p += 1
             p *= 2
+            log_p += 1
         while p > 1:  # log(p) times => Total Time: O(N cycles * log(p) times * (N^2 * log(delta_h))) = O(N^3 * (logB)^2) at worst
             if min(h1, h2) - p*h <= 0:
+                p *= 2
                 log_p -= 1
-                p //= 2
                 continue
             ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), x1)
             ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
-                log_p -= 1
                 p //= 2
+                log_p -= 1
                 continue
             h1, x1 = h1-p*h, new_x1
             h2, x2 = h2-p*h, new_x2
-            log_p -= 1
             p //= 2
+            log_p -= 1
     return h1+h2
 
 LEFT, RIGHT = range(2)
