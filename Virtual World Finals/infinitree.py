@@ -138,8 +138,7 @@ def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3 * logx)
     while basis <= x:
         if x&basis:
             matrix = matrix_mult(matrix, M_powers[i], INF)
-        i += 1
-        basis <<= 1
+        basis, i = basis<<1, i+1
     return matrix
 
 # vector * M^x by vector-matrix exponentiation
@@ -149,8 +148,7 @@ def get_vector_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
     while basis <= x:
         if x&basis:
             u = vector_mult(u, M_powers[i], INF)  # u*Mi
-        i += 1
-        basis <<= 1
+        basis, i = basis<<1, i+1
     return u
 
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
@@ -165,8 +163,7 @@ def get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: 
             v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
             v2 = vector_mult(v, prefix_M_powers[i], INF)  # v*Pi
             u = vector_add(v1, v2, INF)  # u*Mi + v*Pi
-        i += 1
-        basis <<= 1
+        basis, i = basis<<1, i+1
     return u
 
 def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
@@ -243,23 +240,19 @@ def infinitree():
                 c = L[c-1]
         p, log_p = 1, 0
         while (p*2)*h < min(h1, h2):
-            p *= 2
-            log_p += 1
+            p, log_p = p*2, log_p+1
         while p > 1:  # log(p) times => Total Time: O(k cycles * log(p) times * (N^2 * log(delta_h))) = O(N^3 * log(logB)^2 + N^2 * (logB)^2) = O(N^3 * logB) assumed O(N) = O(logB)
             if min(h1, h2) - p*h <= 0:
-                p //= 2
-                log_p -= 1
+                p, log_p = p//2, log_p-1
                 continue
             ok1, new_x1 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, v, h1-p*h, e(c, N), x1)
             ok2, new_x2 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, v, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
-                p //= 2
-                log_p -= 1
+                p, log_p = p//2, log_p-1
                 continue
             h1, x1 = h1-p*h, new_x1
             h2, x2 = h2-p*h, new_x2
-            p //= 2
-            log_p -= 1
+            p, log_p = p//2, log_p-1
         prev_c = c
     return h1+h2
 
