@@ -187,8 +187,8 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
     return result
 
 def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
-    cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
-    return (LEFT, x) if x < cnt else (RIGHT, x-cnt)
+    left_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
+    return (LEFT, x) if x < left_cnt else (RIGHT, x-left_cnt)
 
 def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
     left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(vector, prefix_M_H_powers[log_p], INF), delta_h))
