@@ -174,7 +174,7 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2*logB)
     e1 = e(1, N)
     u = [0]*N
     basis = 1 << (len(M_powers)-1)
-    for i in reversed(xrange(len(M_powers))):  # O(N^2*logB)
+    for i in reversed(xrange(len(M_powers))):  # O(N^2 * logB)
         # new_Pr = Pi + Pr*Mi
         # new_u = e1 * new_Pr = e1 * (Pi + Pr*Mi) = e1*Pi + u*Mi
         v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
