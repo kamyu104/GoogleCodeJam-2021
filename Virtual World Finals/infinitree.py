@@ -132,7 +132,7 @@ def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
     return M_powers, prefix_M_powers
 
 # M^x by matrix exponentiation
-def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logx)
+def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3 * logx)
     matrix = identity_matrix(N)
     basis, i = 1, 0
     while basis <= x:
@@ -143,7 +143,7 @@ def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3*logx)
     return matrix
 
 # ei * M^x by vector-matrix exponentiation
-def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*logx)
+def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2 * logx)
     u = ec
     basis, i = 1, 0
     while basis <= x:
@@ -154,7 +154,7 @@ def get_ei_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2*logx)
     return u
 
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
-def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logx)
+def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2 * logx)
     x += 1
     u = [0]*N
     basis, i = 1, 0
@@ -169,7 +169,7 @@ def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N
         basis <<= 1
     return u
 
-def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2*logB)
+def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
     result = 0
     e1 = e(1, N)
     u = [0]*N
@@ -234,7 +234,7 @@ def infinitree():
             continue
         prev_c = c
         h = cycle_length[c]
-        if h not in M_H_powers:  # sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + N^3.5 * logB) = O(N^3.5 * logB) at worst
+        if h not in M_H_powers:  # sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3 * logN + N^3.5 * logB) = O(N^3.5 * logB) at worst
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
         vector_left, vector_right = [[0]*N for _ in xrange(2)]
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
@@ -248,7 +248,7 @@ def infinitree():
         while (p*2)*h < min(h1, h2):
             log_p += 1
             p *= 2
-        while p > 1:  # log(p) times => Total Time: O(sqrt(N) * N^2 * log(delta_h)) = O(N^3.5 * logN)
+        while p > 1:  # log(p) times => Total Time: O(sqrt(N) * log(p) * N^2 * log(delta_h)) = O(N^2.5 * logN * logB)
             if min(h1, h2) - p*h <= 0:
                 log_p -= 1
                 p //= 2
