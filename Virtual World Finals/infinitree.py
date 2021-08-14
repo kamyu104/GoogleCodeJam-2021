@@ -202,6 +202,8 @@ def infinitree():
     L = map(int, raw_input().strip().split())
     R = map(int, raw_input().strip().split())
     N += 1
+    if A > B:
+        A, B, = B, A
     M = [[0]*N for _ in xrange(N)]
     INF = B
     graph = {}
