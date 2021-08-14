@@ -219,7 +219,7 @@ def infinitree():
     x2 = B-sum(get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while (h1, x1) != (0, 0):
-        if c not in cycle_adj or p == 1:  # Time: O(N^2 * logB) => Total Time: O(N^3 * logB)
+        if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
             side1, new_x1 = get_single_step_position(M_powers, INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_single_step_position(M_powers, INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
