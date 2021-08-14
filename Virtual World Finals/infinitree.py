@@ -186,7 +186,7 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
         basis >>= 1
     return result
 
-def get_step_position(N, M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
+def get_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     if h == 0:
         return (LEFT, 0)
     cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
@@ -221,8 +221,8 @@ def infinitree():
     c, p  = 1, 0
     while True:
         if c not in adj or p == 1:  # Time: O(N^2 * logB) => Total Time: O(N^3 * logB)
-            side1, new_x1 = get_step_position(N, M_powers, INF, e(L[c-1], N), h1, x1)
-            side2, new_x2 = get_step_position(N, M_powers, INF, e(L[c-1], N), h2, x2)
+            side1, new_x1 = get_step_position(M_powers, INF, e(L[c-1], N), h1, x1)
+            side2, new_x2 = get_step_position(M_powers, INF, e(L[c-1], N), h2, x2)
             if side1 != side2 or (h1, x1) == (0, 0):  # found lca
                 break
             prev_c = c
