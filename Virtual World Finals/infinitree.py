@@ -143,8 +143,8 @@ def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3 * logx)
     return matrix
 
 # vector * M^x by vector-matrix exponentiation
-def get_vector_M_power_x(M_powers, INF, vector, x):  # Time: O(N^2 * logx)
-    u = vector
+def get_vector_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
+    u = v
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
@@ -154,17 +154,17 @@ def get_vector_M_power_x(M_powers, INF, vector, x):  # Time: O(N^2 * logx)
     return u
 
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
-def get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, vector, x):  # Time: O(N^2 * logx)
+def get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: O(N^2 * logx)
     x += 1
     u = [0]*N
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
             # new_Pr = Pi + Pr*Mi
-            # new_u = vector * new_Pr = vector * (Pi + Pr*Mi) = vector*Pi + u*Mi
+            # new_u = v * new_Pr = v * (Pi + Pr*Mi) = v*Pi + u*Mi
             v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
-            v2 = vector_mult(vector, prefix_M_powers[i], INF)  # vector*Pi
-            u = vector_add(v1, v2, INF)  # u*Mi + vector*Pi
+            v2 = vector_mult(v, prefix_M_powers[i], INF)  # v*Pi
+            u = vector_add(v1, v2, INF)  # u*Mi + v*Pi
         i += 1
         basis <<= 1
     return u
@@ -190,8 +190,8 @@ def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     left_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < left_cnt else (RIGHT, x-left_cnt)
 
-def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
-    left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(vector, prefix_M_H_powers[log_p], INF), delta_h))
+def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, v, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
+    left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(v, prefix_M_H_powers[log_p], INF), delta_h))
     mid_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, delta_h))
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
 
@@ -233,10 +233,10 @@ def infinitree():
         h = cycle_length[c]
         if h not in M_H_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], h, INF), ceil_log2_x(min(h1, h2)), INF)
-        vector = [0]*N
+        v = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
-                vector = vector_add(vector, get_vector_M_power_x(M_H_powers[1], INF, e(L[c-1], N), x), INF)
+                v = vector_add(v, get_vector_M_power_x(M_H_powers[1], INF, e(L[c-1], N), x), INF)
                 c = R[c-1]
             else:
                 c = L[c-1]
@@ -249,8 +249,8 @@ def infinitree():
                 p //= 2
                 log_p -= 1
                 continue
-            ok1, new_x1 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), x1)
-            ok2, new_x2 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), x2)
+            ok1, new_x1 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, v, h1-p*h, e(c, N), x1)
+            ok2, new_x2 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, v, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
                 p //= 2
                 log_p -= 1
