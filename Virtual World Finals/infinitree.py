@@ -141,8 +141,8 @@ def get_M_power_x(N, M_powers, INF, x):  # Time: O(N^3 * logx)
         basis, i = basis<<1, i+1
     return matrix
 
-# vector * M^x by vector-matrix exponentiation
-def get_vector_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
+# v * M^x by vector-matrix exponentiation
+def get_v_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
     u = v
     basis, i = 1, 0
     while basis <= x:
@@ -151,8 +151,8 @@ def get_vector_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
         basis, i = basis<<1, i+1
     return u
 
-# ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
-def get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: O(N^2 * logx)
+# v * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
+def get_v_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: O(N^2 * logx)
     x += 1
     u = [0]*N
     basis, i = 1, 0
@@ -184,12 +184,12 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
     return result
 
 def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
-    left_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
+    left_cnt = sum(get_v_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < left_cnt else (RIGHT, x-left_cnt)
 
 def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, v, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
-    left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(v, prefix_M_H_powers[log_p], INF), delta_h))
-    mid_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, delta_h))
+    left_cnt = sum(get_v_M_power_x(M_powers, INF, vector_mult(v, prefix_M_H_powers[log_p], INF), delta_h))
+    mid_cnt = sum(get_v_M_power_x(M_powers, INF, ec, delta_h))
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
 
 def infinitree():
@@ -212,8 +212,8 @@ def infinitree():
     h2 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, B)
 
     cycle_adj, cycle_length = find_cycles(graph)
-    x1 = A-sum(get_vector_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h1-1))-1
-    x2 = B-sum(get_vector_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h2-1))-1
+    x1 = A-sum(get_v_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h1-1))-1
+    x2 = B-sum(get_v_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while (h1, x1) != (0, 0):
         if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
@@ -234,7 +234,7 @@ def infinitree():
         v = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
-                v = vector_add(v, get_vector_M_power_x(M_H_powers[1], INF, e(L[c-1], N), x), INF)
+                v = vector_add(v, get_v_M_power_x(M_H_powers[1], INF, e(L[c-1], N), x), INF)
                 c = R[c-1]
             else:
                 c = L[c-1]
