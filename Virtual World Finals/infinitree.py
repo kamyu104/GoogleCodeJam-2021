@@ -192,11 +192,10 @@ def get_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < cnt else (RIGHT, x-cnt)
 
-def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector_left, vector_right, delta_h, ec, h, x):  # Time: O(N^2 * log(delta_h))
-    left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(vector_left, prefix_M_H_powers[log_p], INF), delta_h))
-    right_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(vector_right, prefix_M_H_powers[log_p], INF), delta_h))
-    total = sum(get_vector_M_power_x(M_powers, INF, ec, h))
-    return left_cnt <= x < total-right_cnt, x-left_cnt
+def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector, delta_h, ec, h, x):  # Time: O(N^2 * log(delta_h))
+    left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(vector, prefix_M_H_powers[log_p], INF), delta_h))
+    mid_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, delta_h))
+    return 0 <= x-left_cnt < mid_cnt, x-left_cnt
 
 def infinitree():
     N, A, B = map(int, raw_input().strip().split())
@@ -236,13 +235,12 @@ def infinitree():
         h = cycle_length[c]
         if h not in M_H_powers:  # sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3 * logN + N^3.5 * logB) = O(N^3.5 * logB) at worst
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
-        vector_left, vector_right = [[0]*N for _ in xrange(2)]
+        vector = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if adj[c][1] and adj[c][0] == R[c-1]:
-                vector_left = vector_add(vector_left, get_vector_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
+                vector = vector_add(vector, get_vector_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
                 c = R[c-1]
             else:
-                vector_right = vector_add(vector_right, get_vector_M_power_x(M_powers, INF, e(R[c-1], N), x), INF)
                 c = L[c-1]
         p, log_p = 1, 0
         while (p*2)*h < min(h1, h2):
@@ -253,8 +251,8 @@ def infinitree():
                 log_p -= 1
                 p //= 2
                 continue
-            ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector_left, vector_right, h1-p*h, e(c, N), h1, x1)
-            ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector_left, vector_right, h2-p*h, e(c, N), h2, x2)
+            ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), h1, x1)
+            ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), h2, x2)
             if not ok1 or not ok2:
                 log_p -= 1
                 p //= 2
