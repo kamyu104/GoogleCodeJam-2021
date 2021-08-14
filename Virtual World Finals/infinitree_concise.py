@@ -71,7 +71,7 @@ def identity_matrix(N):  # Time: O(N)
 def e(i, N):  # Time: O(N)
     return [int(j == i) for j in xrange(N)]
 
-def matrix_mult(A, B, INF): # Time: O(N^2) if A is 1 x N matrix and B is N x N matrix,  O(N^3) if A, B are both N x N matrixs
+def matrix_mult(A, B, INF): # Time: O(N^2) if A is 1 x N matrix and B is N x N matrix, O(N^3) if A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in xrange(len(A))]
     B_T = zip(*B)
     for result_i, A_i in izip(result, A):
@@ -83,7 +83,7 @@ def matrix_mult(A, B, INF): # Time: O(N^2) if A is 1 x N matrix and B is N x N m
                     break
     return result
 
-def matrix_add(A, B, INF):  # Time: O(N) if A, B are both 1 x N matrixs,  O(N^2) if A, B are both N x N matrixs
+def matrix_add(A, B, INF):  # Time: O(N) if A, B are both 1 x N matrixs, O(N^2) if A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in xrange(len(A))]
     for result_i, A_i, B_i in izip(result, A, B):
         for j in xrange(len(result_i)):
