@@ -142,29 +142,29 @@ def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3 * logx)
         basis <<= 1
     return matrix
 
-# ei * M^x by vector-matrix exponentiation
-def get_vector_M_power_x(M_powers, INF, ec, x):  # Time: O(N^2 * logx)
-    u = ec
+# vector * M^x by vector-matrix exponentiation
+def get_vector_M_power_x(M_powers, INF, vector, x):  # Time: O(N^2 * logx)
+    u = vector
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
-            u = vector_mult(u, M_powers[i], INF)  # u*M^i
+            u = vector_mult(u, M_powers[i], INF)  # u*Mi
         i += 1
         basis <<= 1
     return u
 
 # ei * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
-def get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2 * logx)
+def get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, vector, x):  # Time: O(N^2 * logx)
     x += 1
     u = [0]*N
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
             # new_Pr = Pi + Pr*Mi
-            # new_u = ec * new_Pr = ec * (Pi + Pr*Mi) = ec*Pi + u*Mi
-            v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
-            v2 = vector_mult(ec, prefix_M_powers[i], INF)  # ec*Pi
-            u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
+            # new_u = vector * new_Pr = vector * (Pi + Pr*Mi) = vector*Pi + u*Mi
+            v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
+            v2 = vector_mult(vector, prefix_M_powers[i], INF)  # vector*Pi
+            u = vector_add(v1, v2, INF)  # u*Mi + vector*Pi
         i += 1
         basis <<= 1
     return u
@@ -177,9 +177,9 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
     for i in reversed(xrange(len(M_powers))):  # O(N^2 * logB)
         # new_Pr = Pi + Pr*Mi
         # new_u = e1 * new_Pr = e1 * (Pi + Pr*Mi) = e1*Pi + u*Mi
-        v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
+        v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
         v2 = vector_mult(e1, prefix_M_powers[i], INF)  # e1*Pi
-        new_u = vector_add(v1, v2, INF)  # u*M^i + e1*Pi
+        new_u = vector_add(v1, v2, INF)  # u*Mi + e1*Pi
         if sum(new_u) < B:
             u = new_u
             result |= basis
