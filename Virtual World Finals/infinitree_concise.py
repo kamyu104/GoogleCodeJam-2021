@@ -6,6 +6,8 @@
 # Time:  O(N^3.5 * logN + N^3 * logB), pass in PyPy2 but Python2
 # Space: O(N^2.5 * logN + N^2 * logB)
 #
+# concise but slower solution of infinitree.py
+#
 
 from itertools import izip
 
@@ -69,18 +71,7 @@ def identity_matrix(N):  # Time: O(N)
 def e(i, N):  # Time: O(N)
     return [int(j == i) for j in xrange(N)]
 
-def vector_mult(A, B, INF):  # Time: O(N^2), A is a N-d vector, B is a N x N matrix
-    result = [0]*len(B[0])
-    B_T = zip(*B)
-    for i, B_T_i in enumerate(B_T):
-        for _, (A_j, B_T_i_j) in enumerate(izip(A, B_T_i)):
-            result[i] += A_j*B_T_i_j
-            if result[i] > INF:
-                result[i] = INF
-                break
-    return result
-
-def matrix_mult(A, B, INF):  # Time: O(N^3), A, B are both N x N matrixs
+def matrix_mult(A, B, INF): # Time: O(N^2) if A is 1 x N matrix and B is N x N matrix,  O(N^3) if A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in xrange(len(A))]
     B_T = zip(*B)
     for result_i, A_i in izip(result, A):
@@ -92,15 +83,7 @@ def matrix_mult(A, B, INF):  # Time: O(N^3), A, B are both N x N matrixs
                     break
     return result
 
-def vector_add(A, B, INF):  # Time: O(N)
-    result = [0]*len(A)
-    for i, (A_i, B_i) in enumerate(izip(A, B)):
-        result[i] = A_i+B_i
-        if result[i] > INF:
-            result[i] = INF
-    return result
-
-def matrix_add(A, B, INF):  # Time: O(N^2)
+def matrix_add(A, B, INF):  # Time: O(N) if A, B are both 1 x N matrixs,  O(N^2) if A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in xrange(len(A))]
     for result_i, A_i, B_i in izip(result, A, B):
         for j in xrange(len(result_i)):
@@ -132,24 +115,13 @@ def build_powers_and_prefix_powers(N, M, INF, p):  # Time: O(N^3 * p)
     return M_powers, prefix_M_powers
 
 # M^x by matrix exponentiation
-def get_M_power_x(N, M_powers, INF, x):  # Time: O(N^3 * logx)
-    matrix = identity_matrix(N)
+def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^2 * logx) if V is 1 x N matrix, O(N^3 * logx) if N x N matrix
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
-            matrix = matrix_mult(matrix, M_powers[i], INF)
+            V = matrix_mult(V, M_powers[i], INF)
         basis, i = basis<<1, i+1
-    return matrix
-
-# v * M^x by vector-matrix exponentiation
-def get_v_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
-    u = v
-    basis, i = 1, 0
-    while basis <= x:
-        if x&basis:
-            u = vector_mult(u, M_powers[i], INF)  # u*Mi
-        basis, i = basis<<1, i+1
-    return u
+    return V
 
 # v * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
 def get_v_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: O(N^2 * logx)
@@ -160,9 +132,9 @@ def get_v_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: O(N^2
         if x&basis:
             # new_Pr = Pi + Pr*Mi
             # new_u = v * new_Pr = v * (Pi + Pr*Mi) = v*Pi + u*Mi
-            v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
-            v2 = vector_mult(v, prefix_M_powers[i], INF)  # v*Pi
-            u = vector_add(v1, v2, INF)  # u*Mi + v*Pi
+            v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*Mi
+            v2 = matrix_mult([v], prefix_M_powers[i], INF)[0]  # v*Pi
+            u = matrix_add([v1], [v2], INF)[0]  # u*Mi + v*Pi
         basis, i = basis<<1, i+1
     return u
 
@@ -174,9 +146,9 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
     for i in reversed(xrange(len(M_powers))):  # O(N^2 * logB)
         # new_Pr = Pi + Pr*Mi
         # new_u = e1 * new_Pr = e1 * (Pi + Pr*Mi) = e1*Pi + u*Mi
-        v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
-        v2 = vector_mult(e1, prefix_M_powers[i], INF)  # e1*Pi
-        new_u = vector_add(v1, v2, INF)  # u*Mi + e1*Pi
+        v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*Mi
+        v2 = matrix_mult([e1], prefix_M_powers[i], INF)[0]  # e1*Pi
+        new_u = matrix_add([v1], [v2], INF)[0]  # u*Mi + e1*Pi
         if sum(new_u) < B:
             u = new_u
             result |= basis
@@ -184,12 +156,12 @@ def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
     return result
 
 def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
-    left_cnt = sum(get_v_M_power_x(M_powers, INF, ec, h-1))
+    left_cnt = sum(get_V_M_power_x(M_powers, INF, [ec], h-1)[0])
     return (LEFT, x) if x < left_cnt else (RIGHT, x-left_cnt)
 
 def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, v, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
-    left_cnt = sum(get_v_M_power_x(M_powers, INF, vector_mult(v, prefix_M_H_powers[log_p], INF), delta_h))
-    mid_cnt = sum(get_v_M_power_x(M_powers, INF, ec, delta_h))
+    left_cnt = sum(get_V_M_power_x(M_powers, INF, matrix_mult([v], prefix_M_H_powers[log_p], INF), delta_h)[0])
+    mid_cnt = sum(get_V_M_power_x(M_powers, INF, [ec], delta_h)[0])
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
 
 def infinitree():
@@ -230,11 +202,11 @@ def infinitree():
         # path from root to lca enter a new unseen cycle, we can speed up in this part of path
         h = cycle_length[c]
         if h not in M_H_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
-            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], INF, h), INF, ceil_log2_x(min(h1, h2)))
+            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_V_M_power_x(M_H_powers[1], INF, identity_matrix(N), h), INF, ceil_log2_x(min(h1, h2)))
         v = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
-                v = vector_add(v, get_v_M_power_x(M_H_powers[1], INF, e(L[c-1], N), x), INF)
+                v = matrix_add([v], [get_V_M_power_x(M_H_powers[1], INF, [e(L[c-1], N)], x)[0]], INF)[0]
                 c = R[c-1]
             else:
                 c = L[c-1]
