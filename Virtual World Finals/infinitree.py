@@ -169,6 +169,22 @@ def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N
         basis <<= 1
     return u
 
+def debug_get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logx)
+    x += 1
+    u = [0]*N
+    basis, i = 1, 0
+    while basis <= x:
+        if x&basis:
+            print basis, i
+            # new_Pr = Pi + Pr*Mi
+            # new_u = ec * new_Pr = ec * (Pi + Pr*Mi) = ec*Pi + u*Mi
+            #v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
+            u = vector_mult(ec, prefix_M_powers[i], INF)  # ec*Pi
+            #u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
+        i += 1
+        basis <<= 1
+    return u
+
 def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2*logB)
     result = 0
     e1 = e(1, N)
@@ -192,11 +208,11 @@ def get_step_position(N, M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     cnt = sum(get_ei_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < cnt else (RIGHT, x-cnt)
 
-def get_multiple_steps_position(N, M_powers, M_H_powers, prefix_M_H_powers, INF, p, vector, delta_h, ec, x):  # Time: O(N^2 * log(logB))
-    M_hi_m_ph = get_M_power_x(N, M_powers, delta_h, INF)
-    left_cnt = sum(vector_mult(get_ei_sum_M_power_x(N, M_H_powers, prefix_M_H_powers, INF, vector, p-1), M_hi_m_ph, INF))
-    mid_cnt = sum(get_ei_M_power_x(M_powers, INF, ec, delta_h))
-    return 0 <= x-left_cnt < mid_cnt, x-left_cnt
+def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector_left, vector_right, delta_h, ec, h, x):  # Time: O(N^2 * log(delta_h))
+    left_cnt = sum(get_ei_M_power_x(M_powers, INF, vector_mult(vector_left, prefix_M_H_powers[log_p], INF), delta_h))
+    right_cnt = sum(get_ei_M_power_x(M_powers, INF, vector_mult(vector_right, prefix_M_H_powers[log_p], INF), delta_h))
+    total = sum(get_ei_M_power_x(M_powers, INF, ec, h))
+    return left_cnt <= x < total-right_cnt, x-left_cnt
 
 def infinitree():
     N, A, B = map(int, raw_input().strip().split())
@@ -236,27 +252,32 @@ def infinitree():
         h = cycle_length[c]
         if h not in M_H_powers:  # sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + N^3.5 * logB) = O(N^3.5 * logB) at worst
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
-        vector = [0]*N
+        vector_left, vector_right = [[0]*N for _ in xrange(2)]
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if adj[c][1] and adj[c][0] == R[c-1]:
-                vector = vector_add(vector, get_ei_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
+                vector_left = vector_add(vector_left, get_ei_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
                 c = R[c-1]
             else:
+                vector_right = vector_add(vector_right, get_ei_M_power_x(M_powers, INF, e(R[c-1], N), x), INF)
                 c = L[c-1]
-        p = 1
+        p, log_p = 1, 0
         while (p*2)*h < min(h1, h2):
+            log_p += 1
             p *= 2
-        while p > 1:  # log(p) times => Total Time: O(N^2 * log(p)) = O(N^2 * logB)
+        while p > 1:  # log(p) times => Total Time: O(sqrt(N) * N^2 * log(delta_h)) = O(N^3.5 * logN)
             if min(h1, h2) - p*h <= 0:
+                log_p -= 1
                 p //= 2
                 continue
-            ok1, new_x1 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h1-p*h, e(c, N), x1)
-            ok2, new_x2 = get_multiple_steps_position(N, M_powers, M_H_powers[h], prefix_M_H_powers[h], INF, p, vector, h2-p*h, e(c, N), x2)
+            ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector_left, vector_right, h1-p*h, e(c, N), h1, x1)
+            ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector_left, vector_right, h2-p*h, e(c, N), h2, x2)
             if not ok1 or not ok2:
+                log_p -= 1
                 p //= 2
                 continue
             h1, x1 = h1-p*h, new_x1
             h2, x2 = h2-p*h, new_x2
+            log_p -= 1
             p //= 2
     return h1+h2
 
