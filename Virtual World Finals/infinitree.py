@@ -209,19 +209,19 @@ def infinitree():
         M[i][L[i-1]] += 1
         M[i][R[i-1]] += 1
         graph[i] = [L[i-1], R[i-1]]
-    M_powers, prefix_M_powers = build_powers_and_prefix_powers(N, M, ceil_log2_x(B), INF)
-    h1 = get_depth(N, M_powers, prefix_M_powers, INF, A)
-    h2 = get_depth(N, M_powers, prefix_M_powers, INF, B)
+    M_H_powers, prefix_M_H_powers = {}, {}
+    M_H_powers[1], prefix_M_H_powers[1] = build_powers_and_prefix_powers(N, M, ceil_log2_x(B), INF)
+    h1 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, A)
+    h2 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, B)
 
     cycle_adj, cycle_length = find_cycles(graph)
-    M_H_powers, prefix_M_H_powers = {}, {}
-    x1 = A-sum(get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, e(1, N), h1-1))-1
-    x2 = B-sum(get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, e(1, N), h2-1))-1
+    x1 = A-sum(get_vector_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h1-1))-1
+    x2 = B-sum(get_vector_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while (h1, x1) != (0, 0):
         if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
-            side1, new_x1 = get_single_step_position(M_powers, INF, e(L[c-1], N), h1, x1)
-            side2, new_x2 = get_single_step_position(M_powers, INF, e(L[c-1], N), h2, x2)
+            side1, new_x1 = get_single_step_position(M_H_powers[1], INF, e(L[c-1], N), h1, x1)
+            side2, new_x2 = get_single_step_position(M_H_powers[1], INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
                 break
             h1, x1 = h1-1, new_x1
@@ -232,11 +232,11 @@ def infinitree():
             continue
         h = cycle_length[c]
         if h not in M_H_powers:  # sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3 * logN + N^3.5 * logB) = O(N^3.5 * logB) at worst
-            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
+            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], h, INF), ceil_log2_x(min(h1, h2)), INF)
         vector = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
-                vector = vector_add(vector, get_vector_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
+                vector = vector_add(vector, get_vector_M_power_x(M_H_powers[1], INF, e(L[c-1], N), x), INF)
                 c = R[c-1]
             else:
                 c = L[c-1]
@@ -249,8 +249,8 @@ def infinitree():
                 p //= 2
                 log_p -= 1
                 continue
-            ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), x1)
-            ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), x2)
+            ok1, new_x1 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), x1)
+            ok2, new_x2 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
                 p //= 2
                 log_p -= 1
