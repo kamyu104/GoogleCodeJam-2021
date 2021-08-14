@@ -109,7 +109,7 @@ def matrix_add(A, B, INF):  # Time: O(N^2)
                 result_i[j] = INF
     return result
 
-def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
+def build_powers_and_prefix_powers(N, M, INF, p):  # Time: O(N^3 * p)
     I = identity_matrix(N)
     # M_powers[i] for i in xrange(1+p):
     # 0: M
@@ -132,7 +132,7 @@ def build_powers_and_prefix_powers(N, M, p, INF):  # Time: O(N^3 * p)
     return M_powers, prefix_M_powers
 
 # M^x by matrix exponentiation
-def get_M_power_x(N, M_powers, x, INF):  # Time: O(N^3 * logx)
+def get_M_power_x(N, M_powers, INF, x):  # Time: O(N^3 * logx)
     matrix = identity_matrix(N)
     basis, i = 1, 0
     while basis <= x:
@@ -207,7 +207,7 @@ def infinitree():
         M[i][R[i-1]] += 1
         graph[i] = [L[i-1], R[i-1]]
     M_H_powers, prefix_M_H_powers = {}, {}
-    M_H_powers[1], prefix_M_H_powers[1] = build_powers_and_prefix_powers(N, M, ceil_log2_x(B), INF)
+    M_H_powers[1], prefix_M_H_powers[1] = build_powers_and_prefix_powers(N, M, INF, ceil_log2_x(B))
     h1 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, A)
     h2 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, B)
 
@@ -230,7 +230,7 @@ def infinitree():
         # path from root to lca enter a new unseen cycle, we can speed up in this part of path
         h = cycle_length[c]
         if h not in M_H_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
-            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], h, INF), ceil_log2_x(min(h1, h2)), INF)
+            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], INF, h), INF, ceil_log2_x(min(h1, h2)))
         v = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
