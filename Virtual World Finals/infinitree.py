@@ -42,20 +42,20 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
     return result
 
 def find_cycles(graph):  # Time: O(N), Space: O(N)
-    scc_id = 0
+    cycle_id = 0
     adj, cycle_length = {}, {}
     for scc in strongly_connected_components(graph):
         if next(iter(scc)) == 0:
             continue
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
-        scc_id += 1
+        cycle_id += 1
         node = next(iter(scc))
         for node in scc:
             cycle_length[node] = len(scc)
         node = next(iter(scc))
         for _ in xrange(len(scc)):
-            adj[node] = [(x, i, scc_id) for i, x in enumerate(graph[node]) if x in scc][0]
+            adj[node] = [(x, side, cycle_id) for side, x in enumerate(graph[node]) if x in scc][0]
             cycle_length[node] = len(scc)
             node = adj[node][0]
     return adj, cycle_length
