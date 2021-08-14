@@ -250,7 +250,7 @@ def infinitree():
             log_p += 1
         while p > 1:  # log(p) times => Total Time: O(N cycles * log(p) times * (N^2 * log(delta_h))) = O(N^3 * (logB)^2) at worst
             if min(h1, h2) - p*h <= 0:
-                p *= 2
+                p //= 2
                 log_p -= 1
                 continue
             ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), x1)
