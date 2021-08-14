@@ -224,8 +224,7 @@ def infinitree():
             side2, new_x2 = get_single_step_position(M_powers, INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
                 break
-            prev_c = c
-            c = L[c-1] if side1 == LEFT else R[c-1]
+            c, prev_c = (L[c-1] if side1 == LEFT else R[c-1]), c
             if p == 1 and (c not in adj or adj[c][2] != adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
                 p = 0
             h1, x1 = h1-1, new_x1
