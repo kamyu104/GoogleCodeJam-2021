@@ -114,7 +114,7 @@ def build_powers_and_prefix_powers(N, M, INF, p):  # Time: O(N^3 * p)
         prefix_M_powers.append(matrix_mult(matrix, prefix_M_powers[-1], INF))
     return M_powers, prefix_M_powers
 
-# M^x by matrix exponentiation
+# V * M^x by vector-matrix or matrix-matrix exponentiation
 def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^2 * logx) if V is 1 x N matrix, O(N^3 * logx) if N x N matrix
     basis, i = 1, 0
     while basis <= x:
