@@ -169,22 +169,6 @@ def get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N
         basis <<= 1
     return u
 
-def debug_get_ei_sum_M_power_x(N, M_powers, prefix_M_powers, INF, ec, x):  # Time: O(N^2*logx)
-    x += 1
-    u = [0]*N
-    basis, i = 1, 0
-    while basis <= x:
-        if x&basis:
-            print basis, i
-            # new_Pr = Pi + Pr*Mi
-            # new_u = ec * new_Pr = ec * (Pi + Pr*Mi) = ec*Pi + u*Mi
-            #v1 = vector_mult(u, M_powers[i], INF)  # u*M^i
-            u = vector_mult(ec, prefix_M_powers[i], INF)  # ec*Pi
-            #u = vector_add(v1, v2, INF)  # u*M^i + ec*Pi
-        i += 1
-        basis <<= 1
-    return u
-
 def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2*logB)
     result = 0
     e1 = e(1, N)
