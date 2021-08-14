@@ -192,7 +192,7 @@ def get_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     cnt = sum(get_vector_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < cnt else (RIGHT, x-cnt)
 
-def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector, delta_h, ec, h, x):  # Time: O(N^2 * log(delta_h))
+def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, vector, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
     left_cnt = sum(get_vector_M_power_x(M_powers, INF, vector_mult(vector, prefix_M_H_powers[log_p], INF), delta_h))
     mid_cnt = sum(get_vector_M_power_x(M_powers, INF, ec, delta_h))
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
@@ -251,8 +251,8 @@ def infinitree():
                 log_p -= 1
                 p //= 2
                 continue
-            ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), h1, x1)
-            ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), h2, x2)
+            ok1, new_x1 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h1-p*h, e(c, N), x1)
+            ok2, new_x2 = get_multiple_steps_position(M_powers, prefix_M_H_powers[h], INF, log_p, vector, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
                 log_p -= 1
                 p //= 2
