@@ -109,25 +109,26 @@ def matrix_add(A, B, INF):  # Time: O(N^2)
                 result_i[j] = INF
     return result
 
-# build M, M^2, ..., M^(2^x) and I, (I + M), (I + M + M^2 + M^3), (I + M + ... + M^(2^x-1))
-def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * x)
+# build M, M^2, ..., M^(2^logx) and I, (I + M), (I + M + M^2 + M^3), (I + M + ... + M^(2^logx-1))
+def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * logx)
+    logx = ceil_log2_x(x)
     I = identity_matrix(N)
-    # M_powers[i] for i in xrange(1+x):
+    # M_powers[i] for i in xrange(1+logx):
     # 0: M
     # 1: M^2
     # ...
-    # x: M^(2^x)
+    # logx: M^(2^logx)
     M_powers = [M]
-    for _ in xrange(x):  # Time: O(N^3 * x)
+    for _ in xrange(logx):  # Time: O(N^3 * logx)
         M_powers.append(matrix_mult(M_powers[-1], M_powers[-1], INF))
-    # prefix_M_powers[i] for i in xrange(1+(1+x)):
+    # prefix_M_powers[i] for i in xrange(1+(1+logx)):
     # 0: I
     # 1: (I + M) * I = I + M
     # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
     # ...
-    # x+1: (I + M^(2^x)) * (I + M + ... + M^(2^x-1)) = I + M + ... + M^(2^(x+1)-1)
+    # logx+1: (I + M^(2^logx)) * (I + M + ... + M^(2^logx-1)) = I + M + ... + M^(2^(logx+1)-1)
     prefix_M_powers = [I]
-    for M_power in M_powers:  # Time: O(N^3 * x)
+    for M_power in M_powers:  # Time: O(N^3 * logx)
         matrix = matrix_add(I, M_power, INF)
         prefix_M_powers.append(matrix_mult(matrix, prefix_M_powers[-1], INF))
     return M_powers, prefix_M_powers
@@ -188,8 +189,8 @@ def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
     left_cnt = sum(get_v_M_power_x(M_powers, INF, ec, h-1))
     return (LEFT, x) if x < left_cnt else (RIGHT, x-left_cnt)
 
-def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, log_p, v, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
-    left_cnt = sum(get_v_M_power_x(M_powers, INF, vector_mult(v, prefix_M_H_powers[log_p], INF), delta_h))
+def get_multiple_steps_position(M_powers, prefix_M_H_powers, INF, logp, v, delta_h, ec, x):  # Time: O(N^2 * log(delta_h))
+    left_cnt = sum(get_v_M_power_x(M_powers, INF, vector_mult(v, prefix_M_H_powers[logp], INF), delta_h))
     mid_cnt = sum(get_v_M_power_x(M_powers, INF, ec, delta_h))
     return 0 <= x-left_cnt < mid_cnt, x-left_cnt
 
@@ -208,7 +209,7 @@ def infinitree():
         M[i][R[i-1]] += 1
         graph[i] = [L[i-1], R[i-1]]
     M_H_powers, prefix_M_H_powers = {}, {}
-    M_H_powers[1], prefix_M_H_powers[1] = build_powers_and_prefix_powers(N, M, INF, ceil_log2_x(B))
+    M_H_powers[1], prefix_M_H_powers[1] = build_powers_and_prefix_powers(N, M, INF, B)  # Time: O(N^3 * logB)
     h1 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, A)
     h2 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, B)
 
@@ -231,7 +232,7 @@ def infinitree():
         # path from root to lca enter a new unseen cycle, we can speed up in this part of path
         h = cycle_length[c]
         if h not in M_H_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
-            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], INF, h), INF, ceil_log2_x(min(h1, h2)))
+            M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], INF, h), INF, min(h1, h2))
         v = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
@@ -239,21 +240,21 @@ def infinitree():
                 c = R[c-1]
             else:
                 c = L[c-1]
-        p, log_p = 1, 0
+        p, logp = 1, 0
         while (p*2)*h < min(h1, h2):
-            p, log_p = p*2, log_p+1
+            p, logp = p*2, logp+1
         while p > 1:  # log(p) times => Total Time: O(k cycles * log(p) times * (N^2 * log(delta_h))) = O(N^3 * log(logB)^2 + N^2 * (logB)^2) = O(N^3 * logB) assumed O(N) = O(logB)
             if min(h1, h2) - p*h <= 0:
-                p, log_p = p//2, log_p-1
+                p, logp = p//2, logp-1
                 continue
-            ok1, new_x1 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, v, h1-p*h, e(c, N), x1)
-            ok2, new_x2 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, log_p, v, h2-p*h, e(c, N), x2)
+            ok1, new_x1 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, logp, v, h1-p*h, e(c, N), x1)
+            ok2, new_x2 = get_multiple_steps_position(M_H_powers[1], prefix_M_H_powers[h], INF, logp, v, h2-p*h, e(c, N), x2)
             if not ok1 or not ok2:
-                p, log_p = p//2, log_p-1
+                p, logp = p//2, logp-1
                 continue
             h1, x1 = h1-p*h, new_x1
             h2, x2 = h2-p*h, new_x2
-            p, log_p = p//2, log_p-1
+            p, logp = p//2, logp-1
         prev_c = c
     return h1+h2
 
