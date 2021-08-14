@@ -224,13 +224,12 @@ def infinitree():
             side2, new_x2 = get_single_step_position(M_powers, INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
                 break
+            h1, x1 = h1-1, new_x1
+            h2, x2 = h2-1, new_x2
             c, prev_c = (L[c-1] if side1 == LEFT else R[c-1]), c
             if p == 1 and (c not in adj or adj[c][2] != adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
                 p = 0
-            h1, x1 = h1-1, new_x1
-            h2, x2 = h2-1, new_x2
             continue
-        prev_c = c
         h = cycle_length[c]
         if h not in M_H_powers:  # sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3 * logN + N^3.5 * logB) = O(N^3.5 * logB) at worst
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
@@ -260,6 +259,7 @@ def infinitree():
             h2, x2 = h2-p*h, new_x2
             p //= 2
             log_p -= 1
+        prev_c = c
     return h1+h2
 
 LEFT, RIGHT = range(2)
