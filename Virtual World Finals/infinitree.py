@@ -43,7 +43,7 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
 
 def find_cycles(graph):  # Time: O(N), Space: O(N)
     cycle_id = 0
-    adj, cycle_length = {}, {}
+    cycle_adj, cycle_length = {}, {}
     for scc in strongly_connected_components(graph):
         if next(iter(scc)) == 0:
             continue
@@ -55,10 +55,10 @@ def find_cycles(graph):  # Time: O(N), Space: O(N)
             cycle_length[node] = len(scc)
         node = next(iter(scc))
         for _ in xrange(len(scc)):
-            adj[node] = [(x, side, cycle_id) for side, x in enumerate(graph[node]) if x in scc][0]
+            cycle_adj[node] = [(x, side, cycle_id) for side, x in enumerate(graph[node]) if x in scc][0]
             cycle_length[node] = len(scc)
-            node = adj[node][0]
-    return adj, cycle_length
+            node = cycle_adj[node][0]
+    return cycle_adj, cycle_length
 
 def ceil_log2_x(x):
     return (x-1).bit_length()
@@ -213,13 +213,13 @@ def infinitree():
     h1 = get_depth(N, M_powers, prefix_M_powers, INF, A)
     h2 = get_depth(N, M_powers, prefix_M_powers, INF, B)
 
-    adj, cycle_length = find_cycles(graph)
+    cycle_adj, cycle_length = find_cycles(graph)
     M_H_powers, prefix_M_H_powers = {}, {}
     x1 = A-sum(get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, e(1, N), h1-1))-1
     x2 = B-sum(get_vector_sum_M_power_x(N, M_powers, prefix_M_powers, INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while (h1, x1) != (0, 0):
-        if c not in adj or p == 1:  # Time: O(N^2 * logB) => Total Time: O(N^3 * logB)
+        if c not in cycle_adj or p == 1:  # Time: O(N^2 * logB) => Total Time: O(N^3 * logB)
             side1, new_x1 = get_single_step_position(M_powers, INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_single_step_position(M_powers, INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
@@ -227,7 +227,7 @@ def infinitree():
             h1, x1 = h1-1, new_x1
             h2, x2 = h2-1, new_x2
             c, prev_c = (L[c-1] if side1 == LEFT else R[c-1]), c
-            if p == 1 and (c not in adj or adj[c][2] != adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
+            if p == 1 and (c not in cycle_adj or cycle_adj[c][2] != cycle_adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
                 p = 0
             continue
         h = cycle_length[c]
@@ -235,7 +235,7 @@ def infinitree():
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_powers, h, INF), ceil_log2_x(min(h1, h2)), INF)
         vector = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
-            if adj[c][1] and adj[c][0] == R[c-1]:
+            if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
                 vector = vector_add(vector, get_vector_M_power_x(M_powers, INF, e(L[c-1], N), x), INF)
                 c = R[c-1]
             else:
