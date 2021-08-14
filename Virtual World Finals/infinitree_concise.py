@@ -92,24 +92,25 @@ def matrix_add(A, B, INF):  # Time: O(N) if A, B are both 1 x N matrixs, O(N^2) 
                 result_i[j] = INF
     return result
 
-def build_powers_and_prefix_powers(N, M, INF, p):  # Time: O(N^3 * p)
+# build M, M^2, ..., M^(2^x) and I, (I + M), (I + M + M^2 + M^3), (I + M + ... + M^(2^x-1))
+def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * x)
     I = identity_matrix(N)
-    # M_powers[i] for i in xrange(1+p):
+    # M_powers[i] for i in xrange(1+x):
     # 0: M
     # 1: M^2
     # ...
-    # p: M^(2^p)
+    # x: M^(2^x)
     M_powers = [M]
-    for _ in xrange(p):  # Time: O(N^3 * p)
+    for _ in xrange(x):  # Time: O(N^3 * x)
         M_powers.append(matrix_mult(M_powers[-1], M_powers[-1], INF))
-    # prefix_M_powers[i] for i in xrange(1+(1+p)):
+    # prefix_M_powers[i] for i in xrange(1+(1+x)):
     # 0: I
     # 1: (I + M) * I = I + M
     # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
     # ...
-    # p+1: (I + M^(2^p)) * (I + M + ... + M^(2^p-1))= I + M + ... M^(2^(p+1)-1)
+    # x+1: (I + M^(2^x)) * (I + M + ... + M^(2^x-1)) = I + M + ... + M^(2^(x+1)-1)
     prefix_M_powers = [I]
-    for M_power in M_powers:  # Time: O(N^3 * p)
+    for M_power in M_powers:  # Time: O(N^3 * x)
         matrix = matrix_add(I, M_power, INF)
         prefix_M_powers.append(matrix_mult(matrix, prefix_M_powers[-1], INF))
     return M_powers, prefix_M_powers
