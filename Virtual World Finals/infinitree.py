@@ -246,7 +246,7 @@ def infinitree():
         while (p*2)*h < min(h1, h2):
             log_p += 1
             p *= 2
-        while p > 1:  # log(p) times => Total Time: O(N cycles * log(p) times * (N^2 * log(delta_h))) = O(N^3 * (logB)^2)
+        while p > 1:  # log(p) times => Total Time: O(N cycles * log(p) times * (N^2 * log(delta_h))) = O(N^3 * (logB)^2) at worst
             if min(h1, h2) - p*h <= 0:
                 log_p -= 1
                 p //= 2
