@@ -1,6 +1,6 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Virtual World Finals- Problem B. Slide Circuit
+# Google Code Jam 2021 Virtual World Finals - Problem B. Slide Circuits
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084f7b2
 #
 # Time:  O(B + N + SlogS)

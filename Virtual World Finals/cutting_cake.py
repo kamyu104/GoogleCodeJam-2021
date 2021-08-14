@@ -1,6 +1,6 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
-# Google Code Jam 2021 Virtual World Finals- Problem A. Cutting Cake
+# Google Code Jam 2021 Virtual World Finals - Problem A. Cutting Cake
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000436329/000000000084fba1
 #
 # Time:  O(NlogN)
