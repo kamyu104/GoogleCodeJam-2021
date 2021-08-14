@@ -71,7 +71,7 @@ def identity_matrix(N):  # Time: O(N)
 def e(i, N):  # Time: O(N)
     return [int(j == i) for j in xrange(N)]
 
-def matrix_mult(A, B, INF): # Time: O(N^2) if A is 1 x N matrix and B is N x N matrix, O(N^3) if A, B are both N x N matrixs
+def matrix_mult(A, B, INF): # Time: O(N^2) if A is a 1 x N matrix and B is a N x N matrix, O(N^3) if A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in xrange(len(A))]
     B_T = zip(*B)
     for result_i, A_i in izip(result, A):
@@ -117,7 +117,7 @@ def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * logx)
     return M_powers, prefix_M_powers
 
 # V * M^x by vector-matrix or matrix-matrix exponentiation
-def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^2 * logx) if V is 1 x N matrix, O(N^3 * logx) if N x N matrix
+def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^2 * logx) if V is a 1 x N matrix, O(N^3 * logx) if N x N matrix
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
