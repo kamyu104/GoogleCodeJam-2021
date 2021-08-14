@@ -204,8 +204,8 @@ def infinitree():
     N += 1
     if A > B:
         A, B, = B, A
-    M = [[0]*N for _ in xrange(N)]
     INF = B
+    M = [[0]*N for _ in xrange(N)]
     graph = {}
     for i in xrange(1, N):
         M[i][L[i-1]] += 1
