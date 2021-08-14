@@ -230,6 +230,7 @@ def infinitree():
             if p == 1 and (c not in cycle_adj or cycle_adj[c][2] != cycle_adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
                 p = 0
             continue
+        # path from root to lca enter a cycle, we can speed up in this part of path
         h = cycle_length[c]
         if h not in M_H_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], h, INF), ceil_log2_x(min(h1, h2)), INF)
