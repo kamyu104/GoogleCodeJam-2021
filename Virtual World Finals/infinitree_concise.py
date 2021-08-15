@@ -42,8 +42,8 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
     return result
 
 def find_cycles(graph):  # Time: O(N), Space: O(N)
-    cycle_id = 0
     has_more_than_one_cycle, cycle_adj, cycle_length = False, {}, {}
+    cycle_id = 0
     for scc in strongly_connected_components(graph):
         if next(iter(scc)) == 0:
             continue
