@@ -6,7 +6,7 @@
 # Time:  O(N^3.5 * logN + N^3 * logB), pass in PyPy2 but Python2
 # Space: O(N^2.5 * logN + N^2 * logB)
 #
-# concise but slower solution of infinitree.py
+# concise solution of infinitree.py
 #
 
 from itertools import izip
