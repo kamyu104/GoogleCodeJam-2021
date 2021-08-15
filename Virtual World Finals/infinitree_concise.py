@@ -48,7 +48,7 @@ def find_cycles(graph):  # Time: O(N), Space: O(N)
         if next(iter(scc)) == LEAF_COLOR:
             continue
         if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):
-            return {}, {}  # have more than one cycle, we only need to run single step solution
+            return {}, {}  # have a reachable color belonging to more than one cycle, we only need to run single step solution
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
         cycle_id += 1
