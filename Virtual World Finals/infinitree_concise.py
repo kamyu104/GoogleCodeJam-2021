@@ -12,7 +12,7 @@
 from itertools import izip
 
 # Template modified from:
-# https://github.com/kamyu104/GoogleCodeJam-2018/blob/master/World%20Finals/swordmaster.py
+# https://github.com/kamyu104/GoogleCodeJam-2017/blob/master/Round%202/beaming_with_joy.py
 def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(N), Space: O(|V|) = O(N)
     def strongconnect(v, index_counter, index, lowlinks, stack, stack_set, result):
         index[v] = index_counter[0]
