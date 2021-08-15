@@ -109,7 +109,7 @@ def matrix_add(A, B, INF):  # Time: O(N^2)
                 result_i[j] = INF
     return result
 
-# build M, M^2, ..., M^(2^logx) and I, (I + M), (I + M + M^2 + M^3), (I + M + ... + M^(2^logx-1))
+# build [M, M^2, ..., M^(2^logx)] and [I, (I + M), (I + M + M^2 + M^3), (I + M + ... + M^(2^logx-1))]
 def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * logx)
     logx = floor_log2_x(x)
     I = identity_matrix(N)
@@ -126,10 +126,10 @@ def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * logx)
     # 1: (I + M) * I = I + M
     # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
     # ...
-    # logx+1: (I + M^(2^logx)) * (I + M + ... + M^(2^logx-1)) = I + M + ... + M^(2^(logx+1)-1)
+    # logx: (I + M^(2^(logx-1))) * (I + M + ... + M^(2^(logx-1)-1)) = I + M + ... + M^(2^logx-1)
     prefix_M_powers = [I]
-    for M_power in M_powers:  # Time: O(N^3 * logx)
-        matrix = matrix_add(I, M_power, INF)
+    for i in xrange(logx):  # Time: O(N^3 * logx)
+        matrix = matrix_add(I, M_powers[i], INF)
         prefix_M_powers.append(matrix_mult(matrix, prefix_M_powers[-1], INF))
     return M_powers, prefix_M_powers
 
