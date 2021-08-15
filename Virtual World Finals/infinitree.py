@@ -231,7 +231,7 @@ def infinitree():
                 p = 0
             continue
         # path from root to lca enter a new unseen cycle, we can speed up in this part of path,
-        # we run this only if all reachable colors belong to at most one cycle,
+        # we run this multiple steps solution only if all reachable colors belong to at most one cycle,
         # otherwise, the binary tree grows exponentially with height at most O(logB) so that single step solution is fast enough,
         # and also saves the extra time and space cost from multiple steps solution
         h = cycle_length[c]
