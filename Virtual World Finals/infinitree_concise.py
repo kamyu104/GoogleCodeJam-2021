@@ -38,14 +38,14 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
     index_counter, index, lowlinks = [0], {}, {}
     stack, stack_set = [], set()
     result = []
-    strongconnect(RC, index_counter, index, lowlinks, stack, stack_set, result)  # modified, only care about reachable colors
+    strongconnect(ROOT_COLOR, index_counter, index, lowlinks, stack, stack_set, result)  # modified, only care about reachable colors
     return result
 
 # return cycle_adj, cycle_length only if all reachable colors belong to at most one cycle
 def find_cycles(graph):  # Time: O(N), Space: O(N)
     cycle_adj, cycle_length, cycle_id = {}, {}, 0
     for scc in strongly_connected_components(graph):
-        if next(iter(scc)) == 0:
+        if next(iter(scc)) == LEAF_COLOR:
             continue
         if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):
             return {}, {}  # have more than one cycle, we only need to run single step solution
@@ -117,7 +117,7 @@ def build_powers_and_power_series(N, M, INF, x):  # Time: O(N^3 * logx)
     return M_powers, M_power_series
 
 # V * M^x by vector-matrix or matrix-matrix exponentiation
-def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^2 * logx) if V is a 1 x N matrix, O(N^3 * logx) if N x N matrix
+def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^2 * logx) if V is a 1 x N matrix, O(N^3 * logx) if V is a N x N matrix
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
@@ -143,7 +143,7 @@ def get_v_M_power_series_x(N, M_powers, M_power_series, INF, v, x):  # Time: O(N
 def get_depth(N, M_powers, M_power_series, INF, x):  # Time: O(N^2 * logx)
     logx = floor_log2_x(x)
     result = 0
-    e1 = e(RC, N)
+    e1 = e(ROOT_COLOR, N)
     u = [0]*N
     basis = 1<<logx
     for i in reversed(xrange(logx+1)):  # O(N^2 * logx)
@@ -177,7 +177,7 @@ def infinitree():
     INF = B
     M = [[0]*N for _ in xrange(N)]
     graph = {}
-    for i in xrange(RC, N):
+    for i in xrange(ROOT_COLOR, N):
         M[i][L[i-1]] += 1
         M[i][R[i-1]] += 1
         graph[i] = [L[i-1], R[i-1]]
@@ -187,9 +187,9 @@ def infinitree():
     h2 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, B)
 
     cycle_adj, cycle_length = find_cycles(graph)
-    x1 = A-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(RC, N), h1-1))-1
-    x2 = B-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(RC, N), h2-1))-1
-    c, p  = RC, 0
+    x1 = A-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h1-1))-1
+    x2 = B-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h2-1))-1
+    c, p  = ROOT_COLOR, 0
     while (h1, x1) != (0, 0):
         if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
             side1, new_x1 = get_single_step_position(Mh_powers[1], INF, e(L[c-1], N), h1, x1)
@@ -235,6 +235,6 @@ def infinitree():
     return h1+h2
 
 LEFT, RIGHT = range(2)
-RC = 1  # root color is 1
+LEAF_COLOR, ROOT_COLOR = range(2)  # leaf color is 0, root color is 1
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, infinitree())
