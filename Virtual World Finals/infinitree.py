@@ -43,9 +43,7 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
 def find_cycles(graph):  # Time: O(N), Space: O(N)
     cycle_adj, cycle_length, cycle_id = {}, {}, 0
     for scc in strongly_connected_components(graph):
-        if next(iter(scc)) == LEAF_COLOR:
-            continue
-        if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):
+        if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):  # this check could be optional
             return {}, {}  # have a reachable color belonging to more than one cycle, we only need to run single step solution
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
@@ -199,24 +197,25 @@ def infinitree():
     N, A, B = map(int, raw_input().strip().split())
     L = map(int, raw_input().strip().split())
     R = map(int, raw_input().strip().split())
+
     N += 1
     if A > B:
         A, B, = B, A
     INF = B
     M = [[0]*N for _ in xrange(N)]
-    graph = {}
+    graph = {LEAF_COLOR:[]}
     for i in xrange(ROOT_COLOR, N):
         M[i][L[i-1]] += 1
         M[i][R[i-1]] += 1
         graph[i] = [L[i-1], R[i-1]]
+
     Mh_powers, Mh_power_series = {}, {}
     Mh_powers[1], Mh_power_series[1] = build_powers_and_power_series(N, M, INF, B)  # Time: O(N^3 * logB)
     h1 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, A)
     h2 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, B)
-
-    cycle_adj, cycle_length = find_cycles(graph)
     x1 = A-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h1-1))-1
     x2 = B-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h2-1))-1
+    cycle_adj, cycle_length = find_cycles(graph)
     c, p  = ROOT_COLOR, 0
     while (h1, x1) != (0, 0):
         if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
