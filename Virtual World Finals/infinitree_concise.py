@@ -11,7 +11,7 @@
 
 from itertools import izip
 
-# modified from Template:
+# Template modified from:
 # https://github.com/kamyu104/GoogleCodeJam-2018/blob/master/World%20Finals/swordmaster.py
 def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(N), Space: O(|V|) = O(N)
     def strongconnect(v, index_counter, index, lowlinks, stack, stack_set, result):
