@@ -9,7 +9,7 @@
 
 from itertools import izip
 
-# Template:
+# modified from Template:
 # https://github.com/kamyu104/GoogleCodeJam-2018/blob/master/World%20Finals/swordmaster.py
 def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(N), Space: O(|V|) = O(N)
     def strongconnect(v, index_counter, index, lowlinks, stack, stack_set, result):
@@ -36,17 +36,17 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
     index_counter, index, lowlinks = [0], {}, {}
     stack, stack_set = [], set()
     result = []
-    for v in graph:
-        if v not in index:
-            strongconnect(v, index_counter, index, lowlinks, stack, stack_set, result)
+    strongconnect(1, index_counter, index, lowlinks, stack, stack_set, result)  # modified, only care about reachable colors
     return result
 
 def find_cycles(graph):  # Time: O(N), Space: O(N)
     cycle_id = 0
-    cycle_adj, cycle_length = {}, {}
+    has_2_up_cycles, cycle_adj, cycle_length = False, {}, {}
     for scc in strongly_connected_components(graph):
         if next(iter(scc)) == 0:
             continue
+        if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):
+            has_2_up_cycles = True
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
         cycle_id += 1
@@ -58,7 +58,7 @@ def find_cycles(graph):  # Time: O(N), Space: O(N)
             cycle_adj[node] = [(x, side, cycle_id) for side, x in enumerate(graph[node]) if x in scc][0]
             cycle_length[node] = len(scc)
             node = cycle_adj[node][0]
-    return cycle_adj, cycle_length
+    return has_2_up_cycles, cycle_adj, cycle_length
 
 def floor_log2_x(x):  # Time: O(logx)
     return x.bit_length()-1
@@ -214,12 +214,12 @@ def infinitree():
     h1 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, A)
     h2 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, B)
 
-    cycle_adj, cycle_length = find_cycles(graph)
+    has_2_up_cycles, cycle_adj, cycle_length = find_cycles(graph)
     x1 = A-sum(get_v_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h1-1))-1
     x2 = B-sum(get_v_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while (h1, x1) != (0, 0):
-        if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
+        if has_2_up_cycles or c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
             side1, new_x1 = get_single_step_position(M_H_powers[1], INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_single_step_position(M_H_powers[1], INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
@@ -230,7 +230,10 @@ def infinitree():
             if p == 1 and (c not in cycle_adj or cycle_adj[c][2] != cycle_adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
                 p = 0
             continue
-        # path from root to lca enter a new unseen cycle, we can speed up in this part of path
+        # path from root to lca enter a new unseen cycle, we can speed up in this part of path,
+        # we run this only if all reachable colors belong to at most one cycle,
+        # otherwise, the binary tree grows exponentially with height at most O(logB) so that single step solution is fast enough,
+        # and also saves the extra time and space cost from multiple steps solution
         h = cycle_length[c]
         if h not in M_H_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
             M_H_powers[h], prefix_M_H_powers[h] = build_powers_and_prefix_powers(N, get_M_power_x(N, M_H_powers[1], INF, h), INF, min(h1, h2))
