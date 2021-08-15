@@ -45,7 +45,7 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
 def find_cycles(graph):  # Time: O(N), Space: O(N)
     cycle_adj, cycle_length, cycle_id = {}, {}, 0
     for scc in strongly_connected_components(graph):
-        if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):  # this check could be optional
+        if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):  # this optimization could be optional
             return {}, {}  # have a reachable color belonging to more than one cycle, we only need to run single step solution
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
