@@ -121,7 +121,7 @@ def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * logx)
     M_powers = [M]
     for _ in xrange(logx):  # Time: O(N^3 * logx)
         M_powers.append(matrix_mult(M_powers[-1], M_powers[-1], INF))
-    # prefix_M_powers[i] for i in xrange(1+(1+logx)):
+    # prefix_M_powers[i] for i in xrange(1+logx):
     # 0: I
     # 1: (I + M) * I = I + M
     # 2: (I + M^2) * (I + M) = I + M + M^2 + M^3
