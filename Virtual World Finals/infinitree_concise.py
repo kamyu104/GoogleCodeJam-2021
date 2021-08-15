@@ -62,8 +62,8 @@ def find_cycles(graph):  # Time: O(N), Space: O(N)
             node = cycle_adj[node][0]
     return cycle_adj, cycle_length
 
-def ceil_log2_x(x):  # Time: O(logN)
-    return (x-1).bit_length()
+def floor_log2_x(x):  # Time: O(logx)
+    return x.bit_length()-1
 
 def identity_matrix(N):  # Time: O(N)
     return [[int(i == j) for j in xrange(N)] for i in xrange(N)]
@@ -94,7 +94,7 @@ def matrix_add(A, B, INF):  # Time: O(N) if A, B are both 1 x N matrixs, O(N^2) 
 
 # build M, M^2, ..., M^(2^logx) and I, (I + M), (I + M + M^2 + M^3), (I + M + ... + M^(2^logx-1))
 def build_powers_and_prefix_powers(N, M, INF, x):  # Time: O(N^3 * logx)
-    logx = ceil_log2_x(x)
+    logx = floor_log2_x(x)
     I = identity_matrix(N)
     # M_powers[i] for i in xrange(1+logx):
     # 0: M
@@ -140,24 +140,25 @@ def get_v_sum_M_power_x(N, M_powers, prefix_M_powers, INF, v, x):  # Time: O(N^2
         basis, i = basis<<1, i+1
     return u
 
-def get_depth(N, M_powers, prefix_M_powers, INF, B):  # Time: O(N^2 * logB)
+def get_depth(N, M_powers, prefix_M_powers, INF, x):  # Time: O(N^2 * logx)
+    logx = floor_log2_x(x)
     result = 0
     e1 = e(1, N)
     u = [0]*N
-    basis = 1 << (len(M_powers)-1)
-    for i in reversed(xrange(len(M_powers))):  # O(N^2 * logB)
+    basis = 1<<logx
+    for i in reversed(xrange(logx+1)):  # O(N^2 * logx)
         # new_Pr = Pi + Pr*Mi
         # new_u = e1 * new_Pr = e1 * (Pi + Pr*Mi) = e1*Pi + u*Mi
         v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*Mi
         v2 = matrix_mult([e1], prefix_M_powers[i], INF)[0]  # e1*Pi
         new_u = matrix_add([v1], [v2], INF)[0]  # u*Mi + e1*Pi
-        if sum(new_u) < B:
+        if sum(new_u) < x:
             u = new_u
             result |= basis
         basis >>= 1
     return result
 
-def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logB)
+def get_single_step_position(M_powers, INF, ec, h, x):  # Time: O(N^2 * logx)
     left_cnt = sum(get_V_M_power_x(M_powers, INF, [ec], h-1)[0])
     return (LEFT, x) if x < left_cnt else (RIGHT, x-left_cnt)
 
