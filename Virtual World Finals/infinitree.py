@@ -39,14 +39,14 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
     strongconnect(1, index_counter, index, lowlinks, stack, stack_set, result)  # modified, only care about reachable colors
     return result
 
+# return cycle_adj, cycle_length only if all reachable colors belong to at most one cycle
 def find_cycles(graph):  # Time: O(N), Space: O(N)
-    has_more_than_one_cycle, cycle_adj, cycle_length = False, {}, {}
-    cycle_id = 0
+    cycle_adj, cycle_length, cycle_id = {}, {}, 0
     for scc in strongly_connected_components(graph):
         if next(iter(scc)) == 0:
             continue
         if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):
-            has_more_than_one_cycle = True
+            return {}, {}  # have more than one cycle, we only need to run single step solution
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
         cycle_id += 1
@@ -58,7 +58,7 @@ def find_cycles(graph):  # Time: O(N), Space: O(N)
             cycle_adj[node] = [(x, side, cycle_id) for side, x in enumerate(graph[node]) if x in scc][0]
             cycle_length[node] = len(scc)
             node = cycle_adj[node][0]
-    return has_more_than_one_cycle, cycle_adj, cycle_length
+    return cycle_adj, cycle_length
 
 def floor_log2_x(x):  # Time: O(logx)
     return x.bit_length()-1
@@ -214,12 +214,12 @@ def infinitree():
     h1 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, A)
     h2 = get_depth(N, M_H_powers[1], prefix_M_H_powers[1], INF, B)
 
-    has_more_than_one_cycle, cycle_adj, cycle_length = find_cycles(graph)
+    cycle_adj, cycle_length = find_cycles(graph)
     x1 = A-sum(get_v_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h1-1))-1
     x2 = B-sum(get_v_sum_M_power_x(N, M_H_powers[1], prefix_M_H_powers[1], INF, e(1, N), h2-1))-1
     c, p  = 1, 0
     while (h1, x1) != (0, 0):
-        if has_more_than_one_cycle or c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
+        if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
             side1, new_x1 = get_single_step_position(M_H_powers[1], INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_single_step_position(M_H_powers[1], INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
