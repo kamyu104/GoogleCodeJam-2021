@@ -77,7 +77,7 @@ def divisible_divisions():
                     dp1[i%w] = addmod(dp1[i%w], prefix_total[suffix[i%w]])  # prefix_total[suffix[i]] = sum(dp1[j]+dp2[j] for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
                     dp2[i%w] = addmod(dp2[i%w], -prefix_dp1[suffix[i%w]])   # prefix_dp1[suffix[i]]   = sum(dp1[j]        for j in xrange(i-l+1) if suffix[j] == suffix[i])%MOD
                 break
-            if curr2 == 0 and suffix[j%w] == suffix[i%w]:  # (S[j:i]%d_2_5 == 0) and (suffix[j]-suffix[i] == 0 <=> S[j:i]%d_remain == 0) <=> S[j:i]%D == 0
+            if curr2 == 0 and suffix[j%w] == suffix[i%w]:  # (S[j:i]%d_2_5 == 0) and (suffix[j]-suffix[i] == 0 <=> S[j:i]*10^(i-j)%d_remain == 0 == S[j:i]%d_remain) <=> S[j:i]%D == 0
                 dp1[i%w] = addmod(dp1[i%w], addmod(dp1[j%w], dp2[j%w]))
                 dp2[i%w] = addmod(dp2[i%w], -dp1[j%w])
             basis2 = basis2*10 % d_2_5
