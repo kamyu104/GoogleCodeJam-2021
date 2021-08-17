@@ -132,13 +132,13 @@ def build_powers_and_power_series(N, M, INF, x):  # Time: O(N^3 * logx)
     return M_powers, M_power_series
 
 # V * M^x by matrix exponentiation
-def get_V_M_power_x(M_powers, INF, matrix, x):  # Time: O(N^3 * logx)
+def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^3 * logx)
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
-            matrix = matrix_mult(matrix, M_powers[i], INF)
+            V = matrix_mult(V, M_powers[i], INF)
         basis, i = basis<<1, i+1
-    return matrix
+    return V
 
 # v * M^x by vector-matrix exponentiation
 def get_v_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
