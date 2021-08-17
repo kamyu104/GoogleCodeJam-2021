@@ -130,26 +130,26 @@ def get_v_M_power_series_x(N, M_powers, M_power_series, INF, v, x):  # Time: O(N
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
-            # new_Pr = Pi + Pr*Mi
-            # new_u = v * new_Pr = v * (Pi + Pr*Mi) = v*Pi + u*Mi
-            v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*Mi
-            v2 = matrix_mult([v], M_power_series[i], INF)[0]  # v*Pi
-            u = matrix_add([v1], [v2], INF)[0]  # u*Mi + v*Pi
+            # new_Pr = P_r*M^(2^i) + P_(2^i)
+            # new_u = v * new_Pr = v * (P_r*M^(2^i) + P_(2^i)) = u*M^(2^i) + v*P_(2^i)
+            v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*M^(2^i)
+            v2 = matrix_mult([v], M_power_series[i], INF)[0]  # v*P_(2^i)
+            u = matrix_add([v1], [v2], INF)[0]  # u*M^(2^i) + v*P_(2^i)
         basis, i = basis<<1, i+1
     return u
 
-def get_depth(N, M_powers, M_power_series, INF, x):  # Time: O(N^2 * logx)
+def get_depth(N, M_powers, M_power_series, INF, v, x):  # Time: O(N^2 * logx)
     logx = floor_log2_x(x)
     result = 0
-    e1 = e(ROOT_COLOR, N)
     u = [0]*N
     basis = 1<<logx
+    # find max r s.t. sum(v * P_r) < x, where P_r = I + M + M^2 + ... + M^(r-1)
     for i in reversed(xrange(logx+1)):  # O(N^2 * logx)
-        # new_Pr = Pr*Mi + Pi
-        # new_u = e1 * new_Pr = e1 * (Pr*Mi + e1*Pi) = u*Mi + e1*Pi
-        v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*Mi
-        v2 = matrix_mult([e1], M_power_series[i], INF)[0]  # e1*Pi
-        new_u = matrix_add([v1], [v2], INF)[0]  # u*Mi + e1*Pi
+        # new_Pr = P_r*M^(2^i) + P_(2^i)
+        # new_u = v * new_Pr = v * (P_r*M^(2^i) + v*P_(2^i)) = u*M^(2^i) + v*P_(2^i)
+        v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*M^(2^i)
+        v2 = matrix_mult([v], M_power_series[i], INF)[0]  # v*P_(2^i)
+        new_u = matrix_add([v1], [v2], INF)[0]  # u*M^(2^i) + v*P_(2^i)
         if sum(new_u) < x:
             u = new_u
             result |= basis
@@ -183,8 +183,8 @@ def infinitree():
 
     Mh_powers, Mh_power_series = {}, {}
     Mh_powers[1], Mh_power_series[1] = build_powers_and_power_series(N, M, INF, B)  # Time: O(N^3 * logB)
-    h1 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, A)
-    h2 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, B)
+    h1 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), A)
+    h2 = get_depth(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), B)
     x1 = A-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h1-1))-1
     x2 = B-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h2-1))-1
     cycle_adj, cycle_length = find_cycles(graph)
