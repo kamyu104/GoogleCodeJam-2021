@@ -142,13 +142,12 @@ def get_V_M_power_x(M_powers, INF, V, x):  # Time: O(N^3 * logx)
 
 # v * M^x by vector-matrix exponentiation
 def get_v_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
-    u = v
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
-            u = vector_mult(u, M_powers[i], INF)  # u*Mi
+            v = vector_mult(v, M_powers[i], INF)  # u*Mi
         basis, i = basis<<1, i+1
-    return u
+    return v
 
 # v * (I + M + M^2 + ... + M^x) by vector-matrix exponentiation
 def get_v_M_power_series_x(N, M_powers, M_power_series, INF, v, x):  # Time: O(N^2 * logx)
