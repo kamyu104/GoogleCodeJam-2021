@@ -173,8 +173,8 @@ def get_depth(N, M_powers, M_power_series, INF, x):  # Time: O(N^2 * logx)
     u = [0]*N
     basis = 1<<logx
     for i in reversed(xrange(logx+1)):  # O(N^2 * logx)
-        # new_Pr = Pi + Pr*Mi
-        # new_u = e1 * new_Pr = e1 * (Pi + Pr*Mi) = e1*Pi + u*Mi
+        # new_Pr = Pr*Mi + Pi
+        # new_u = e1 * new_Pr = e1 * (Pr*Mi + e1*Pi) = u*Mi + e1*Pi
         v1 = vector_mult(u, M_powers[i], INF)  # u*Mi
         v2 = vector_mult(e1, M_power_series[i], INF)  # e1*Pi
         new_u = vector_add(v1, v2, INF)  # u*Mi + e1*Pi
