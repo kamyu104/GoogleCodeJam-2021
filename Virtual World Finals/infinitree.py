@@ -160,9 +160,9 @@ def get_v_M_power_series_x(N, M_powers, M_power_series, INF, v, x):  # Time: O(N
         if x&basis:
             # new_Pr = P_r*M^(2^i) + P_(2^i)
             # new_u = v * new_Pr = v * (P_r*M^(2^i) + P_(2^i)) = u*M^(2^i) + v*P_(2^i)
-            v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*M^(2^i)
-            v2 = matrix_mult([v], M_power_series[i], INF)[0]  # v*P_(2^i)
-            u = matrix_add([v1], [v2], INF)[0]  # u*M^(2^i) + v*P_(2^i)
+            u = vector_add(vector_mult(u, M_powers[i], INF),
+                           vector_mult(v, M_power_series[i], INF),
+                           INF)
         basis, i = basis<<1, i+1
     return u
 
@@ -174,10 +174,10 @@ def get_depth(N, M_powers, M_power_series, INF, v, x):  # Time: O(N^2 * logx)
     # find max r s.t. sum(v * P_r) < x, where P_r = I + M + M^2 + ... + M^(r-1)
     for i in reversed(xrange(logx+1)):  # O(N^2 * logx)
         # new_Pr = P_r*M^(2^i) + P_(2^i)
-        # new_u = v * new_Pr = v * (P_r*M^(2^i) + v*P_(2^i)) = u*M^(2^i) + v*P_(2^i)
-        v1 = matrix_mult([u], M_powers[i], INF)[0]  # u*M^(2^i)
-        v2 = matrix_mult([v], M_power_series[i], INF)[0]  # v*P_(2^i)
-        new_u = matrix_add([v1], [v2], INF)[0]  # u*M^(2^i) + v*P_(2^i)
+        # new_u = v * new_Pr = v * (P_r*M^(2^i) + P_(2^i)) = u*M^(2^i) + v*P_(2^i)
+        new_u = vector_add(vector_mult(u, M_powers[i], INF),
+                           vector_mult(v, M_power_series[i], INF),
+                           INF)
         if sum(new_u) < x:
             u = new_u
             result |= basis
