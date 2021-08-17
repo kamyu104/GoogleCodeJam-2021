@@ -145,7 +145,7 @@ def get_v_M_power_x(M_powers, INF, v, x):  # Time: O(N^2 * logx)
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
-            v = vector_mult(v, M_powers[i], INF)  # u*Mi
+            v = vector_mult(v, M_powers[i], INF)
         basis, i = basis<<1, i+1
     return v
 
