@@ -131,9 +131,8 @@ def build_powers_and_power_series(N, M, INF, x):  # Time: O(N^3 * logx)
         M_power_series.append(matrix_mult(matrix, M_power_series[-1], INF))
     return M_powers, M_power_series
 
-# M^x by matrix exponentiation
-def get_M_power_x(N, M_powers, INF, x):  # Time: O(N^3 * logx)
-    matrix = identity_matrix(N)
+# V * M^x by matrix exponentiation
+def get_V_M_power_x(M_powers, INF, matrix, x):  # Time: O(N^3 * logx)
     basis, i = 1, 0
     while basis <= x:
         if x&basis:
@@ -235,7 +234,7 @@ def infinitree():
         # and also saves the extra time and space cost from multiple steps solution
         h = cycle_length[c]
         if h not in Mh_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
-            Mh_powers[h], Mh_power_series[h] = build_powers_and_power_series(N, get_M_power_x(N, Mh_powers[1], INF, h), INF, min(h1, h2))
+            Mh_powers[h], Mh_power_series[h] = build_powers_and_power_series(N, get_V_M_power_x(Mh_powers[1], INF, identity_matrix(N), h), INF, min(h1, h2))
         v = [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
             if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
