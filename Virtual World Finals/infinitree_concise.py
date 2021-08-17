@@ -148,8 +148,8 @@ def get_depth(N, M_powers, M_power_series, INF, v, x):  # Time: O(N^2 * logx)
         # new_Pr = P_r*M^(2^i) + P_(2^i)
         # new_u = v * new_Pr = v * (P_r*M^(2^i) + P_(2^i)) = u*M^(2^i) + v*P_(2^i)
         new_u = matrix_add(matrix_mult([u], M_powers[i], INF),
-                        matrix_mult([v], M_power_series[i], INF),
-                        INF)[0]
+                           matrix_mult([v], M_power_series[i], INF),
+                           INF)[0]
         if sum(new_u) < x:
             u = new_u
             result |= basis
