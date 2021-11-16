@@ -43,21 +43,17 @@ def strongly_connected_components(graph):  # Time: O(|V| + |E|) = O(N + 2N) = O(
 
 # return cycle_adj, cycle_length only if all reachable colors belong to at most one cycle
 def find_cycles(graph):  # Time: O(N), Space: O(N)
-    cycle_adj, cycle_length, cycle_id = {}, {}, 0
+    cycle_adj, cycle_length = {}, {}
     for scc in strongly_connected_components(graph):
         if any(sum(int(x in scc) for x in graph[node]) == 2 for node in scc):  # this is optional optimization
             return {}, {}  # have a reachable color belonging to more than one cycle, we only need to run single step solution
         if any(sum(int(x in scc) for x in graph[node]) != 1 for node in scc):
             continue
-        cycle_id += 1
-        node = next(iter(scc))
-        for node in scc:
-            cycle_length[node] = len(scc)
         node = next(iter(scc))
         for _ in xrange(len(scc)):
-            cycle_adj[node] = [(x, side, cycle_id) for side, x in enumerate(graph[node]) if x in scc][0]
+            cycle_adj[node] = [side for side, x in enumerate(graph[node]) if x in scc][0]
             cycle_length[node] = len(scc)
-            node = cycle_adj[node][0]
+            node = graph[node][cycle_adj[node]]
     return cycle_adj, cycle_length
 
 def floor_log2_x(x):  # Time: O(logx)
@@ -188,18 +184,16 @@ def infinitree():
     x1 = A-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h1-1))-1
     x2 = B-sum(get_v_M_power_series_x(N, Mh_powers[1], Mh_power_series[1], INF, e(ROOT_COLOR, N), h2-1))-1
     cycle_adj, cycle_length = find_cycles(graph)
-    c, p  = ROOT_COLOR, 0
+    c  = ROOT_COLOR
     while (h1, x1) != (0, 0):
-        if c not in cycle_adj or p == 1:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
+        if c not in cycle_adj:  # enter none-only-1-cycle node, Time: O(N^2 * logB) => Total Time: O(N^2 * (logB)^2)
             side1, new_x1 = get_single_step_position(Mh_powers[1], INF, e(L[c-1], N), h1, x1)
             side2, new_x2 = get_single_step_position(Mh_powers[1], INF, e(L[c-1], N), h2, x2)
             if side1 != side2:  # found lca
                 break
             h1, x1 = h1-1, new_x1
             h2, x2 = h2-1, new_x2
-            c, prev_c = (L[c-1] if side1 == LEFT else R[c-1]), c
-            if p == 1 and (c not in cycle_adj or cycle_adj[c][2] != cycle_adj[prev_c][2]):  # leave prev cycle forever (but may enter other cycles)
-                p = 0
+            c = (L[c-1] if side1 == LEFT else R[c-1])
             continue
         # path from root to lca enter a new unseen cycle, we can speed up in this part of path,
         # we run this multiple steps solution only if all reachable colors belong to at most one cycle,
@@ -208,13 +202,14 @@ def infinitree():
         h = cycle_length[c]
         if h not in Mh_powers:  # lazy init, sum(distinct h) = N => distinct h at most O(sqrt(N)) times, each Time: O(N^3 * logh + N^3 * log(hi)) => Total Time: O(N^3.5 * logN + (N^3.5 * log(logB) + N^3 * logB)) = O(N^3.5 * logN + N^3 * logB) assumed O(N) = O(logB)
             Mh_powers[h], Mh_power_series[h] = build_powers_and_power_series(N, get_V_M_power_x(Mh_powers[1], INF, identity_matrix(N), h), INF, min(h1, h2))
-        v = [0]*N
+        cycle, v = [], [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
-            if cycle_adj[c][1] and cycle_adj[c][0] == R[c-1]:
+            if cycle_adj[c] == RIGHT:
                 v = matrix_add([v], [get_V_M_power_x(Mh_powers[1], INF, [e(L[c-1], N)], x)[0]], INF)[0]
                 c = R[c-1]
             else:
                 c = L[c-1]
+            cycle.append(c)
         p, logp = 1, 0
         while (p*2)*h < min(h1, h2):
             p, logp = p*2, logp+1
@@ -230,7 +225,8 @@ def infinitree():
             h1, x1 = h1-p*h, new_x1
             h2, x2 = h2-p*h, new_x2
             p, logp = p//2, logp-1
-        prev_c = c
+        for x in cycle:  # no need to do multiple steps solution
+            del cycle_adj[x]
     return h1+h2
 
 LEFT, RIGHT = range(2)
