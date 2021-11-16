@@ -77,7 +77,7 @@ def matrix_mult(A, B, INF): # Time: O(N^2) if A is a 1 x N matrix and B is a N x
 
 def matrix_add(A, B, INF):  # Time: O(N) if A, B are both 1 x N matrixs, O(N^2) if A, B are both N x N matrixs
     result = [[0]*len(B[0]) for _ in range(len(A))]
-    for result_i, A_i, B_i in list(zip(result, A, B)):
+    for result_i, A_i, B_i in zip(result, A, B):
         for j in range(len(result_i)):
             result_i[j] = A_i[j]+B_i[j]
             if result_i[j] > INF:
