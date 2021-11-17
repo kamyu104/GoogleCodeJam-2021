@@ -51,9 +51,9 @@ def find_cycles(graph):  # Time: O(N), Space: O(N)
             continue
         node = next(iter(scc))
         for _ in xrange(len(scc)):
-            cycle_adj[node] = [side for side, x in enumerate(graph[node]) if x in scc][0]
+            cycle_adj[node] = next(x for x in graph[node] if x in scc)
             cycle_length[node] = len(scc)
-            node = graph[node][cycle_adj[node]]
+            node = cycle_adj[node]
     return cycle_adj, cycle_length
 
 def floor_log2_x(x):  # Time: O(logx)
@@ -204,11 +204,9 @@ def infinitree():
             Mh_powers[h], Mh_power_series[h] = build_powers_and_power_series(N, get_V_M_power_x(Mh_powers[1], INF, identity_matrix(N), h), INF, min(h1, h2))
         cycle, v = [], [0]*N
         for x in reversed(xrange(h)):  # Time: O(h * N^2 * logN) => Total Time O(N^3 * logN)
-            if cycle_adj[c] == RIGHT:
+            if cycle_adj[c] == R[c-1]:
                 v = matrix_add([v], [get_V_M_power_x(Mh_powers[1], INF, [e(L[c-1], N)], x)[0]], INF)[0]
-                c = R[c-1]
-            else:
-                c = L[c-1]
+            c = cycle_adj[c]
             cycle.append(c)
         p, logp = 1, 0
         while (p*2)*h < min(h1, h2):
@@ -229,7 +227,7 @@ def infinitree():
             del cycle_adj[x]
     return h1+h2
 
-LEFT, RIGHT = range(2)
-LEAF_COLOR, ROOT_COLOR = range(2)  # leaf color is 0, root color is 1
+LEFT, RIGHT = xrange(2)
+LEAF_COLOR, ROOT_COLOR = xrange(2)  # leaf color is 0, root color is 1
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, infinitree())
