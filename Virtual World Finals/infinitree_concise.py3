@@ -207,19 +207,15 @@ def infinitree():
             c = cycle_adj[c]
             cycle.append(c)
         p, logp = 1, 0
-        while (p*2)*h < min(h1, h2):
+        while (p*2)*h <= min(h1, h2):
             p, logp = p*2, logp+1
-        while p > 1:  # logp times => Total Time: O(k cycles * logp times * (N^2 * log(delta_h))) = O(N^3 * log(logB)^2 + N^2 * (logB)^2) = O(N^3 * logB) assumed O(N) = O(logB)
-            if min(h1, h2) - p*h <= 0:
-                p, logp = p//2, logp-1
-                continue
-            ok1, new_x1 = get_multiple_steps_position(Mh_powers[1], Mh_power_series[h], INF, logp, v, h1-p*h, e(c, N), x1)
-            ok2, new_x2 = get_multiple_steps_position(Mh_powers[1], Mh_power_series[h], INF, logp, v, h2-p*h, e(c, N), x2)
-            if not ok1 or not ok2:
-                p, logp = p//2, logp-1
-                continue
-            h1, x1 = h1-p*h, new_x1
-            h2, x2 = h2-p*h, new_x2
+        while p:  # logp times => Total Time: O(k cycles * logp times * (N^2 * log(delta_h))) = O(N^3 * log(logB)^2 + N^2 * (logB)^2) = O(N^3 * logB) assumed O(N) = O(logB)
+            if p*h <= min(h1, h2):
+                ok1, new_x1 = get_multiple_steps_position(Mh_powers[1], Mh_power_series[h], INF, logp, v, h1-p*h, e(c, N), x1)
+                ok2, new_x2 = get_multiple_steps_position(Mh_powers[1], Mh_power_series[h], INF, logp, v, h2-p*h, e(c, N), x2)
+                if ok1 and ok2:
+                    h1, x1 = h1-p*h, new_x1
+                    h2, x2 = h2-p*h, new_x2
             p, logp = p//2, logp-1
         for x in cycle:  # no need to do multiple steps solution
             del cycle_adj[x]
