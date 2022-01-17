@@ -17,7 +17,7 @@ def modified_KMP(text, pattern, prefix, flag):
         while j != -1 and pattern[j+1] != text[i]^flag:
             j = prefix[j]
         if pattern[j+1] == text[i]^flag:
-                j += 1
+            j += 1
         if j+1 == len(pattern):
             if i != len(text)-1:
                 j = prefix[j]
