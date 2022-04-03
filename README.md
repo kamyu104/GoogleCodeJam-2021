@@ -17,6 +17,7 @@
 * [Round 2](https://github.com/kamyu104/GoogleCodeJam-2021#round-2)
 * [Round 3](https://github.com/kamyu104/GoogleCodeJam-2021#round-3)
 * [Virtual World Finals](https://github.com/kamyu104/GoogleCodeJam-2021#virtual-world-finals)
+* [Code Jam 2022](https://github.com/kamyu104/GoogleCodeJam-2022)
 
 ## Qualification Round
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
